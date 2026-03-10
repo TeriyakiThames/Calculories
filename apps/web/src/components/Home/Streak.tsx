@@ -1,33 +1,36 @@
 import Image from "next/image";
+import { t, Messages } from "@/lib/i18n";
 
 interface StreakProps {
   date?: number;
+  messages: Messages;
 }
 
-const StreakHeader = ({ date }: { date: number }) => (
+const StreakHeader = ({ date = 0, messages }: StreakProps) => (
   <span className="mt-1 flex items-center gap-1">
     <Image
       src="/Home/HoneyComb.svg"
-      alt="Profile Icon"
+      alt={"Honeycomb icon"}
       width={24}
       height={24}
     />
-    <h1 className="text-l text-text font-bold">{date} Day Streak</h1>
+    <h1 className="text-l text-text font-bold">
+      {date} {t("streak", messages)}
+    </h1>
   </span>
 );
 
-const StreakBody = ({ date }: { date: number }) => {
-  const days = ["S", "M", "T", "W", "T", "F", "S"];
+const StreakBody = ({ date = 0, messages }: StreakProps) => {
+  const dayKeys = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"];
   const filledCount = date % 7 === 0 && date > 0 ? 7 : date % 7;
 
   return (
     <span className="my-3.5 flex justify-between">
-      {days.map((day, i) => {
+      {dayKeys.map((key, i) => {
         const isFilled = i < filledCount;
         return (
-          // Returns SVG for a circle with day in the middle
           <svg
-            key={i}
+            key={key}
             width="32"
             height="32"
             viewBox="0 0 32 32"
@@ -48,7 +51,7 @@ const StreakBody = ({ date }: { date: number }) => {
               fill={isFilled ? "white" : "#727272"}
               className="text-[12px] font-bold uppercase"
             >
-              {day}
+              {t(key, messages)}
             </text>
           </svg>
         );
@@ -57,14 +60,11 @@ const StreakBody = ({ date }: { date: number }) => {
   );
 };
 
-export default function Streak({ date = 0 }: StreakProps) {
+export default function Streak({ date = 0, messages }: StreakProps) {
   return (
-    <div className="mx-auto flex w-[354.12px] flex-col gap-3 rounded-[9.5px] bg-white px-4 py-2 shadow-[0px_2.38px_2.38px_0px_rgba(0,0,0,0.25)]">
-      <StreakHeader date={date} />
-      <StreakBody date={date} />
+    <div className="mx-auto flex w-[354.12px] flex-col gap-3 rounded-xl border-[0.5] border-[#bebdbb] bg-white px-4 py-2 shadow-[0px_2.38px_2.38px_0px_rgba(0,0,0,0.25)]">
+      <StreakHeader date={date} messages={messages} />
+      <StreakBody date={date} messages={messages} />
     </div>
   );
 }
-
-Streak.Header = StreakHeader;
-Streak.Body = StreakBody;

@@ -10,6 +10,7 @@ export type Messages = Record<string, string>;
 export function loadMessages(
   locale: "en" | "th",
   namespaces: string[] = ["common"],
+  subDir: string = "",
 ): Messages {
   return namespaces.reduce<Messages>((acc, ns) => {
     const filePath = path.join(
@@ -17,6 +18,7 @@ export function loadMessages(
       "src",
       "locales",
       locale,
+      subDir,
       `${ns}.json`,
     );
 

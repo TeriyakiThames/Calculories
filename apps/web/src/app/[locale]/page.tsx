@@ -40,22 +40,27 @@ export default async function Page({
   params: Promise<{ locale: "en" | "th" }>;
 }) {
   const { locale } = await params;
-  const messages = loadMessages(locale, ["common", "home"]);
+  const messages = loadMessages(
+    locale,
+    ["TopBar", "Streak", "CalorieGoals", "SmartPicks", "SearchBar"],
+    "Home",
+  );
 
   return (
     <main>
-      {/* <LocaleSwitcher locale={locale} /> */}
-      {/* <h1>{t("home.title", messages)}</h1>
-      <p>{t("home.subtitle", messages)}</p> */}
+      <LocaleSwitcher locale={locale} />
+      <TopBar name={"Thames"} messages={messages} />
+      <Streak date={5} messages={messages} />
+      <CalorieGoals
+        calories={1200}
+        protein={85}
+        carbs={145}
+        fats={45}
+        messages={messages}
+      />
+      <SmartPicks meals={MOCK_RECOMMENDED_MEALS} messages={messages} />
+      <SearchBar messages={messages} />
 
-      <TopBar name={"Thames"} />
-      <Streak date={5} />
-      <CalorieGoals calories={1200} protein={85} carbs={145} fats={45} />
-      <SmartPicks meals={MOCK_RECOMMENDED_MEALS} />
-      <h2 className="mt-6 pb-3 text-center text-xs text-[#8E8E93]">
-        Not feeling these? Search manually!
-      </h2>
-      <SearchBar />
       <PageBottom />
     </main>
   );

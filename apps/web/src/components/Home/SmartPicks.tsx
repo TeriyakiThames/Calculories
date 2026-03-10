@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { RefreshIcon } from "../../../public/Icons/Refresh";
+import { t, Messages } from "@/lib/i18n";
 
 interface Meal {
   restaurant: string;
@@ -12,11 +13,12 @@ interface Meal {
 
 interface SmartPicksProps {
   meals?: Meal[];
+  messages: Messages;
 }
 
-const Header = () => (
+const Header = ({ messages }: { messages: Messages }) => (
   <div className="flex justify-between">
-    <h1 className="text-xl font-bold">Smart Picks for You</h1>
+    <h1 className="text-xl font-bold">{t("smart_picks_title", messages)}</h1>
 
     {/* TODO: Add functionality to refresh icon when backend is complete */}
     <button
@@ -24,7 +26,7 @@ const Header = () => (
       aria-label="Refresh"
     >
       <RefreshIcon />
-      <h2 className="font-bold">Refresh</h2>
+      <h2 className="font-bold">{t("refresh_label", messages)}</h2>
     </button>
   </div>
 );
@@ -70,16 +72,16 @@ const MealCard = ({
   </div>
 );
 
-export default function SmartPicks({ meals = [] }: SmartPicksProps) {
+export default function SmartPicks({ meals = [], messages }: SmartPicksProps) {
   return (
     <div className="mx-4.5 flex flex-col gap-3">
-      <Header />
+      <Header messages={messages} />
       {meals.map((meal, index) => (
         <MealCard key={index} {...meal} />
       ))}
       {meals.length === 0 && (
         <p className="text-center text-sm text-gray-400">
-          No recommendations found ...
+          {t("no_recommendations", messages)}
         </p>
       )}
     </div>

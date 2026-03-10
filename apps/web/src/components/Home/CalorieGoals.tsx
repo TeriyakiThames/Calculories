@@ -1,4 +1,5 @@
 import ProgressBar from "../Shared/ProgressBar";
+import { t, Messages } from "@/lib/i18n";
 
 interface CalorieGoalsProps {
   calories: number;
@@ -9,6 +10,7 @@ interface CalorieGoalsProps {
   carbsMax?: number;
   fats: number;
   fatsMax?: number;
+  messages: Messages;
 }
 
 export default function CalorieGoals({
@@ -20,11 +22,12 @@ export default function CalorieGoals({
   carbsMax = 220,
   fats = 0,
   fatsMax = 75,
+  messages,
 }: CalorieGoalsProps) {
   return (
     <div className="mx-4.5 my-6">
       <ProgressBar
-        label="Daily Calorie Goal"
+        label={t("calories_label", messages)}
         current={calories}
         max={caloriesMax}
         unit="kcal"
@@ -35,7 +38,7 @@ export default function CalorieGoals({
 
       <div className="mt-6">
         <ProgressBar
-          label="Protein"
+          label={t("protein_label", messages)}
           current={protein}
           max={proteinMax}
           unit="g"
@@ -44,7 +47,7 @@ export default function CalorieGoals({
         />
 
         <ProgressBar
-          label="Carbs"
+          label={t("carbs_label", messages)}
           current={carbs}
           max={carbsMax}
           unit="g"
@@ -53,7 +56,7 @@ export default function CalorieGoals({
         />
 
         <ProgressBar
-          label="Fat"
+          label={t("fat_label", messages)}
           current={fats}
           max={fatsMax}
           unit="g"
