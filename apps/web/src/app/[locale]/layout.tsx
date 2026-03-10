@@ -25,9 +25,10 @@ export default async function LocaleLayout({
   }
 
   return (
-    // Sets the HTML `lang` attribute based on the locale
-    <html lang={locale}>
-      <body>{children}</body>
+    <html lang={locale} className="bg-[#3A3A3A]">
+      <body className="bg-background mx-auto min-h-screen max-w-97.5 shadow-2xl">
+        {children}
+      </body>
     </html>
   );
 }
