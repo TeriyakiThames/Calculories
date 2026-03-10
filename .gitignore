@@ -4,6 +4,13 @@
 node_modules/
 **/node_modules/
 .pnpm-store/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # ================================
 # Turborepo
@@ -20,12 +27,18 @@ out/
 coverage/
 
 # ================================
+# Vercel
+# ================================
+.vercel/
+
+# ================================
 # Logs
 # ================================
 logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+.pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
@@ -35,6 +48,7 @@ yarn-error.log*
 .env
 .env.*
 !.env.example
+next-env.d.ts
 
 # ================================
 # OS / Editor
@@ -87,3 +101,4 @@ apps/web/out/
 # ================================
 *.local
 *.tmp
+*.pem
