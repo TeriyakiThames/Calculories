@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
 import createClient from "@/lib/supabase/client";
 
-export default function LoginPage() {
+export default function LoginPage({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "th" }>;
+}) {
+  const { locale } = use(params);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,9 +19,6 @@ export default function LoginPage() {
 
   const searchParams = useSearchParams();
   const next = searchParams.get("next");
-
-  const pathname = window.location.pathname;
-  const locale = pathname.split("/")[1];
 
   const loginWithGoogle = async () => {
     setIsGoogleLoading(true);
