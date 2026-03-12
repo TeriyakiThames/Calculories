@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-type Locale = "en" | "th";
+export type Locale = "en" | "th";
 
 export default function LocaleSwitcher({ locale }: { locale: Locale }) {
   const pathname = usePathname();
