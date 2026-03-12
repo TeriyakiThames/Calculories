@@ -1,0 +1,8 @@
+{
+    "delete_account": "ลบบัญชี",
+    "popup_main_message": "คุณแน่ใจหรือไม่ว่าต้องการลบบัญชีของคุณ?",
+    "popup_additional_message": "ข้อมูลทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้",
+    "cancel": "ยกเลิก",
+    "confirm": "ลบบัญชี",
+    "error_deleting_account": "เกิดข้อผิดพลาดในการลบบัญชี"
+}

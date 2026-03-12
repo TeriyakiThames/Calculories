@@ -69,7 +69,7 @@ export default function HomeClient({
       <div className="flex items-center justify-center gap-10 border border-black bg-white">
         <LocaleSwitcher locale={locale} />
         <AuthButton messages={messages} />
-        <DeleteAccountButton/>
+        <DeleteAccountButton messages={messages}/>
       </div>
       {user ? (
         <>
