@@ -18,7 +18,7 @@ export default function TopBar({
       <span className="flex items-center gap-3">
         <Image
           src={imageURL}
-          alt={t("profile_alt", messages)}
+          alt="Profile picture"
           width={48}
           height={48}
           className="rounded-[48px]"
@@ -36,8 +36,8 @@ export default function TopBar({
       </span>
 
       <Image
-        src="/Icons/NotificationIcon.svg"
-        alt={t("notification_alt", messages)}
+        src="/Icons/HistoryIcon.svg"
+        alt="History icon"
         width={24}
         height={27}
       />
