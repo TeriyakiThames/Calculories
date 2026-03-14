@@ -1,3 +1,5 @@
+"use client";
+
 import useUser from "@/hooks/useUser";
 import { Messages, t } from "@/lib/internationalisation/i18n-helpers";
 import createClient from "@/lib/supabase/client";
@@ -27,9 +29,10 @@ export default function DeleteAccountButton({
       // force logout after completing
       await supabase.auth.signOut();
       router.push("/");
+      router.refresh();
     } catch (error) {
       alert(t("error_deleting_account", messages));
-      console.log(error);
+      console.error(error);
     } finally {
       setDeletionLoading(false);
     }
@@ -42,7 +45,7 @@ export default function DeleteAccountButton({
       <button onClick={() => setModalVisible(true)}>
         {t("delete_account", messages)}
       </button>
-      {isModalVisible ? (
+      {isModalVisible && (
         <div className="fixed inset-0 flex h-screen items-center justify-center bg-black/30">
           <div className="flex h-84 w-3/4 max-w-100 flex-col items-center justify-center gap-5 rounded-xl bg-white p-5 text-center whitespace-pre-line shadow">
             <p>{t("popup_main_message", messages)}</p>
@@ -69,8 +72,6 @@ export default function DeleteAccountButton({
             )}
           </div>
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );
