@@ -29,7 +29,7 @@ export const userTable = pgTable(
     id: uuid().primaryKey(),
     username: text().notNull(),
     email: text().notNull().unique(),
-    dob: date().notNull(),
+    dob: date(),
     sex: sexEnum(),
     weight: real(),
     height: integer(),
