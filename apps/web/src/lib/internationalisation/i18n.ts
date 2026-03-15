@@ -18,7 +18,17 @@ export function loadMessages(
       `${ns}.json`,
     );
 
-    const json = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    return { ...acc, ...json };
+    try {
+      if (fs.existsSync(filePath)) {
+        const json = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+        return { ...acc, ...json };
+      } else {
+        console.warn(`[i18n] Missing translation file: ${filePath}`);
+        return acc;
+      }
+    } catch (error) {
+      console.error(`[i18n] Error reading or parsing file: ${filePath}`, error);
+      return acc;
+    }
   }, {});
 }
