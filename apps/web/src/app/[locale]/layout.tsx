@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import "@/styles/globals.css";
+import { Locale } from "@/components/Shared/LocaleSwitcher";
 
 const locales = ["en", "th"] as const;
 export const dynamicParams = false;
@@ -16,7 +17,7 @@ export default async function LocaleLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
 

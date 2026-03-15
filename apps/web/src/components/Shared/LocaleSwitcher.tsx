@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
+export type Locale = "en" | "th";
+
 export type LocaleSwitcherProps = {
   locale: "en" | "th";
   className?: string;
