@@ -6,20 +6,19 @@ import { Locale } from "@/components/Shared/LocaleSwitcher";
 const locales = ["en", "th"] as const;
 export const dynamicParams = false;
 
-// Generates all valid locale route parameters at build time.
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// Root layout for locale-based routing.
 export default async function LocaleLayout({
   children,
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale as Locale;
 
   if (!locales.includes(locale as (typeof locales)[number])) {
     notFound();
