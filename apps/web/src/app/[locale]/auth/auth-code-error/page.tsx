@@ -1,10 +1,11 @@
+import { Locale } from "@/components/Shared/LocaleSwitcher";
 import { LOGIN_PATH } from "@/constants/common";
 import Link from "next/link";
 
 export default function AuthErrorPage({
   params,
 }: {
-  params: { locale: string };
+  params: { locale: Locale };
 }) {
   const { locale } = params;
 

@@ -1,10 +1,11 @@
 import { loadMessages } from "@/lib/internationalisation/i18n";
 import HomeClient from "../../components/Home/HomeClient";
+import { Locale } from "@/components/Shared/LocaleSwitcher";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ locale: "en" | "th" }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
 
