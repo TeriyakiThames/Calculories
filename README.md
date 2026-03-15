@@ -9,12 +9,10 @@ A modern **pnpm + Turborepo** monorepo containing a web frontend, backend API, a
 ```
 calculories/
 ├── apps/
-│   ├── web/          # Frontend (Next.js / React)
-│   └── api/          # Backend (NestJS)
+│   └── web/          # Frontend (Next.js)
 │
 ├── packages/
-│   ├── shared-types/ # Shared TypeScript types (DTOs, interfaces)
-│   └── config/       # Shared ESLint / TS / Prettier configs (future)
+│   └── shared-types/ # Shared TypeScript types (DTOs, interfaces)
 │
 ├── turbo.json        # Turborepo pipeline configuration
 ├── pnpm-workspace.yaml
@@ -29,7 +27,7 @@ calculories/
 - **Package Manager**: pnpm (workspace-based)
 - **Monorepo Tooling**: Turborepo
 - **Frontend**: Next.js + React
-- **Backend**: NestJS
+- **Backend**: Next.js 
 - **Language**: TypeScript
 
 ---
@@ -59,28 +57,10 @@ pnpm install
 
 ---
 
-### 3️⃣ Build Shared Packages
-
-Shared packages **must be built first**:
+### 3️⃣ Run Applications
 
 ```powershell
-pnpm --filter @calculories/shared-types build
-```
-
----
-
-### 4️⃣ Run Applications
-
-#### Web (Next.js)
-
-```powershell
-pnpm --filter @calculories/web dev
-```
-
-#### API (NestJS)
-
-```powershell
-pnpm --filter @calculories/api start:dev
+pnpm dev
 ```
 
 ---
@@ -117,8 +97,7 @@ Turborepo handles:
 
 Example (from `turbo.json`):
 
-- `web` and `api` depend on `shared-types#build`
-- Shared packages build once, reused everywhere
+- `web` depend on `shared-types#build`
 
 ---
 
