@@ -1,9 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-green-1: #4aae9b;
-  --color-secondary-orange-1: #f5b85c;
-  --color-accent-red: #e85c5c;
-  --color-background: #fdfcf9;
-  --color-text: #333333;
+  /* Green Scale */
+  --color-green-100: #4aae9b;
+  --color-green-80: #6cbcad;
+  --color-green-60: #8ecabf;
+  --color-green-40: #b1d9d1;
+  --color-green-20: #d3e7e3;
+  --color-green-10: #edf7f5;
+  --color-green-1: #f3f4f4;
+
+  /* Orange Scale */
+  --color-orange-100: #f5b85c;
+  --color-orange-80: #f5c47b;
+  --color-orange-60: #f5d099;
+  --color-orange-40: #f5ddb8;
+  --color-orange-20: #f5e9d6;
+  --color-orange-10: #fef8ef;
+  --color-orange-1: #f4f4f3;
+
+  /* Red Scale */
+  --color-red-100: #e85c5c;
+  --color-red-80: #ed7d7d;
+  --color-red-60: #f19d9d;
+  --color-red-40: #f6bebe;
+  --color-red-20: #fadede;
+  --color-red-10: #f8d1d1;
+  --color-red-1: #fffdfd;
+
+  /* Grey (Text) Scale */
+  --color-grey-100: #333333;
+  --color-grey-80: #5c5c5c;
+  --color-grey-60: #858585;
+  --color-grey-40: #adadad;
+  --color-grey-20: #d6d6d6;
+  --color-grey-10: #ebebeb;
+  --color-grey-1: #fdfdfd;
+
+  /* Background Scale*/
+  --color-background-100: #fdf9f0;
+  --color-background-80: #fdfaf3;
+  --color-background-60: #fefbf6;
+  --color-background-40: #fefdf9;
+  --color-background-20: #fffefc;
+  --color-background-10: #fffefd;
+  --color-background-1: #ffffff;
 }
