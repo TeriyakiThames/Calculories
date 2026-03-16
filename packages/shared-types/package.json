@@ -9,7 +9,8 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "echo 'No build step required for shared-types'"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
