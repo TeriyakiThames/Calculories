@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import createClient from "@/lib/supabase/client";
 import { t, Messages } from "@/lib/internationalisation/i18n-helpers";
 import { Locale } from "@calculories/shared-types";
+import { Button } from "@/components/Shared/Button";
 
 export default function LoginButton({
   locale,
@@ -46,15 +47,11 @@ export default function LoginButton({
 
   return (
     <div className="fixed inset-x-0 bottom-25 mx-auto flex w-[320px] flex-col gap-3">
-      <button
-        className="hover:bg-green-80 h-16 w-full rounded-2xl bg-green-100 px-16 py-2 text-center text-lg font-bold text-white"
-        onClick={loginWithGoogle}
-        disabled={isGoogleLoading}
-      >
+      <Button onClick={loginWithGoogle} disabled={isGoogleLoading}>
         {isGoogleLoading
           ? t("Loading...", messages)
           : t("Continue with Google", messages)}
-      </button>
+      </Button>
 
       {error && (
         <p className="text-grey-40 text-center text-sm font-semibold">
