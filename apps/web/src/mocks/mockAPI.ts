@@ -91,6 +91,33 @@ export const mockMealHistoryList: MealHistory[] = [
   },
 ];
 
+const MOCK_RECOMMENDED_DISHES = [
+  {
+    id: 1,
+    name_en: "Grilled Salmon",
+    name_th: "แซลมอนย่าง",
+    price: 210,
+    calorie: 450,
+    restaurant: { id: 101, name_en: "Green Eats", name_th: "กรีนอีทส์" },
+  },
+  {
+    id: 2,
+    name_en: "Quinoa Buddha Bowl",
+    name_th: "ควินัวบุดด้าโบลว์",
+    price: 185,
+    calorie: 380,
+    restaurant: { id: 102, name_en: "Healthy Hub", name_th: "เฮลตี้ฮับ" },
+  },
+  {
+    id: 3,
+    name_en: "Zucchini Pesto Pasta",
+    name_th: "พาสต้าซุกกินีเปสโต",
+    price: 240,
+    calorie: 520,
+    restaurant: { id: 103, name_en: "Pasta Fresh", name_th: "พาสต้าเฟรช" },
+  },
+];
+
 // ------------------------------------------------------------------
 // 2. Mock API Responses
 // ------------------------------------------------------------------
@@ -215,5 +242,18 @@ export const MockAPI = {
     await new Promise((resolve) => setTimeout(resolve, 600));
     console.log(`Mocking bulk deleting meals for ${uid}:`, data.id);
     return { success: true, deletedCount: data.id.length };
+  },
+
+  // TODO: Add this route to backend too
+  // GET /api/user/:uid/recommendations
+  getRecommendedDishes: async (uid: string): Promise<Dish[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    console.log(`Mocking fetching recommended dishes for user ${uid}`);
+
+    const shuffledDishes = [...MOCK_RECOMMENDED_DISHES].sort(
+      () => 0.5 - Math.random(),
+    );
+
+    return shuffledDishes;
   },
 };

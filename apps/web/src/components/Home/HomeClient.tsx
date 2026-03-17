@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useUser from "@/hooks/useUser";
 import LocaleSwitcher from "@/components/Shared/LocaleSwitcher";
 import AuthButton from "@/components/Shared/AuthButton";
@@ -10,41 +10,14 @@ import CalorieGoals from "@/components/Home/CalorieGoals";
 import SmartPicks from "@/components/Home/SmartPicks";
 import SearchBar from "@/components/Home/SearchBar";
 import PageBottom from "@/components/Shared/PageBottom";
+import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
+import { MockAPI } from "@/mocks/mockAPI";
 import {
   Locale,
   Messages,
   GetUserResponse,
   Dish,
 } from "@calculories/shared-types";
-import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
-import { MockAPI } from "@/mocks/mockAPI";
-
-const MOCK_RECOMMENDED_DISHES: Dish[] = [
-  {
-    id: 1,
-    name_en: "Grilled Salmon",
-    name_th: "แซลมอนย่าง",
-    price: 210,
-    calorie: 450,
-    restaurant: { id: 101, name_en: "Green Eats", name_th: "กรีนอีทส์" },
-  },
-  {
-    id: 2,
-    name_en: "Quinoa Buddha Bowl",
-    name_th: "ควินัวบุดด้าโบลว์",
-    price: 185,
-    calorie: 380,
-    restaurant: { id: 102, name_en: "Healthy Hub", name_th: "เฮลตี้ฮับ" },
-  },
-  {
-    id: 3,
-    name_en: "Zucchini Pesto Pasta",
-    name_th: "พาสต้าซุกกินีเปสโต",
-    price: 240,
-    calorie: 520,
-    restaurant: { id: 103, name_en: "Pasta Fresh", name_th: "พาสต้าเฟรช" },
-  },
-];
 
 export default function HomeClient({
   locale,
@@ -58,6 +31,19 @@ export default function HomeClient({
   const [appUser, setAppUser] = useState<GetUserResponse | null>(null);
   const [apiLoading, setApiLoading] = useState(false);
 
+  const [recommendedDishes, setRecommendedDishes] = useState<Dish[]>([]);
+
+  const fetchSmartPicks = useCallback(async () => {
+    if (!authUser?.id) return;
+
+    try {
+      const fetchedDishes = await MockAPI.getRecommendedDishes(authUser.id);
+      setRecommendedDishes(fetchedDishes);
+    } catch (err) {
+      console.error("Failed to fetch SmartPicks", err);
+    }
+  }, [authUser?.id]);
+
   useEffect(() => {
     if (authUser?.id) {
       const fetchDashboardData = async () => {
@@ -65,8 +51,10 @@ export default function HomeClient({
         try {
           const userData = await MockAPI.getUserProfile(authUser.id);
           setAppUser(userData);
+
+          await fetchSmartPicks();
         } catch (err) {
-          console.error("Failed to fetch user data", err);
+          console.error("Failed to fetch dashboard data", err);
         } finally {
           setApiLoading(false);
         }
@@ -74,7 +62,7 @@ export default function HomeClient({
 
       fetchDashboardData();
     }
-  }, [authUser?.id]);
+  }, [authUser?.id, fetchSmartPicks]);
 
   if (authLoading || apiLoading) {
     return (
@@ -121,9 +109,10 @@ export default function HomeClient({
             messages={messages}
           />
           <SmartPicks
-            dishes={MOCK_RECOMMENDED_DISHES}
+            dishes={recommendedDishes}
             messages={messages}
             locale={locale}
+            onRefresh={fetchSmartPicks}
           />
         </>
       )}

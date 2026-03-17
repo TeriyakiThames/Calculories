@@ -7,14 +7,21 @@ interface SmartPicksProps {
   dishes?: Dish[];
   messages: Messages;
   locale: Locale;
+  onRefresh?: () => void;
 }
 
-const Header = ({ messages }: { messages: Messages }) => (
+const Header = ({
+  messages,
+  onRefresh,
+}: {
+  messages: Messages;
+  onRefresh?: () => void;
+}) => (
   <div className="flex justify-between">
     <h1 className="text-xl font-bold">{t("smart_picks_title", messages)}</h1>
 
-    {/* TODO: Add functionality to refresh icon when backend is complete */}
     <button
+      onClick={onRefresh}
       className="flex items-center gap-1 text-green-100 hover:text-gray-400"
       aria-label="Refresh"
     >
@@ -85,10 +92,11 @@ export default function SmartPicks({
   dishes = [],
   messages,
   locale,
+  onRefresh,
 }: SmartPicksProps) {
   return (
     <div className="mx-4.5 flex flex-col gap-3">
-      <Header messages={messages} />
+      <Header messages={messages} onRefresh={onRefresh} />
 
       {dishes.map((dish) => (
         <MealCard key={dish.id} dish={dish} locale={locale} />
