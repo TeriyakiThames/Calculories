@@ -1,37 +1,38 @@
 import Image from "next/image";
-import { RefreshIcon } from "../../../public/Icons/Refresh";
-import { t } from "@/lib/internationalisation/i18n-helpers";
-import { Dish, Locale, Messages } from "@calculories/shared-types";
+import { Dish, Locale } from "@calculories/shared-types";
 
-interface SmartPicksProps {
-  dishes?: Dish[];
-  messages: Messages;
+interface MealCardProps {
+  dish: Dish;
   locale: Locale;
-  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
-const Header = ({
-  messages,
-  onRefresh,
-}: {
-  messages: Messages;
-  onRefresh?: () => void;
-}) => (
-  <div className="flex justify-between">
-    <h1 className="text-xl font-bold">{t("smart_picks_title", messages)}</h1>
-
-    <button
-      onClick={onRefresh}
-      className="flex items-center gap-1 text-green-100 hover:text-gray-400"
-      aria-label="Refresh"
-    >
-      <RefreshIcon />
-      <h2 className="font-bold">{t("refresh_label", messages)}</h2>
-    </button>
+export const MealCardSkeleton = () => (
+  <div className="flex h-24 items-center justify-between gap-10.75 rounded-xl border-[0.5px] border-green-100 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+    <div className="flex gap-4">
+      <div className="h-20 w-20 animate-pulse rounded-md bg-gray-200" />
+      <div className="flex w-42.5 flex-col justify-center gap-2">
+        <div className="h-3 w-24 animate-pulse rounded bg-gray-200" />
+        <div className="h-4 w-32 animate-pulse rounded bg-gray-200" />
+        <span className="flex gap-2">
+          <div className="h-4 w-12 animate-pulse rounded-sm bg-gray-200" />
+          <div className="h-4 w-12 animate-pulse rounded-sm bg-gray-200" />
+        </span>
+      </div>
+    </div>
+    <div className="h-6 w-10 animate-pulse rounded bg-gray-200" />
   </div>
 );
 
-const MealCard = ({ dish, locale }: { dish: Dish; locale: Locale }) => {
+export default function MealCard({
+  dish,
+  locale,
+  isRefreshing,
+}: MealCardProps) {
+  if (isRefreshing) {
+    return <MealCardSkeleton />;
+  }
+
   const restaurantName =
     locale === "en"
       ? dish.restaurant?.name_en ||
@@ -48,8 +49,8 @@ const MealCard = ({ dish, locale }: { dish: Dish; locale: Locale }) => {
 
   const calories = dish.calorie || 0;
   const price = dish.price || 0;
-
   const imageUrl = "/Home/UnknownMeal.svg";
+
   // TODO: Calculate this using user's location and dish.restaurant.lat/lon
   const distance = 1.2;
 
@@ -84,29 +85,6 @@ const MealCard = ({ dish, locale }: { dish: Dish; locale: Locale }) => {
 
       {/* Price */}
       <h1 className="font-bold text-[#8E8E93]">฿{price}</h1>
-    </div>
-  );
-};
-
-export default function SmartPicks({
-  dishes = [],
-  messages,
-  locale,
-  onRefresh,
-}: SmartPicksProps) {
-  return (
-    <div className="mx-4.5 flex flex-col gap-3">
-      <Header messages={messages} onRefresh={onRefresh} />
-
-      {dishes.map((dish) => (
-        <MealCard key={dish.id} dish={dish} locale={locale} />
-      ))}
-
-      {dishes.length === 0 && (
-        <p className="text-center text-sm text-gray-400">
-          {t("no_recommendations", messages)}
-        </p>
-      )}
     </div>
   );
 }
