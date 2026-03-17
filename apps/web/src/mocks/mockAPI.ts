@@ -39,6 +39,8 @@ export const mockUser: User = {
   vegetarian_default: false,
   target_protein: 150,
   target_carbs: 220,
+  target_calories: 2200,
+  target_fats: 75,
 };
 
 export const mockRestaurant: Restaurant = {

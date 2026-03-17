@@ -30,6 +30,8 @@ export interface User {
   vegetarian_default: boolean;
   target_protein: number;
   target_carbs: number;
+  target_calories: number;
+  target_fats: number;
 }
 
 export interface Component {
