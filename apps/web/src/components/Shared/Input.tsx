@@ -1,5 +1,3 @@
-// TODO: Add error from zod
-
 import Image from "next/image";
 
 interface InputProps {
@@ -8,7 +6,7 @@ interface InputProps {
   placeholder?: string;
   type: "text" | "dropdown";
   value?: string;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
 
   frontImageURL?: string;
   backImageURL?: string;
@@ -23,17 +21,17 @@ interface InputHeaderProps {
 
 export function InputHeader({ header, subheader }: InputHeaderProps) {
   return (
-    <>
+    <div>
       <p className="text-grey-100 font-bold">{header}</p>
       {subheader && (
         <p className="text-grey-60 text-xs font-normal">{subheader}</p>
       )}
-    </>
+    </div>
   );
 }
 
 export function Input({
-  header,
+  header = "",
   subheader,
   placeholder,
   frontImageURL,
