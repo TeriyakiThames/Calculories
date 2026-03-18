@@ -13,7 +13,6 @@ export default function SetupTitle({
 }) {
   return (
     <div className="mb-12.5 flex w-full items-center justify-between pt-7.5">
-      {/* TODO: Add functionality after deciding where it should go back to */}
       <Link href={`/${locale}`}>
         <button className="w-14.5">
           <Image
