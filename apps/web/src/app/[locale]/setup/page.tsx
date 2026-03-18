@@ -10,7 +10,7 @@ export default async function Setup({
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
-  const loginMessages = loadMessages(
+  const loginMessages = await loadMessages(
     locale,
     ["SetupForm", "SetupHeader", "SetupTitle"],
     "Setup",
