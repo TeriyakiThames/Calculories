@@ -164,7 +164,6 @@ export default function SetupForm({
         placeholder={t("sex_placeholder", messages)}
         type="dropdown"
         options={["Male", "Female"]}
-        backImageURL="/Icons/Dropdown.svg"
         value={sex}
         onChange={(val) => {
           setSex(val);
@@ -185,7 +184,6 @@ export default function SetupForm({
           "Very active (5-7 days per week)",
           "Extra active (Very hard exercise or twice a day)",
         ]}
-        backImageURL="/Icons/Dropdown.svg"
         value={activityLevel}
         onChange={(val) => {
           setActivityLevel(val);
