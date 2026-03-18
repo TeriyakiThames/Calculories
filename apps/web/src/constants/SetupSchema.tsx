@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
-  username: z.string().min(1, "Username must be at least 1 characters"),
+  username: z
+    .string()
+    .min(1, "Username must be more than 1 character and in English!"),
 
   birthdate: z
     .string()
@@ -20,9 +22,18 @@ export const userSchema = z.object({
     message: "Please select a sex!",
   }),
 
-  activityLevel: z.enum(["Light", "Moderate", "Heavy"], {
-    message: "Please select an activity level!",
-  }),
+  activityLevel: z.enum(
+    [
+      "Sedentary (little to no exercise)",
+      "Lightly active (1-3 days per week)",
+      "Moderately active (3-5 days per week)",
+      "Very active (5-7 days per week)",
+      "Extra active (Very hard exercise or twice a day)",
+    ],
+    {
+      message: "Please select an activity level!",
+    },
+  ),
 
   dietary: z
     .array(

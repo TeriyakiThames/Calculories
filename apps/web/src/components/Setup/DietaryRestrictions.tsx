@@ -1,31 +1,35 @@
 import { InputHeader } from "@/components/Shared/Input";
-
-const DIETARY_OPTIONS = [
-  "Vegetarian",
-  "Halal Diet",
-  "Lactose Intolerance",
-  "Gluten Intolerance",
-  "Peanut Allergy",
-  "Shellfish Allergy",
-];
+import { t } from "@/lib/internationalisation/i18n-helpers";
+import { Messages } from "@calculories/shared-types";
 
 interface DietaryRestrictionsProps {
   value?: string[];
   onChange: (value: string[]) => void;
+  messages: Messages;
 }
 
 export default function DietaryRestrictions({
   value = [],
   onChange,
+  messages,
 }: DietaryRestrictionsProps) {
-  const toggleOption = (option: string) => {
+  const DIETARY_OPTIONS = [
+    { id: "Vegetarian", label: t("Vegetarian", messages) },
+    { id: "Halal Diet", label: t("Halal Diet", messages) },
+    { id: "Lactose Intolerance", label: t("Lactose Intolerance", messages) },
+    { id: "Gluten Intolerance", label: t("Gluten Intolerance", messages) },
+    { id: "Peanut Allergy", label: t("Peanut Allergy", messages) },
+    { id: "Shellfish Allergy", label: t("Shellfish Allergy", messages) },
+  ];
+
+  const toggleOption = (id: string) => {
     if (!onChange) return;
 
-    if (value.includes(option)) {
-      const updatedArray = value.filter((item) => item !== option);
+    if (value.includes(id)) {
+      const updatedArray = value.filter((item) => item !== id);
       onChange(updatedArray);
     } else {
-      const updatedArray = [...value, option];
+      const updatedArray = [...value, id];
       onChange(updatedArray);
     }
   };
@@ -33,26 +37,26 @@ export default function DietaryRestrictions({
   return (
     <div className="flex flex-col gap-2">
       <InputHeader
-        header="Dietary Restrictions"
-        subheader="Please select all that apply to you."
+        header={t("dietary_header", messages)}
+        subheader={t("dietary_subheader", messages)}
       />
 
       <div className="mt-1 flex w-80 flex-wrap gap-4">
         {DIETARY_OPTIONS.map((option) => {
-          const isActive = value.includes(option);
+          const isActive = value.includes(option.id);
 
           return (
             <button
               type="button"
-              key={option}
-              onClick={() => toggleOption(option)}
+              key={option.id}
+              onClick={() => toggleOption(option.id)}
               className={`rounded-[40px] border px-4.5 py-3 text-center text-xs transition-colors ${
                 isActive
                   ? "bg-green-10 border-green-100 text-green-100"
-                  : "bg-background-1 text-grey-40 border-[#CAE1DD] hover:bg-gray-50"
+                  : "bg-background-1 text-grey-60 border-[#CAE1DD] hover:bg-gray-50"
               }`}
             >
-              {option}
+              {option.label}
             </button>
           );
         })}

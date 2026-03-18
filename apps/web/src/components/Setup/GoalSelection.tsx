@@ -1,36 +1,39 @@
+import { Messages } from "@calculories/shared-types";
 import { InputHeader } from "../Shared/Input";
 import Image from "next/image";
-
-const GOALS = [
-  { id: "balanced", label: "Balanced", icon: "⚖️" },
-  { id: "moderate", label: "Moderate", icon: "⚡" },
-  { id: "protein", label: "High Protein", icon: "🍗" },
-  { id: "keto", label: "Ketogenic", icon: "🍃" },
-];
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 interface GoalSelectionProps {
   value?: string;
-  onChange: (value: string) => void; // Changed to expect a single string
-  error?: string; // Added error handling to match your other inputs
+  onChange: (value: string) => void;
+  error?: string;
+  messages: Messages;
 }
 
 export default function GoalSelection({
   value = "",
   onChange,
   error = "",
+  messages,
 }: GoalSelectionProps) {
+  const GOALS = [
+    { id: "balanced", label: t("Balanced", messages) },
+    { id: "moderate", label: t("Moderate", messages) },
+    { id: "protein", label: t("High Protein", messages) },
+    { id: "keto", label: t("Ketogenic", messages) },
+  ];
+
   return (
     <div className="flex flex-col gap-2">
-      <InputHeader header="Select Your Goal" />
+      <InputHeader header={t("goal_header", messages)} />
 
-      {/* Grid container: 2 columns, specific width, gap between items */}
       <div className="mt-1 grid w-80 grid-cols-2 gap-4 self-center">
         {GOALS.map((item) => {
           const isActive = value === item.id;
 
           return (
             <button
-              type="button" // Prevents the button from submitting the form
+              type="button"
               key={item.id}
               onClick={() => onChange(item.id)}
               className={`flex flex-col items-center justify-center rounded-2xl border p-6 transition-colors ${
@@ -52,7 +55,6 @@ export default function GoalSelection({
         })}
       </div>
 
-      {/* Error message display matching your Input component */}
       {error && (
         <p className="text-xs leading-3.5 font-normal text-red-100">{error}</p>
       )}

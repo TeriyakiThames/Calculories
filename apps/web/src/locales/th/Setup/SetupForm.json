@@ -1,0 +1,39 @@
+{
+  "username_header": "ชื่อผู้ใช้",
+  "username_placeholder": "คุณชื่ออะไร?",
+
+  "birthdate_header": "วันเกิด",
+  "birthdate_placeholder": "วว/ดด/ปปปป",
+
+  "weight_header": "น้ำหนัก (กก.)",
+  "weight_placeholder": "ระบุตัวเลข",
+
+  "height_header": "ส่วนสูง (ซม.)",
+  "height_placeholder": "ระบุตัวเลข",
+
+  "sex_header": "เพศ",
+  "sex_placeholder": "ระบุเพศของคุณ",
+
+  "activity_level_header": "ระดับกิจกรรม",
+  "activity_level_placeholder": "คุณขยับร่างกายบ่อยแค่ไหน?",
+
+  "dietary_header": "ข้อจำกัดด้านอาหาร",
+  "dietary_subheader": "โปรดเลือกข้อมูลที่ตรงกับคุณ",
+
+  "goal_header": "เลือกเป้าหมายของคุณ",
+
+  "Balanced": "สมดุล",
+  "Moderate": "ปานกลาง",
+  "High Protein": "โปรตีนสูง",
+  "Ketogenic": "คีโตเจนิก",
+
+  "Save and Continue": "บันทึกและดำเนินการต่อ",
+  "Skip for now": "ข้ามไปก่อน",
+
+  "Vegetarian": "มังสวิรัติ",
+  "Halal Diet": "อาหารฮาลาล",
+  "Lactose Intolerance": "แพ้แลคโตส (ผลิตภัณฑ์จากนม)",
+  "Gluten Intolerance": "แพ้กลูเตน",
+  "Peanut Allergy": "แพ้ถั่วลิสง",
+  "Shellfish Allergy": "แพ้อาหารทะเลจำพวกเปลือก"
+}

@@ -1,15 +1,24 @@
+"use client";
+
 import { Button } from "@/components/Shared/Button";
 import { Input } from "@/components/Shared/Input";
 import PageBottom from "@/components/Shared/PageBottom";
 import { userSchema } from "@/constants/SetupSchema";
-import { Locale } from "@calculories/shared-types";
+import { Locale, Messages } from "@calculories/shared-types";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import DietaryRestrictions from "./DietaryRestrictions";
 import GoalSelection from "./GoalSelection";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
-export default function SetupForm({ locale }: { locale: Locale }) {
+export default function SetupForm({
+  locale,
+  messages,
+}: {
+  locale: Locale;
+  messages: Messages;
+}) {
   const [username, setUsername] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [weight, setWeight] = useState("");
@@ -105,8 +114,8 @@ export default function SetupForm({ locale }: { locale: Locale }) {
       className="mx-auto mt-3 flex max-w-md flex-col gap-9"
     >
       <Input
-        header="Username"
-        placeholder="What is your name?"
+        header={t("username_header", messages)}
+        placeholder={t("username_placeholder", messages)}
         type="text"
         value={username}
         onChange={(val) => {
@@ -117,8 +126,8 @@ export default function SetupForm({ locale }: { locale: Locale }) {
       />
 
       <Input
-        header="Birthdate"
-        placeholder="DD/MM/YYYY"
+        header={t("birthdate_header", messages)}
+        placeholder={t("birthdate_placeholder", messages)}
         type="text"
         backImageURL="/Icons/Calendar.svg"
         value={birthdate}
@@ -129,8 +138,8 @@ export default function SetupForm({ locale }: { locale: Locale }) {
       <div className="flex w-full justify-between gap-8">
         <div className="w-full">
           <Input
-            header="Weight (kg)"
-            placeholder="Value"
+            header={t("weight_header", messages)}
+            placeholder={t("weight_placeholder", messages)}
             type="text"
             value={weight}
             onChange={(val) => handleNumberChange(val, setWeight, "weight")}
@@ -139,8 +148,8 @@ export default function SetupForm({ locale }: { locale: Locale }) {
         </div>
         <div className="w-full">
           <Input
-            header="Height (cm)"
-            placeholder="Value"
+            header={t("height_header", messages)}
+            placeholder={t("height_placeholder", messages)}
             type="text"
             value={height}
             onChange={(val) => handleNumberChange(val, setHeight, "height")}
@@ -149,9 +158,10 @@ export default function SetupForm({ locale }: { locale: Locale }) {
         </div>
       </div>
 
+      {/* TODO: Translate options */}
       <Input
-        header="Sex"
-        placeholder="What is your sex?"
+        header={t("sex_header", messages)}
+        placeholder={t("sex_placeholder", messages)}
         type="dropdown"
         options={["Male", "Female"]}
         backImageURL="/Icons/Dropdown.svg"
@@ -163,11 +173,18 @@ export default function SetupForm({ locale }: { locale: Locale }) {
         error={errors.sex}
       />
 
+      {/* TODO: Translate options */}
       <Input
-        header="Activity Level"
-        placeholder="How active are you?"
+        header={t("activity_level_header", messages)}
+        placeholder={t("activity_level_placeholder", messages)}
         type="dropdown"
-        options={["Light", "Moderate", "Heavy"]}
+        options={[
+          "Sedentary (little to no exercise)",
+          "Lightly active (1-3 days per week)",
+          "Moderately active (3-5 days per week)",
+          "Very active (5-7 days per week)",
+          "Extra active (Very hard exercise or twice a day)",
+        ]}
         backImageURL="/Icons/Dropdown.svg"
         value={activityLevel}
         onChange={(val) => {
@@ -183,6 +200,7 @@ export default function SetupForm({ locale }: { locale: Locale }) {
           setDietary(val);
           validateField("dietary", val);
         }}
+        messages={messages}
       />
 
       <GoalSelection
@@ -192,15 +210,16 @@ export default function SetupForm({ locale }: { locale: Locale }) {
           validateField("goal", val);
         }}
         error={errors.goal}
+        messages={messages}
       />
 
       <div className="-mx-5 flex flex-col items-center gap-3 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 pt-7">
-        <Button type="submit">Save and Continue</Button>
+        <Button type="submit">{t("Save and Continue", messages)}</Button>
         <Link
           href={`/${locale}`}
           className="text-grey-60 text-center text-[14px] transition-colors hover:text-green-100"
         >
-          Skip for now
+          {t("Skip for now", messages)}
         </Link>
         <PageBottom />
       </div>
