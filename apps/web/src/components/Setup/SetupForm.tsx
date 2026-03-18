@@ -4,21 +4,23 @@ import { Button } from "@/components/Shared/Button";
 import { Input } from "@/components/Shared/Input";
 import PageBottom from "@/components/Shared/PageBottom";
 import { userSchema } from "@/constants/SetupSchema";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 import { Locale, Messages } from "@calculories/shared-types";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DietaryRestrictions from "./DietaryRestrictions";
 import GoalSelection from "./GoalSelection";
-import { t } from "@/lib/internationalisation/i18n-helpers";
 
-export default function SetupForm({
-  locale,
-  messages,
-}: {
+interface SetupFormProps {
   locale: Locale;
   messages: Messages;
-}) {
+}
+
+export default function SetupForm({ locale, messages }: SetupFormProps) {
+  const router = useRouter();
+
+  // --- Form State ---
   const [username, setUsername] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [weight, setWeight] = useState("");
@@ -28,15 +30,17 @@ export default function SetupForm({
   const [dietary, setDietary] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
 
+  // --- UI State ---
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // --- Validation Logic ---
   const validateField = (field: string, value: string | string[]) => {
     const fieldSchema =
       userSchema.shape[field as keyof typeof userSchema.shape];
 
     if (fieldSchema) {
       const result = fieldSchema.safeParse(value);
-
       setErrors((prev) => {
         const newErrors = { ...prev };
         if (!result.success) {
@@ -49,6 +53,7 @@ export default function SetupForm({
     }
   };
 
+  // --- Input Handlers ---
   const handleDateChange = (input: string) => {
     const numericValue = input.replace(/\D/g, "");
     let formattedDate = numericValue;
@@ -76,8 +81,10 @@ export default function SetupForm({
     validateField(fieldName, numericValue);
   };
 
+  // --- Submission Handler ---
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
 
     const rawData = {
       username,
@@ -90,29 +97,29 @@ export default function SetupForm({
       goal,
     };
 
+    const validationResult = userSchema.safeParse(rawData);
+
+    if (!validationResult.success) {
+      const formattedErrors: Record<string, string> = {};
+      validationResult.error.issues.forEach((issue) => {
+        formattedErrors[String(issue.path[0])] = issue.message;
+      });
+      setErrors(formattedErrors);
+      return;
+    }
+
     try {
-      const validationResult = userSchema.safeParse(rawData);
-
-      if (!validationResult.success) {
-        const formattedErrors: Record<string, string> = {};
-        validationResult.error.issues.forEach((issue) => {
-          formattedErrors[String(issue.path[0])] = issue.message;
-        });
-
-        setErrors(formattedErrors);
-        console.log("Validation Failed:", formattedErrors);
-        return;
-      }
-
+      setIsSubmitting(true);
       setErrors({});
-      console.log("Data saved to backend:", validationResult.data);
-      e.currentTarget.reset();
 
-      console.log("Form Submitted and Reset Successfully");
-      redirect(`/${locale}`);
+      // TODO: Replace this with your actual API call
+      console.log("Data saved successfully:", validationResult.data);
+
+      router.push(`/${locale}`);
     } catch (error) {
       console.error("Submission error:", error);
       setErrors({ submit: "Failed to save user data. Please try again." });
+      setIsSubmitting(false);
     }
   };
 
@@ -166,7 +173,6 @@ export default function SetupForm({
         </div>
       </div>
 
-      {/* TODO: Translate options */}
       <Input
         header={t("sex_header", messages)}
         placeholder={t("sex_placeholder", messages)}
@@ -180,7 +186,6 @@ export default function SetupForm({
         error={errors.sex}
       />
 
-      {/* TODO: Translate options */}
       <Input
         header={t("activity_level_header", messages)}
         placeholder={t("activity_level_placeholder", messages)}
@@ -219,11 +224,22 @@ export default function SetupForm({
         messages={messages}
       />
 
-      <div className="-mx-5 flex flex-col items-center gap-3 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 pt-7">
-        <Button type="submit">{t("Save and Continue", messages)}</Button>
+      <div className="border-grey-40 bg-background-10 -mx-5 flex flex-col items-center gap-3 border-t px-9 pt-7">
+        {errors.submit && (
+          <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
+        )}
+
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting
+            ? t("saving", messages)
+            : t("Save and Continue", messages)}
+        </Button>
+
         <Link
           href={`/${locale}`}
-          className="text-grey-60 text-center text-[14px] transition-colors hover:text-green-100"
+          className={`text-grey-60 text-center text-[14px] transition-colors hover:text-green-100 ${
+            isSubmitting ? "pointer-events-none opacity-50" : ""
+          }`}
         >
           {t("Skip for now", messages)}
         </Link>
