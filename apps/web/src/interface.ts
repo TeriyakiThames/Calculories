@@ -3,7 +3,6 @@ export type Goal = "Balanced" | "Moderate" | "High Protein" | "Ketogenic";
 
 export interface UpdateUserDto {
     username?: string;
-    email?: string;
     dob?: Date;
     sex?: Sex;
     weight?: number;

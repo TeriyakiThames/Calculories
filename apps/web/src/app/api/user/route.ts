@@ -17,9 +17,8 @@ export async function GET() {
             return new Response(JSON.stringify({ error: "Failed to fetch user" }), { status: 500 });
         }
 
-        const { diet_profile, ...userProfile } = data;
 
-        return new Response(JSON.stringify({ userProfile, diet_profile }), { status: 200 });
+        return new Response(JSON.stringify({ ...data }), { status: 200 });
     }
     catch (error) {
         return new Response(JSON.stringify({ error }), { status: 500 });
