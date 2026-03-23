@@ -1,4 +1,4 @@
-import ProgressBar from "../Shared/ProgressBar";
+import ProgressBar from "@/components/Shared/ProgressBar";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { User, DietProfile, Messages } from "@calculories/shared-types";
 

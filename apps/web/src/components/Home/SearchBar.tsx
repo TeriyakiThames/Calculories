@@ -1,31 +1,58 @@
-import Image from "next/image";
+"use client";
+
 import { t, Messages } from "@/lib/internationalisation/i18n-helpers";
+import { Input } from "@/components/Shared/Input";
+import { useState, FormEvent, useEffect, useCallback } from "react";
 
 interface SearchBarProps {
   messages: Messages;
 }
 
-// TODO: Add search functionality when backend is complete
 export default function SearchBar({ messages }: SearchBarProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const performSearch = useCallback((query: string) => {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return;
+
+    console.log("Executing search for:", trimmedQuery);
+    // TODO: Call backend API here
+  }, []);
+
+  useEffect(() => {
+    if (!searchQuery) return;
+
+    const delayDebounceFn = setTimeout(() => {
+      performSearch(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, performSearch]);
+
+  const handleInputChange = (value: string) => {
+    setSearchQuery(value);
+  };
+
+  const handleManualSearch = (e: FormEvent) => {
+    e.preventDefault();
+    performSearch(searchQuery);
+  };
+
   return (
     <>
       <h2 className="mt-6 pb-3 text-center text-xs text-[#8E8E93]">
         {t("search_prompt", messages)}
       </h2>
 
-      <div className="mx-4.5 flex h-13 items-center gap-3 rounded-xl border-[0.5px] border-gray-300 bg-white px-5 py-4 transition-colors focus-within:border-green-100">
-        <Image
-          src="/Icons/SearchIcon.svg"
-          alt="Search Icon"
-          width={20}
-          height={20}
-        />
-        <input
-          type="text"
+      <form onSubmit={handleManualSearch} className="mx-4.5">
+        <Input
           placeholder={t("search_placeholder", messages)}
-          className="w-full bg-transparent text-[#1a1a1a] outline-none placeholder:text-[#b3b3b3]"
+          type={"text"}
+          frontImageURL="/Icons/SearchIcon.svg"
+          value={searchQuery}
+          onChange={handleInputChange}
         />
-      </div>
+      </form>
     </>
   );
 }

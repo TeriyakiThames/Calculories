@@ -12,12 +12,12 @@ export default async function LoginPage({
 }) {
   const { locale } = await params;
 
-  const loginMessages = loadMessages(
+  const loginMessages = await loadMessages(
     locale,
     ["LoginHeader", "LoginButton"],
     "Login",
   );
-  const sharedMessages = loadMessages(
+  const sharedMessages = await loadMessages(
     locale,
     ["AuthButton", "DeleteAccountButton"],
     "Shared",

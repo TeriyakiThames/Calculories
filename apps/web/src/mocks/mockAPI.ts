@@ -87,32 +87,86 @@ export const mockMealHistoryList: MealHistory[] = [
   },
 ];
 
-const MOCK_RECOMMENDED_DISHES = [
+const MOCK_RECOMMENDED_DISHES: Dish[] = [
   {
     id: 1,
     name_en: "Grilled Salmon",
     name_th: "แซลมอนย่าง",
     price: 210,
+    res_id: 101,
     calorie: 450,
-    restaurant: { id: 101, name_en: "Green Eats", name_th: "กรีนอีทส์" },
+    is_vegetarian: false,
+    restaurant: {
+      id: 101,
+      name_en: "Green Eats",
+      name_th: "กรีนอีทส์",
+      lat: 13.7462,
+      lon: 100.5348,
+      url: "https://example.com/green-eats",
+      has_dine_in: true,
+      has_delivery: true,
+      type: ["Healthy", "Western"],
+    },
+    components: [
+      { component_id: 10, ratio: 1, name: "Salmon Fillet", calorie: 300 },
+      { component_id: 11, ratio: 1, name: "Asparagus", calorie: 30 },
+      { component_id: 12, ratio: 1, name: "Olive Oil", calorie: 100 },
+      { component_id: 13, ratio: 1, name: "Lemon & Herbs", calorie: 20 },
+    ],
   },
   {
     id: 2,
     name_en: "Quinoa Buddha Bowl",
     name_th: "ควินัวบุดด้าโบลว์",
     price: 185,
+    res_id: 102,
     calorie: 380,
-    restaurant: { id: 102, name_en: "Healthy Hub", name_th: "เฮลตี้ฮับ" },
+    is_vegetarian: true,
+    restaurant: {
+      id: 102,
+      name_en: "Healthy Hub",
+      name_th: "เฮลตี้ฮับ",
+      lat: 13.7314,
+      lon: 100.5413,
+      url: "https://example.com/healthy-hub",
+      has_dine_in: true,
+      has_delivery: true,
+      type: ["Vegan", "Salad"],
+    },
+    components: [
+      { component_id: 14, ratio: 1, name: "Quinoa", calorie: 120 },
+      { component_id: 15, ratio: 1, name: "Roasted Chickpeas", calorie: 110 },
+      { component_id: 16, ratio: 1, name: "Avocado", calorie: 100 },
+      { component_id: 17, ratio: 1, name: "Tahini Dressing", calorie: 50 },
+    ],
   },
   {
     id: 3,
     name_en: "Zucchini Pesto Pasta",
     name_th: "พาสต้าซุกกินีเปสโต",
     price: 240,
+    res_id: 103,
     calorie: 520,
-    restaurant: { id: 103, name_en: "Pasta Fresh", name_th: "พาสต้าเฟรช" },
+    is_vegetarian: true,
+    restaurant: {
+      id: 103,
+      name_en: "Pasta Fresh",
+      name_th: "พาสต้าเฟรช",
+      lat: 13.7259,
+      lon: 100.5235,
+      url: "https://example.com/pasta-fresh",
+      has_dine_in: true,
+      has_delivery: true,
+      type: ["Italian", "Healthy"],
+    },
+    components: [
+      { component_id: 18, ratio: 1, name: "Zucchini Noodles", calorie: 60 },
+      { component_id: 19, ratio: 1, name: "Pesto Sauce", calorie: 250 },
+      { component_id: 20, ratio: 1, name: "Cherry Tomatoes", calorie: 30 },
+      { component_id: 21, ratio: 1, name: "Parmesan Cheese", calorie: 180 },
+    ],
   },
-] as Dish[];
+];
 
 export const MockAPI = {
   // GET /api/user/:uid
@@ -139,10 +193,8 @@ export const MockAPI = {
   getDishInfo: async (id: number): Promise<Dish> => {
     console.log(`MockAPI: Fetching dish info for id: ${id}`);
     await new Promise((resolve) => setTimeout(resolve, 300));
-    return {
-      ...mockDish,
-      id,
-    };
+    const foundDish = MOCK_RECOMMENDED_DISHES.find((dish) => dish.id === id);
+    return foundDish || { ...mockDish, id };
   },
 
   // GET /api/restaurants/:id

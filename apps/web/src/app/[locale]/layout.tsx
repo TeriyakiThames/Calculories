@@ -26,7 +26,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="bg-[#3A3A3A]">
-      <body className="bg-background-100 relative mx-auto min-h-screen max-w-97.5 shadow-2xl">
+      <body className="bg-background-100 relative mx-auto min-h-screen max-w-105 shadow-2xl">
         {children}
       </body>
     </html>

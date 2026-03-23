@@ -1,0 +1,39 @@
+{
+  "username_header": "Username",
+  "username_placeholder": "What is your name?",
+
+  "birthdate_header": "Birthdate",
+  "birthdate_placeholder": "DD/MM/YYYY",
+
+  "weight_header": "Weight (kg)",
+  "weight_placeholder": "Value",
+
+  "height_header": "Height (cm)",
+  "height_placeholder": "Value",
+
+  "sex_header": "Sex",
+  "sex_placeholder": "What is your sex?",
+
+  "activity_level_header": "Activity Level",
+  "activity_level_placeholder": "How active are you?",
+
+  "dietary_header": "Dietary Restrictions",
+  "dietary_subheader": "Please select all that apply to you.",
+
+  "goal_header": "Select Your Goal",
+
+  "Balanced": "Balanced",
+  "Moderate": "Moderate",
+  "High Protein": "High Protein",
+  "Ketogenic": "Ketogenic",
+
+  "Save and Continue": "Save and Continue",
+  "Skip for now": "Skip for now",
+
+  "Vegetarian": "Vegetarian",
+  "Halal Diet": "Halal Diet",
+  "Lactose Intolerance": "Lactose Intolerance",
+  "Gluten Intolerance": "Gluten Intolerance",
+  "Peanut Allergy": "Peanut Allergy",
+  "Shellfish Allergy": "Shellfish Allergy"
+}
