@@ -1,3 +1,5 @@
+// V 1.0.0
+
 // ------------------------------------------------------------------
 // Translation Types
 // ------------------------------------------------------------------
@@ -39,7 +41,15 @@ export interface Component {
   ratio: number;
   name: string;
   calorie: number;
-  // Add other component fields as needed
+  protein: number;
+  fat: number;
+  carbs: number;
+  is_vegetarian: boolean;
+  is_halal: boolean;
+  has_seafood: boolean;
+  has_lactose: boolean;
+  has_peanut: boolean;
+  has_gluten: boolean;
 }
 
 export interface Restaurant {
@@ -61,8 +71,7 @@ export interface Dish {
   name_en: string;
   price: number;
   res_id?: number;
-  calorie?: number;
-  is_vegetarian?: boolean;
+  dish_type?: string[];
   restaurant?: Restaurant;
   components?: Component[];
 }
@@ -80,6 +89,7 @@ export interface MealHistory {
   name_en: string;
   res_id: number;
   price: number;
+  dish_type?: string[];
   restaurant?: Restaurant;
   components?: Component[];
 }
