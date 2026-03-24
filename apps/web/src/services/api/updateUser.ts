@@ -16,7 +16,8 @@ export default async function updateUser(data: UpdateUserDto) {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to update user");
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || "Failed to update user");      
     }
   } catch (error) {
     console.error("Error updating user:", error);
