@@ -1,4 +1,4 @@
-import { UpdateUserDto } from "@/interface";
+import { UpdateUserDto } from "@calculories/shared-types";
 
 export default async function updateUser(data: UpdateUserDto) {
   try {
