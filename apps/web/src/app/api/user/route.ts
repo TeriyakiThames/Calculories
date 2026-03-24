@@ -107,6 +107,7 @@ export async function PATCH(request: Request) {
       { status: 200 },
     );
   } catch (error) {
-    return new Response(JSON.stringify({ error }), { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    return new Response(JSON.stringify({ error: errorMessage }), { status: 500 });        
   }
 }
