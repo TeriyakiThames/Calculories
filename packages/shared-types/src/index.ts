@@ -113,6 +113,14 @@ export interface MealHistory {
   components?: Component[];
 }
 
+export interface AddMealHistoryDto {
+  user_id: string;
+  dish_id: number;
+  edited_carbs?: number;
+  edited_protein?: number;
+  edited_fat?: number;
+  edited_alcohol?: number;
+}
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
