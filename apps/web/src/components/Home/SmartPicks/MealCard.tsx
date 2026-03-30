@@ -47,7 +47,8 @@ export default function MealCard({
       ? dish.name_en || dish.name_th || "Unknown Menu"
       : dish.name_th || dish.name_en || "Unknown Menu";
 
-  const calories = dish.calorie || 0;
+  const calories =
+    dish.components?.reduce((sum, comp) => sum + comp.calorie, 0) || 0;
   const price = dish.price || 0;
   const imageUrl = "/Home/UnknownMeal.svg";
 
