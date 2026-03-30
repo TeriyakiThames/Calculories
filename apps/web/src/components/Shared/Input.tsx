@@ -17,6 +17,7 @@ interface InputProps {
   onChange: (value: string) => void;
   frontImageURL?: string;
   backImageURL?: string;
+  unit?: string;
   options?: string[];
   error?: string;
 }
@@ -38,6 +39,7 @@ export function Input({
   placeholder,
   frontImageURL,
   backImageURL,
+  unit,
   type,
   options = [],
   value = "",
@@ -56,11 +58,7 @@ export function Input({
         setIsOpen(false);
       }
     };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
+    if (isOpen) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
@@ -76,9 +74,7 @@ export function Input({
           } ${
             error
               ? "bg-grey-20 border-red-100 focus-within:border-red-100"
-              : `border-grey-20 focus-within:border-green-100 ${
-                  isOpen ? "border-green-100" : ""
-                }`
+              : `border-grey-20 focus-within:border-green-100 ${isOpen ? "border-green-100" : ""}`
           }`}
         >
           {frontImageURL && (
@@ -92,13 +88,21 @@ export function Input({
           )}
 
           {type === "text" ? (
-            <input
-              type="text"
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              placeholder={placeholder}
-              className="placeholder:text-grey-40 w-full bg-transparent py-4 leading-4 outline-none"
-            />
+            <div className="flex w-full items-center">
+              <input
+                type="text"
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder={placeholder}
+                className="placeholder:text-grey-40 text-grey-100 w-full bg-transparent py-4 leading-4 font-bold outline-none"
+              />
+              {/* Unit label logic */}
+              {unit && (
+                <span className="text-grey-40 ml-2 text-sm whitespace-nowrap">
+                  {unit}
+                </span>
+              )}
+            </div>
           ) : (
             <div className="flex w-full items-center justify-between py-4 leading-4">
               <span className={value === "" ? "text-grey-40" : "text-grey-100"}>
