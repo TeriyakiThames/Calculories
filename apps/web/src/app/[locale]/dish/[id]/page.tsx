@@ -7,17 +7,25 @@ import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { AiSummary } from "@/components/MealDetails/AiSummary";
 import { Button } from "@/components/Shared/Button";
 import { IngredientsDropdown } from "@/components/MealDetails/IngredientsDropdown";
+import { notFound } from "next/navigation";
 
 interface DishDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     id: string;
-  };
+  }>;
 }
 
-export default async function DishDetailPage({ params }: DishDetailPageProps) {
-  const dishId = parseInt(params.id, 10);
+export default async function DishDetailPage(props: DishDetailPageProps) {
+  const { id } = await props.params;
+  const dishId = parseInt(id, 10);
+
   const dish = (await MockAPI.getDishInfo(dishId)) as Dish;
+
+  if (!dish) {
+    // TODO: Add a separate dish not found page?
+    notFound();
+  }
 
   return (
     <main className="relative pb-28">

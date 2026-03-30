@@ -397,11 +397,11 @@ export const MockAPI = {
   },
 
   // GET /api/dishes/:id
-  getDishInfo: async (id: number): Promise<Dish> => {
+  getDishInfo: async (id: number): Promise<Dish | null> => {
     console.log(`MockAPI: Fetching dish info for id: ${id}`);
     await new Promise((resolve) => setTimeout(resolve, 300));
     const foundDish = MOCK_RECOMMENDED_DISHES.find((dish) => dish.id === id);
-    return foundDish || { ...mockDish, id };
+    return foundDish || null;
   },
 
   // GET /api/restaurants/:id
