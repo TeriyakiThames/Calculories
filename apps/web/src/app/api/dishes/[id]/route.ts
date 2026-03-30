@@ -81,15 +81,11 @@ export async function GET(
 
     const formattedData = {
       ...data,
-      type_th: data.dish_type_map.map((t: RawDishType) => t.dish_type.type_th),
-      type_en: data.dish_type_map.map((t: RawDishType) => t.dish_type.type_en),
+      dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
       restaurant: {
         ...data.restaurant,
-        type_th: data.restaurant.restaurant_type_map.map(
-          (t: RawRestaurantType) => t.restaurant_type.type_th,
-        ),
-        type_en: data.restaurant.restaurant_type_map.map(
-          (t: RawRestaurantType) => t.restaurant_type.type_en,
+        restaurant_types: data.restaurant.restaurant_type_map.map(
+          (t: RawRestaurantType) => t.restaurant_type,
         ),
         restaurant_type_map: undefined,
       },
