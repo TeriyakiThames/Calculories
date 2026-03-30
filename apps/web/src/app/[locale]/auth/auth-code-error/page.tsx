@@ -2,12 +2,12 @@ import { Locale } from "@calculories/shared-types";
 import { LOGIN_PATH } from "@/constants/common";
 import Link from "next/link";
 
-export default function AuthErrorPage({
+export default async function AuthErrorPage({
   params,
 }: {
   params: { locale: Locale };
 }) {
-  const { locale } = params;
+  const { locale } = await params;
 
   return (
     <div>
