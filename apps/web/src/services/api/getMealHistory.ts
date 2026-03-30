@@ -1,5 +1,3 @@
-import { MealHistory } from "@calculories/shared-types";
-
 export default async function getMealHistory() {
   try {
     const baseUrl =
