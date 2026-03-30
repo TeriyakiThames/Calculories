@@ -70,7 +70,7 @@ export const mockDish: Dish = {
       protein: 20.5,
       fat: 18.0,
       carbs: 0.0,
-      is_vegetarian: false,
+      is_vegetarian: true,
       is_halal: false,
       has_seafood: false,
       has_lactose: false,
@@ -104,7 +104,7 @@ export const mockDish: Dish = {
       is_halal: true,
       has_seafood: false,
       has_lactose: false,
-      has_peanut: false,
+      has_peanut: true,
       has_gluten: false,
     },
     {
@@ -397,11 +397,11 @@ export const MockAPI = {
   },
 
   // GET /api/dishes/:id
-  getDishInfo: async (id: number): Promise<Dish> => {
+  getDishInfo: async (id: number): Promise<Dish | null> => {
     console.log(`MockAPI: Fetching dish info for id: ${id}`);
     await new Promise((resolve) => setTimeout(resolve, 300));
     const foundDish = MOCK_RECOMMENDED_DISHES.find((dish) => dish.id === id);
-    return foundDish || { ...mockDish, id };
+    return foundDish || null;
   },
 
   // GET /api/restaurants/:id
