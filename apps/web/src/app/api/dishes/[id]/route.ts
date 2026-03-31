@@ -79,6 +79,13 @@ export async function GET(
       .eq("id", id)
       .single();
 
+    if (error) {
+      console.error("Error fetching dish from database:", error);
+      return new Response(JSON.stringify({ error: "Failed to fetch dish" }), {
+        status: 500,
+      });
+    }
+
     const formattedData = {
       ...data,
       dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
@@ -95,13 +102,6 @@ export async function GET(
       dish_component_map: undefined,
       dish_type_map: undefined,
     };
-
-    if (error) {
-      console.error("Error fetching dish from database:", error);
-      return new Response(JSON.stringify({ error: "Failed to fetch dish" }), {
-        status: 500,
-      });
-    }
 
     return new Response(JSON.stringify(formattedData), {
       status: 200,
