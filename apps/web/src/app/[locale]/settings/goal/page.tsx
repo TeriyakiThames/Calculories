@@ -38,7 +38,7 @@ export default async function Goal({
   // ====================================================
 
   return (
-    <main className="flex min-h-screen flex-col px-5 pb-10">
+    <main className="flex min-h-screen flex-col px-5">
       <PageTitle messages={settingsMessages} titleOnly={true} />
 
       <GoalForm

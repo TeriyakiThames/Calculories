@@ -80,7 +80,10 @@ export default function GoalForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-10">
+    <form
+      onSubmit={handleSubmit}
+      className="mt-6 flex flex-1 flex-col justify-between"
+    >
       <GoalSelection
         value={goal}
         onChange={(val) => {
@@ -91,7 +94,7 @@ export default function GoalForm({
         messages={messages}
       />
 
-      <div className="border-grey-40 bg-background-10 -mx-5 flex flex-col items-center gap-3 border-t px-9 pt-7">
+      <div className="border-grey-40 bg-background-10 sticky bottom-0 z-10 -mx-5 mt-auto flex flex-col items-center gap-3 border-t px-9 py-5">
         {errors.submit && (
           <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
         )}
