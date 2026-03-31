@@ -61,6 +61,15 @@ interface RawData {
   dish_component_map: RawDishComponent[];
 }
 
+const SubsetComponentKeysTypes = [
+  "total_fat",
+  "total_carbs",
+  "total_alcohol",
+  "total_calorie",
+  "total_protein",
+] as const;
+type SubsetComponentKeys = (typeof SubsetComponentKeysTypes)[number];
+
 const GetDishesByIdsSchema = z.object({
   ids: z.array(z.number().int()),
 });
@@ -130,7 +139,7 @@ export async function POST(request: Request) {
     }
 
     const formattedData = data.map((data: RawData) => {
-      return {
+      const tempDish = {
         ...data,
         dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
         restaurant: {
@@ -180,6 +189,15 @@ export async function POST(request: Request) {
         dish_component_map: undefined,
         dish_type_map: undefined,
       };
+
+      SubsetComponentKeysTypes.forEach((key) => {
+        const componentKey = key as SubsetComponentKeys;
+        tempDish.components[componentKey] = parseFloat(
+          tempDish.components[componentKey].toFixed(2),
+        );
+      });
+
+      return tempDish;
     });
 
     return new Response(JSON.stringify(formattedData), {
