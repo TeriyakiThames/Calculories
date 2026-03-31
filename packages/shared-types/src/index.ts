@@ -124,7 +124,7 @@ export interface DeleteMealHistoryRequest {
 
 // GET /api/dishes
 export interface GetDishesByIdsRequest {
-  id: number[];
+  ids: number[];
 }
 
 // GET /api/restaurants/:id
