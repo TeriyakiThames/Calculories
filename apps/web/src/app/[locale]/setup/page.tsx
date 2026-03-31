@@ -1,6 +1,6 @@
 import SetupForm from "@/components/Setup/SetupForm";
 import SetupHeader from "@/components/Setup/SetupHeader";
-import SetupTitle from "@/components/Setup/SetupTitle";
+import PageTitle from "@/components/Shared/PageTitle";
 import { loadMessages } from "@/lib/internationalisation/i18n";
 import { Locale } from "@calculories/shared-types";
 
@@ -12,12 +12,12 @@ export default async function Setup({
   const { locale } = await params;
   const loginMessages = await loadMessages(
     locale,
-    ["SetupForm", "SetupHeader", "SetupTitle"],
+    ["SetupForm", "SetupHeader", "PageTitle"],
     "Setup",
   );
   return (
     <main className="bg-background-10 px-5">
-      <SetupTitle locale={locale} messages={loginMessages} />
+      <PageTitle messages={loginMessages} />
       <SetupHeader messages={loginMessages} />
       <SetupForm locale={locale} messages={loginMessages} />
     </main>
