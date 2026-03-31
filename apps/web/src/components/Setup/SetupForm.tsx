@@ -9,8 +9,8 @@ import { Locale, Messages } from "@calculories/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DietaryRestrictions from "./DietaryRestrictions";
-import GoalSelection from "./GoalSelection";
+import DietaryRestrictions from "@/components/Setup/DietaryRestrictions";
+import GoalSelection from "@/components/Setup/GoalSelection";
 
 interface SetupFormProps {
   locale: Locale;
