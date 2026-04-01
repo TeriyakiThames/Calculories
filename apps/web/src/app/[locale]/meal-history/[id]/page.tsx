@@ -15,7 +15,7 @@ export default async function MealRecordDetailPage(
 ) {
   const { id } = await props.params;
   const mealId = parseInt(id, 10);
-  let mealRecord: any; // TODO: add typing
+  let mealRecord;
 
   try {
     mealRecord = await getMealRecord(mealId);
