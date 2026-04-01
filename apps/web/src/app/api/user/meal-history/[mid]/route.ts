@@ -1,6 +1,41 @@
 import createClient from "@/lib/supabase/server";
-import { fetchDishFromDb } from "@/services/api/fetchDishFromDb";
-import { Dish } from "@calculories/shared-types";
+interface RawDishType {
+  dish_type: {
+    id: number;
+    type_en: string;
+    type_th: string;
+  };
+}
+
+interface RawRestaurantType {
+  restaurant_type: {
+    id: number;
+    type_en: string;
+    type_th: string;
+  };
+}
+
+interface RawDishComponent {
+  ratio: number;
+  dish_id: number;
+  component: {
+    id: number;
+    fat: number;
+    carbs: number;
+    alcohol: number;
+    calorie: number;
+    name_en: string;
+    name_th: string;
+    protein: number;
+    is_halal: boolean;
+    has_gluten: boolean;
+    has_peanut: boolean;
+    has_lactose: boolean;
+    has_shellfish: boolean;
+    is_vegetarian: boolean;
+  };
+  component_id: number;
+}
 
 export async function GET(
   request: Request,
@@ -29,7 +64,24 @@ export async function GET(
 
     const { data, error } = await supabase
       .from("meal_history")
-      .select()
+      .select(
+        `
+        *,
+        dish(*, dish_type_map(
+         dish_type(*)
+        ),
+        restaurant (
+         *,
+         restaurant_type_map(
+          restaurant_type(*)
+         )
+        ),
+        dish_component_map(
+         *,
+         component(*)
+        ))
+        `,
+      )
       .eq("id", mealId)
       .single();
 
@@ -46,15 +98,31 @@ export async function GET(
       );
     }
 
-    const response = await fetchDishFromDb(data.dish_id);
+    const { dish, ...mealRecordData } = data;
+    const {
+      restaurant: { restaurant_type_map, ...restaurant },
+      dish_type_map,
+      dish_component_map,
+      ...dishData
+    } = dish;
 
-    if (!response.ok) {
-      return response;
-    }
+    const formattedData = {
+      ...mealRecordData,
+      ...dishData,
+      dish_types: dish_type_map.map((t: RawDishType) => t.dish_type),
+      restaurant: {
+        ...restaurant,
+        restaurant_types: restaurant_type_map.map(
+          (t: RawRestaurantType) => t.restaurant_type,
+        ),
+      },
 
-    const dish = (await response.json()) as Dish;
+      components: dish_component_map?.map((d: RawDishComponent) => {
+        return { ...d.component, ratio: d.ratio };
+      }),
+    };
 
-    return new Response(JSON.stringify({ ...data, dish: dish }), {
+    return new Response(JSON.stringify(formattedData), {
       status: 200,
     });
   } catch (error) {
