@@ -138,7 +138,6 @@ export async function DELETE(
 
     const response = await supabase.from("meal_history").delete().eq("id", id);
 
-    console.log(response);
     if (response.error) {
       console.error(
         `Error deleting meal record ID ${id}from database:`,
