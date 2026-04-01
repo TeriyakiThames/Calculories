@@ -123,7 +123,7 @@ export async function DELETE(
       });
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("meal_history")
       .select()
       .eq("id", id)
