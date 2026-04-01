@@ -49,7 +49,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
   // Logic: Red tags
   const hasLactose = components.some((c) => c.has_lactose);
   const hasPeanuts = components.some((c) => c.has_peanut);
-  const hasSeafood = components.some((c) => c.has_seafood);
+  const hasShellfish = components.some((c) => c.has_shellfish);
 
   const selectMode = (mode: PortionMode) => {
     setPortionMode(mode);
@@ -65,7 +65,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
 
     setComponents((prev) =>
       prev.map((c) => {
-        if (c.component_id === componentId) {
+        if (c.id === componentId) {
           const baseWeight = c.protein + c.fat + c.carbs;
           const newRatio = baseWeight > 0 ? newWeight / baseWeight : 0;
           return { ...c, ratio: newRatio };
@@ -125,7 +125,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
             {isVegetarian && <Tag color="green" text="Vegetarian" />}
             {hasPeanuts && <Tag color="red" text="Contains peanuts" />}
             {hasLactose && <Tag color="red" text="Contains lactose" />}
-            {hasSeafood && <Tag color="red" text="Contains seafood" />}
+            {hasShellfish && <Tag color="red" text="Contains shellfish" />}
           </div>
 
           {/* Adjust Portions Section */}
@@ -186,12 +186,12 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
             <div className="flex flex-col gap-4">
               {portionMode === "display" &&
                 components.map((c) => (
-                  <IngredientRow key={c.component_id} component={c} />
+                  <IngredientRow key={c.id} component={c} />
                 ))}
               {portionMode === "slider" &&
                 components.map((c) => (
                   <PortionSlider
-                    key={c.component_id}
+                    key={c.id}
                     component={c}
                     handleWeightChange={handleWeightChange}
                   />
@@ -204,13 +204,13 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
 
                     return (
                       <Input
-                        key={c.component_id || index}
-                        header={c.name}
+                        key={c.id || index}
+                        header={c.name_en}
                         type="text"
                         value={currentWeight}
                         unit="grams"
                         onChange={(val) => {
-                          handleWeightChange(c.component_id, val);
+                          handleWeightChange(c.id, val);
                         }}
                       />
                     );
@@ -295,7 +295,7 @@ export function IngredientRow({ component }: { component: Component }) {
   const currentWeight = (baseWeight * component.ratio).toFixed(0);
   return (
     <div className="flex items-center justify-between">
-      <span className="text-grey-100 leading-5">{component.name}</span>
+      <span className="text-grey-100 leading-5">{component.name_en}</span>
       <span className="text-grey-60 text-xs leading-5">
         {currentWeight} grams
       </span>
