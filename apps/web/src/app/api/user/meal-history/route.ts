@@ -1,6 +1,6 @@
 import createClient from "@/lib/supabase/server";
 import { z } from "zod";
-import { ComponentNutrition } from "@calculories/shared-types";
+import { Component, ComponentNutrition } from "@calculories/shared-types";
 
 const AddMealHistorySchema = z.object({
   dish_id: z.number(),
@@ -12,6 +12,14 @@ const AddMealHistorySchema = z.object({
 
 function getAddMealHistorySchema() {
   return AddMealHistorySchema;
+}
+
+const DeleteMealRecordsByIdsSchema = z.object({
+  ids: z.array(z.number().int()),
+});
+
+function getDeleteMealRecordsByIdsSchema() {
+  return DeleteMealRecordsByIdsSchema;
 }
 
 function calculateTotalDishComponent(
@@ -66,10 +74,12 @@ export async function POST(request: Request) {
 
     const { ...data } = parsedMealHistory.data;
 
+    console.log({ ...data });
     const { error } = await supabase
       .from("meal_history")
       .insert({ ...data, user_id: user!.id });
 
+    console.log({ error });
     if (error) {
       return new Response(
         JSON.stringify({ error: "Failed to insert meal history" }),
@@ -107,9 +117,8 @@ export async function GET() {
         `
         *,
         dish ( 
-        name_th, name_en, res_id, price,
-         dish_component_map (
-         ratio, 
+        *,
+         dish_component_map ( 
           component ( calorie, protein, fat, carbs )
         )
       )
@@ -142,10 +151,95 @@ export async function GET() {
       );
     }
 
-    return new Response(JSON.stringify(formattedData), {
+    return new Response(JSON.stringify({ data: formattedData }), {
       status: 200,
     });
   } catch (error) {
     return new Response(JSON.stringify({ error }), { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  const supabase = await createClient();
+
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not authenticated" }), {
+        status: 401,
+      });
+    }
+
+    const body = await request.json();
+    const parseData = getDeleteMealRecordsByIdsSchema().safeParse(body);
+
+    if (!parseData.success) {
+      return new Response(
+        JSON.stringify({
+          error: "Invalid request data",
+          details: parseData.error,
+        }),
+        { status: 400 },
+      );
+    }
+
+    const { ids: id_list } = parseData.data;
+
+    const { data, error } = await supabase
+      .from("meal_history")
+      .select()
+      .in("id", id_list);
+
+    if (error) {
+      console.error("Error fetching meal records:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch meal records by IDs" }),
+        {
+          status: 500,
+        },
+      );
+    }
+
+    // If not all record is found
+    if (data.length != id_list.length) {
+      console.error("Error fetching one or more meal records by IDs:", id_list);
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch meal records by IDs" }),
+        {
+          status: 500,
+        },
+      );
+    }
+
+    const response = await supabase
+      .from("meal_history")
+      .delete()
+      .in("id", id_list);
+
+    if (response.error) {
+      console.error(
+        `Error deleting meal records by IDs from database:`,
+        response.error,
+      );
+      return new Response(
+        JSON.stringify({ error: "Failed to delete meal records" }),
+        {
+          status: 500,
+        },
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ status: 204, statusText: "No Content", ok: true }),
+    );
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal Server Error";
+
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+    });
   }
 }

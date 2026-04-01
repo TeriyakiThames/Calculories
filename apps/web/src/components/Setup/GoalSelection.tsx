@@ -17,10 +17,10 @@ export default function GoalSelection({
   messages,
 }: GoalSelectionProps) {
   const GOALS = [
-    { id: "balanced", label: t("Balanced", messages) },
-    { id: "moderate", label: t("Moderate", messages) },
-    { id: "protein", label: t("High Protein", messages) },
-    { id: "keto", label: t("Ketogenic", messages) },
+    { id: "Balanced", label: t("Balanced", messages) },
+    { id: "Moderate", label: t("Moderate", messages) },
+    { id: "HighProtein", label: t("High Protein", messages) },
+    { id: "Ketogenic", label: t("Ketogenic", messages) },
   ];
 
   return (

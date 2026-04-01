@@ -1,43 +1,10 @@
 import createClient from "@/lib/supabase/server";
+import {
+  RawDishType,
+  RawRestaurantType,
+  RawDishComponent,
+} from "@calculories/shared-types";
 import { z } from "zod";
-
-interface RawDishType {
-  dish_type: {
-    id: number;
-    type_en: string;
-    type_th: string;
-  };
-}
-
-interface RawRestaurantType {
-  restaurant_type: {
-    id: number;
-    type_en: string;
-    type_th: string;
-  };
-}
-
-interface RawDishComponent {
-  ratio: number;
-  dish_id: number;
-  component: {
-    id: number;
-    fat: number;
-    carbs: number;
-    alcohol: number;
-    calorie: number;
-    name_en: string;
-    name_th: string;
-    protein: number;
-    is_halal: boolean;
-    has_gluten: boolean;
-    has_peanut: boolean;
-    has_lactose: boolean;
-    has_shellfish: boolean;
-    is_vegetarian: boolean;
-  };
-  component_id: number;
-}
 
 interface RawData {
   id: number;

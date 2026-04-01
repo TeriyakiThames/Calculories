@@ -6,7 +6,7 @@ export function IngredientRow({ component }: { component: Component }) {
 
   return (
     <div className="flex items-center justify-between">
-      <span className="text-grey-100 leading-5">{component.name}</span>
+      <span className="text-grey-100 leading-5">{component.name_en}</span>
       <span className="text-grey-60 text-xs leading-5">
         {currentWeight} grams
       </span>

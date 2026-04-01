@@ -10,7 +10,7 @@ export function DietaryTags({ components }: { components: Component[] }) {
   // Logic: Red tags
   const hasLactose = components.some((c) => c.has_lactose);
   const hasPeanuts = components.some((c) => c.has_peanut);
-  const hasSeafood = components.some((c) => c.has_seafood);
+  const hasShellfish = components.some((c) => c.has_shellfish);
 
   return (
     <div className="flex flex-wrap gap-x-2 gap-y-3">
@@ -19,7 +19,7 @@ export function DietaryTags({ components }: { components: Component[] }) {
       {isVegetarian && <Tag color="green" text="Vegetarian" />}
       {hasPeanuts && <Tag color="red" text="Contains peanuts" />}
       {hasLactose && <Tag color="red" text="Contains lactose" />}
-      {hasSeafood && <Tag color="red" text="Contains seafood" />}
+      {hasShellfish && <Tag color="red" text="Contains shellfish" />}
     </div>
   );
 }
