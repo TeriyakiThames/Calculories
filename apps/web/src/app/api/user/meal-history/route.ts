@@ -1,6 +1,6 @@
 import createClient from "@/lib/supabase/server";
 import { z } from "zod";
-import { Component } from "@calculories/shared-types";
+import { Component, ComponentNutrition } from "@calculories/shared-types";
 
 const AddMealHistorySchema = z.object({
   dish_id: z.number(),
@@ -20,6 +20,31 @@ const DeleteMealRecordsByIdsSchema = z.object({
 
 function getDeleteMealRecordsByIdsSchema() {
   return DeleteMealRecordsByIdsSchema;
+}
+
+function calculateTotalDishComponent(
+  components: {
+    ratio: number;
+    component: ComponentNutrition;
+  }[],
+) {
+  const totals = components.reduce(
+    (total, { ratio, component }) => ({
+      total_calorie:
+        Math.round((total.total_calorie + component.calorie * ratio) * 100) /
+        100,
+      total_protein:
+        Math.round((total.total_protein + component.protein * ratio) * 100) /
+        100,
+      total_fat:
+        Math.round((total.total_fat + component.fat * ratio) * 100) / 100,
+      total_carbs:
+        Math.round((total.total_carbs + component.carbs * ratio) * 100) / 100,
+    }),
+    { total_calorie: 0, total_protein: 0, total_fat: 0, total_carbs: 0 },
+  );
+
+  return totals;
 }
 
 export async function POST(request: Request) {
@@ -104,8 +129,13 @@ export async function GET() {
     const formattedData = data?.map((meal) => ({
       ...meal,
       ...meal.dish,
-      component: meal.dish?.dish_component_map?.map(
-        (d: { component: Component }) => d.component,
+      components: calculateTotalDishComponent(
+        meal.dish?.dish_component_map.map(
+          (d: { ratio: number; component: ComponentNutrition }) => ({
+            ratio: d.ratio,
+            component: d.component,
+          }),
+        ) || [],
       ),
       dish: undefined,
       dish_component_map: undefined,
