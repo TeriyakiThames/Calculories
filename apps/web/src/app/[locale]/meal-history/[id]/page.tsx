@@ -1,4 +1,4 @@
-import { Locale } from "@calculories/shared-types";
+import { Component, Locale } from "@calculories/shared-types";
 import { notFound } from "next/navigation";
 import getMealRecord from "@/services/api/getMealRecord";
 
@@ -14,7 +14,7 @@ export default async function MealRecordDetailPage(
 ) {
   const { id } = await props.params;
   const mealId = parseInt(id, 10);
-  let mealRecord: unknown;
+  let mealRecord: unknown; // TODO: add typing
 
   try {
     mealRecord = await getMealRecord(mealId);
@@ -24,6 +24,15 @@ export default async function MealRecordDetailPage(
 
   return (
     <main className="relative pb-28">
+      <h1>
+        {mealRecord.name_th} | {mealRecord.name_en}
+      </h1>
+      <ul>
+        {mealRecord.components.map((c: Component) => (
+          <li key={c.id}>{c.name_en}</li>
+        ))}
+      </ul>
+      <br />
       <p>{JSON.stringify(mealRecord)}</p>
     </main>
   );
