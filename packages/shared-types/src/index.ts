@@ -136,18 +136,18 @@ export type UpdateUserRequest = Partial<Omit<User, "id">>;
 // PATCH /api/user/:uid/diet-profile
 export type UpdateDietProfileRequest = Partial<DietProfile>;
 
-// POST /api/user/:uid/meal-history
+// POST /api/user/meal-history
 export type CreateMealHistoryRequest = Omit<MealHistory, "id">;
 
-// PATCH /api/user/:uid/meal-history/:mid
+// DELETE /api/user/meal-history
+export interface DeleteMealRecordsByIdsRequest {
+  ids: number[];
+}
+
+// PATCH /api/user/meal-history/:mid
 export type UpdateMealHistoryRequest = Partial<
   Omit<MealHistory, "id" | "user_id" | "dish_id">
 >;
-
-// DELETE /api/user/:uid/meal-history
-export interface DeleteMealHistoryRequest {
-  id: number[];
-}
 
 // GET /api/dishes
 export interface GetDishesByIdsRequest {
