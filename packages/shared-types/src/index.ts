@@ -159,3 +159,45 @@ export interface GetRestaurantResponse extends Restaurant {
   id: number; // Guaranteed to be present in this response
   dishes: Dish[];
 }
+
+// ------------------------------------------------------------------
+// Database Raw Response Types
+// ------------------------------------------------------------------
+
+export interface RawDishType {
+  dish_type: {
+    id: number;
+    type_en: string;
+    type_th: string;
+  };
+}
+
+export interface RawRestaurantType {
+  restaurant_type: {
+    id: number;
+    type_en: string;
+    type_th: string;
+  };
+}
+
+export interface RawDishComponent {
+  ratio: number;
+  dish_id: number;
+  component: {
+    id: number;
+    fat: number;
+    carbs: number;
+    alcohol: number;
+    calorie: number;
+    name_en: string;
+    name_th: string;
+    protein: number;
+    is_halal: boolean;
+    has_gluten: boolean;
+    has_peanut: boolean;
+    has_lactose: boolean;
+    has_shellfish: boolean;
+    is_vegetarian: boolean;
+  };
+  component_id: number;
+}
