@@ -56,16 +56,18 @@ export interface UpdateUserDto {
 }
 
 export interface Component {
-  component_id: number;
+  id: number;
   ratio: number;
-  name: string;
+  name_th: string;
+  name_en: string;
   calorie: number;
   protein: number;
   fat: number;
   carbs: number;
+  alcohol: number;
   is_vegetarian: boolean;
   is_halal: boolean;
-  has_seafood: boolean;
+  has_shellfish: boolean;
   has_lactose: boolean;
   has_peanut: boolean;
   has_gluten: boolean;
