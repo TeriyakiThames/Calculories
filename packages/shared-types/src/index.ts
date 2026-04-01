@@ -5,6 +5,8 @@
 // ------------------------------------------------------------------
 export type Messages = Record<string, string>;
 export type Locale = "en" | "th";
+export type Sex = "Female" | "Male" | "Other";
+export type Goal = "Balanced" | "Moderate" | "High Protein" | "Ketogenic";
 
 // ------------------------------------------------------------------
 // Base Entity Types
@@ -34,6 +36,23 @@ export interface User {
   target_carbs: number;
   target_calories: number;
   target_fats: number;
+}
+
+export interface UpdateUserDto {
+  username?: string;
+  dob?: string;
+  sex?: Sex;
+  weight?: number;
+  height?: number;
+  activity_level?: number;
+  goal?: Goal;
+  vegetarian_default?: boolean;
+  no_lactose_default?: boolean;
+  no_peanut_default?: boolean;
+  gluten_free_default?: boolean;
+  halal_default?: boolean;
+  no_shellfish_default?: boolean;
+  is_setup_finished?: boolean;
 }
 
 export interface Component {
@@ -94,6 +113,20 @@ export interface MealHistory {
   components?: Component[];
 }
 
+export interface AddMealHistoryDto {
+  dish_id: number;
+  edited_carbs?: number;
+  edited_protein?: number;
+  edited_fat?: number;
+  edited_alcohol?: number;
+}
+
+export interface ComponentNutrition {
+  calorie: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+}
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
