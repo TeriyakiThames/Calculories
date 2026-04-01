@@ -1,6 +1,6 @@
 import createClient from "@/lib/supabase/server";
 import { z } from "zod";
-import { Component } from "@calculories/shared-types";
+import { ComponentNutrition } from "@calculories/shared-types";
 
 const AddMealHistorySchema = z.object({
   dish_id: z.number(),
@@ -12,6 +12,31 @@ const AddMealHistorySchema = z.object({
 
 function getAddMealHistorySchema() {
   return AddMealHistorySchema;
+}
+
+function calculateTotalDishComponent(
+  components: {
+    ratio: number;
+    component: ComponentNutrition;
+  }[],
+) {
+  const totals = components.reduce(
+    (total, { ratio, component }) => ({
+      total_calorie:
+        Math.round((total.total_calorie + component.calorie * ratio) * 100) /
+        100,
+      total_protein:
+        Math.round((total.total_protein + component.protein * ratio) * 100) /
+        100,
+      total_fat:
+        Math.round((total.total_fat + component.fat * ratio) * 100) / 100,
+      total_carbs:
+        Math.round((total.total_carbs + component.carbs * ratio) * 100) / 100,
+    }),
+    { total_calorie: 0, total_protein: 0, total_fat: 0, total_carbs: 0 },
+  );
+
+  return totals;
 }
 
 export async function POST(request: Request) {
@@ -41,12 +66,10 @@ export async function POST(request: Request) {
 
     const { ...data } = parsedMealHistory.data;
 
-    console.log({ ...data });
     const { error } = await supabase
       .from("meal_history")
       .insert({ ...data, user_id: user!.id });
 
-    console.log({ error });
     if (error) {
       return new Response(
         JSON.stringify({ error: "Failed to insert meal history" }),
@@ -85,7 +108,8 @@ export async function GET() {
         *,
         dish ( 
         name_th, name_en, res_id, price,
-         dish_component_map ( 
+         dish_component_map (
+         ratio, 
           component ( calorie, protein, fat, carbs )
         )
       )
@@ -96,8 +120,13 @@ export async function GET() {
     const formattedData = data?.map((meal) => ({
       ...meal,
       ...meal.dish,
-      component: meal.dish?.dish_component_map?.map(
-        (d: { component: Component }) => d.component,
+      components: calculateTotalDishComponent(
+        meal.dish?.dish_component_map.map(
+          (d: { ratio: number; component: ComponentNutrition }) => ({
+            ratio: d.ratio,
+            component: d.component,
+          }),
+        ) || [],
       ),
       dish: undefined,
       dish_component_map: undefined,
@@ -113,7 +142,7 @@ export async function GET() {
       );
     }
 
-    return new Response(JSON.stringify({ data: formattedData }), {
+    return new Response(JSON.stringify(formattedData), {
       status: 200,
     });
   } catch (error) {
