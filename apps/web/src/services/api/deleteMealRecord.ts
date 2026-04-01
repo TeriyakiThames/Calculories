@@ -1,4 +1,4 @@
-export default async function getMealRecord(id: number) {
+export default async function deleteMealRecord(id: number) {
   try {
     const isServer = typeof window === "undefined";
     const baseUrl = isServer
@@ -28,7 +28,7 @@ export default async function getMealRecord(id: number) {
     }
 
     const response = await fetch(`${baseUrl}/api/user/meal-history/${id}`, {
-      method: "GET",
+      method: "DELETE",
       credentials: "include",
       headers,
     });
@@ -36,12 +36,12 @@ export default async function getMealRecord(id: number) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || "Failed to fetch meal record");
+      throw new Error(data.message || "Failed to delete meal record");
     }
 
     return data;
   } catch (error) {
-    console.error("Error fetching meal record:", error);
+    console.error("Error deleting meal record:", error);
     throw error;
   }
 }

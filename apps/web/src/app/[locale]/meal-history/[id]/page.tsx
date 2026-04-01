@@ -1,6 +1,7 @@
 import { Component, Locale } from "@calculories/shared-types";
 import { notFound } from "next/navigation";
 import getMealRecord from "@/services/api/getMealRecord";
+import DeleteMealButton from "@/components/MealRecordDetails/DeleteMealButton";
 
 interface MealRecordDetailPageProps {
   params: Promise<{
@@ -14,7 +15,7 @@ export default async function MealRecordDetailPage(
 ) {
   const { id } = await props.params;
   const mealId = parseInt(id, 10);
-  let mealRecord: unknown; // TODO: add typing
+  let mealRecord: any; // TODO: add typing
 
   try {
     mealRecord = await getMealRecord(mealId);
@@ -34,6 +35,7 @@ export default async function MealRecordDetailPage(
       </ul>
       <br />
       <p>{JSON.stringify(mealRecord)}</p>
+      <DeleteMealButton mealId={mealId} />
     </main>
   );
 }

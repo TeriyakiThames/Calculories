@@ -9,9 +9,8 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ mid: string }> },
 ) {
-  const mealId = parseInt((await params).mid);
-
-  if (Number.isNaN(mealId)) {
+  const id = parseInt((await params).mid);
+  if (Number.isNaN(id)) {
     return new Response(JSON.stringify({ error: "Invalid meal record ID" }), {
       status: 400,
     });
@@ -50,12 +49,12 @@ export async function GET(
         ))
         `,
       )
-      .eq("id", mealId)
+      .eq("id", id)
       .single();
 
     if (error) {
       console.error(
-        `Error fetching meal record ID ${mealId} from database:`,
+        `Error fetching meal record ID ${id} from database:`,
         error,
       );
       return new Response(
@@ -96,6 +95,70 @@ export async function GET(
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Internal Server Error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ mid: string }> },
+) {
+  const id = parseInt((await params).mid);
+  if (Number.isNaN(id)) {
+    return new Response(JSON.stringify({ error: "Invalid meal record ID" }), {
+      status: 400,
+    });
+  }
+
+  const supabase = await createClient();
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not authenticated" }), {
+        status: 401,
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("meal_history")
+      .select()
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      console.error(`Meal record ID ${id} not found:`, error);
+      return new Response(JSON.stringify({ error: "Meal record not found" }), {
+        status: 500,
+      });
+    }
+
+    const response = await supabase.from("meal_history").delete().eq("id", id);
+
+    console.log(response);
+    if (response.error) {
+      console.error(
+        `Error deleting meal record ID ${id}from database:`,
+        response.error,
+      );
+      return new Response(
+        JSON.stringify({ error: "Failed to delete meal record" }),
+        {
+          status: 500,
+        },
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ status: 204, statusText: "No Content", ok: true }),
+    );
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal Server Error";
+
     return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
     });
