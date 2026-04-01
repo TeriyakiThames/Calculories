@@ -21,7 +21,7 @@ export function MealHeader({ dish }: MealHeaderProps) {
           {dish.restaurant?.type?.join(" • ")}
         </span>
         <span className="text-grey-40 text-xs wrap-normal">
-          {dish.components?.map((component) => component.name).join(" • ")}
+          {dish.components?.map((component) => component.name_en).join(" • ")}
         </span>
       </div>
     </div>

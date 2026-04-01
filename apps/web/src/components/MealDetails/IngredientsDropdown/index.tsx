@@ -40,7 +40,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
 
     setComponents((prev) =>
       prev.map((c) => {
-        if (c.component_id === componentId) {
+        if (c.id === componentId) {
           const baseWeight = c.protein + c.fat + c.carbs;
           const newRatio = baseWeight > 0 ? newWeight / baseWeight : 0;
           return { ...c, ratio: newRatio };
@@ -90,13 +90,13 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
             <div className="flex flex-col gap-4">
               {portionMode === "display" &&
                 components.map((c) => (
-                  <IngredientRow key={c.component_id} component={c} />
+                  <IngredientRow key={c.id} component={c} />
                 ))}
 
               {portionMode === "slider" &&
                 components.map((c) => (
                   <PortionSlider
-                    key={c.component_id}
+                    key={c.id}
                     component={c}
                     handleWeightChange={handleWeightChange}
                   />
@@ -110,14 +110,12 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
 
                     return (
                       <Input
-                        key={c.component_id || index}
-                        header={c.name}
+                        key={c.id || index}
+                        header={c.name_en}
                         type="text"
                         value={currentWeight}
                         unit="grams"
-                        onChange={(val) =>
-                          handleWeightChange(c.component_id, val)
-                        }
+                        onChange={(val) => handleWeightChange(c.id, val)}
                       />
                     );
                   })}

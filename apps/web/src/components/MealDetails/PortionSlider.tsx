@@ -21,7 +21,7 @@ export default function PortionSlider({
     const baseWeight = component.protein + component.fat + component.carbs;
     const newWeight = baseWeight * (newPercent / 100);
 
-    handleWeightChange(component.component_id, newWeight);
+    handleWeightChange(component.id, newWeight);
   };
 
   return (
