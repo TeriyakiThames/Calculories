@@ -6,7 +6,7 @@
 export type Messages = Record<string, string>;
 export type Locale = "en" | "th";
 export type Sex = "Female" | "Male" | "Other";
-export type Goal = "Balanced" | "Moderate" | "High Protein" | "Ketogenic";
+export type Goal = "Balanced" | "Moderate" | "HighProtein" | "Ketogenic";
 
 // ------------------------------------------------------------------
 // Base Entity Types

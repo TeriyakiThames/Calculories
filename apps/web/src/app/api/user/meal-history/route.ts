@@ -117,7 +117,7 @@ export async function GET() {
         `
         *,
         dish ( 
-        name_th, name_en, res_id, price,
+        *,
          dish_component_map ( 
           component ( calorie, protein, fat, carbs )
         )

@@ -8,9 +8,7 @@ const UpdateUserSchema = z.object({
   weight: z.number().optional(),
   height: z.number().optional(),
   activity_level: z.number().optional(),
-  goal: z
-    .enum(["Balanced", "Moderate", "High Protein", "Ketogenic"])
-    .optional(),
+  goal: z.enum(["Balanced", "Moderate", "HighProtein", "Ketogenic"]).optional(),
   vegetarian_default: z.boolean().optional(),
   no_lactose_default: z.boolean().optional(),
   no_peanut_default: z.boolean().optional(),
@@ -45,7 +43,7 @@ export async function GET() {
         diet_profile ( * )
         `,
       )
-      .eq("id", user!.id)
+      .eq("id", user.id)
       .single();
 
     if (error) {
@@ -97,7 +95,7 @@ export async function PATCH(request: Request) {
     const { error } = await supabase
       .from("user")
       .update(userdata)
-      .eq("id", user!.id);
+      .eq("id", user.id);
 
     if (error) {
       console.error("Error updating user in database:", error);
