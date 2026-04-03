@@ -7,6 +7,12 @@ export type Messages = Record<string, string>;
 export type Locale = "en" | "th";
 export type Sex = "Female" | "Male" | "Other";
 export type Goal = "Balanced" | "Moderate" | "HighProtein" | "Ketogenic";
+export type SortBy =
+  | "price"
+  | "total_calorie"
+  | "total_protein"
+  | "total_fat"
+  | "total_carbs";
 
 // ------------------------------------------------------------------
 // Base Entity Types
@@ -160,6 +166,26 @@ export type UpdateMealHistoryRequest = Partial<
 // GET /api/dishes
 export interface GetDishesByIdsRequest {
   ids: number[];
+}
+
+// POST /api/dishes/search
+export interface GetDishesBySearchRequest {
+  search_string?: string;
+  sort_by?: SortBy;
+  ascending?: boolean;
+  dish_type_ids?: number[];
+  restaurant_type_ids?: number[];
+  has_dine_in?: boolean; // false means not configured (apply to all options accept 'ascending')
+  has_delivery?: boolean;
+  restaurant_is_halal?: boolean;
+  is_vegetarian?: boolean;
+  dish_is_halal?: boolean;
+  no_gluten?: boolean;
+  no_lactose?: boolean;
+  no_peanut?: boolean;
+  no_shellfish?: boolean;
+  from: number;
+  to: number;
 }
 
 // GET /api/restaurants/:id
