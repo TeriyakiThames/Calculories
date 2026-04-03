@@ -235,3 +235,24 @@ export interface RawDishComponent {
   };
   component_id: number;
 }
+
+export interface RawDishData {
+  id: number;
+  name_th: string;
+  name_en: string;
+  res_id: number;
+  price: number;
+  dish_type_map: RawDishType[];
+  restaurant: {
+    id: number;
+    lat: number;
+    lon: number;
+    url: string;
+    name_en: string;
+    name_th: string;
+    is_halal: boolean;
+    has_dine_in: boolean;
+    has_delivery: boolean;
+    restaurant_type_map: RawRestaurantType[];
+  };
+}

@@ -1,27 +1,10 @@
 import createClient from "@/lib/supabase/server";
 import { z } from "zod";
-import { RawDishType, RawRestaurantType } from "@calculories/shared-types";
-
-interface RawData {
-  id: number;
-  name_th: string;
-  name_en: string;
-  res_id: number;
-  price: number;
-  dish_type_map: RawDishType[];
-  restaurant: {
-    id: number;
-    lat: number;
-    lon: number;
-    url: string;
-    name_en: string;
-    name_th: string;
-    is_halal: boolean;
-    has_dine_in: boolean;
-    has_delivery: boolean;
-    restaurant_type_map: RawRestaurantType[];
-  };
-}
+import {
+  RawDishType,
+  RawRestaurantType,
+  RawDishData,
+} from "@calculories/shared-types";
 
 const GetDishesByIdsSchema = z.object({
   search_string: z.string().optional(),
@@ -173,7 +156,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const formattedData = data.map((data: RawData) => {
+    const formattedData = data.map((data: RawDishData) => {
       const tempDish = {
         ...data,
         dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),

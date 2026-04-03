@@ -34,7 +34,7 @@ export async function GET(
       .select(
         `
         *,
-        dish(*, dish_type_map(
+        dish_sum_view(*, dish_type_map(
          dish_type(*)
         ),
         restaurant (
@@ -65,13 +65,13 @@ export async function GET(
       );
     }
 
-    const { dish, ...mealRecordData } = data;
+    const { dish_sum_view, ...mealRecordData } = data;
     const {
       restaurant: { restaurant_type_map, ...restaurant },
       dish_type_map,
       dish_component_map,
       ...dishData
-    } = dish;
+    } = dish_sum_view;
 
     const formattedData = {
       ...mealRecordData,

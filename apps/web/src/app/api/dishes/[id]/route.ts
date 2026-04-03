@@ -26,7 +26,7 @@ export async function GET(
     }
 
     const { data, error } = await supabase
-      .from("dish")
+      .from("dish_sum_view")
       .select(
         `
         *,
