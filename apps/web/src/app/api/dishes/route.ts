@@ -74,23 +74,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const formattedData = data.map((data: RawDishData) => {
-      const tempDish = {
-        ...data,
-        dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
-        restaurant: {
-          ...data.restaurant,
-          restaurant_types: data.restaurant.restaurant_type_map.map(
-            (t: RawRestaurantType) => t.restaurant_type,
-          ),
-          restaurant_type_map: undefined,
-        },
-        dish_component_map: undefined,
-        dish_type_map: undefined,
-      };
-
-      return tempDish;
-    });
+    const formattedData = data.map((data: RawDishData) => ({
+      ...data,
+      dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
+      restaurant: {
+        ...data.restaurant,
+        restaurant_types: data.restaurant.restaurant_type_map.map(
+          (t: RawRestaurantType) => t.restaurant_type,
+        ),
+        restaurant_type_map: undefined,
+      },
+      dish_component_map: undefined,
+      dish_type_map: undefined,
+    }));
 
     return new Response(JSON.stringify(formattedData), {
       status: 200,
