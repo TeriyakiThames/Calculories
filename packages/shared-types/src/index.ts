@@ -121,14 +121,6 @@ export interface MealHistory {
   components?: Component[];
 }
 
-export interface AddMealHistoryDto {
-  dish_id: number;
-  edited_carbs?: number;
-  edited_protein?: number;
-  edited_fat?: number;
-  edited_alcohol?: number;
-}
-
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
@@ -145,7 +137,13 @@ export type UpdateUserRequest = Partial<Omit<User, "id">>;
 export type UpdateDietProfileRequest = Partial<DietProfile>;
 
 // POST /api/user/meal-history
-export type CreateMealHistoryRequest = Omit<MealHistory, "id">;
+export interface CreateMealHistoryRequest {
+  dish_id: number;
+  edited_carbs?: number;
+  edited_protein?: number;
+  edited_fat?: number;
+  edited_alcohol?: number;
+}
 
 // DELETE /api/user/meal-history
 export interface DeleteMealRecordsByIdsRequest {
