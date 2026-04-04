@@ -16,7 +16,7 @@ export default async function getRestaurantById(id: number) {
     if (!response.ok) {
       throw new Error(data.message || "Failed to fetch restaurant");
     }
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error fetching restaurant:", error);
