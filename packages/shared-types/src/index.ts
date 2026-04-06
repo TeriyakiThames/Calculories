@@ -121,20 +121,6 @@ export interface MealHistory {
   components?: Component[];
 }
 
-export interface AddMealHistoryDto {
-  dish_id: number;
-  edited_carbs?: number;
-  edited_protein?: number;
-  edited_fat?: number;
-  edited_alcohol?: number;
-}
-
-export interface ComponentNutrition {
-  calorie: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-}
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
@@ -151,7 +137,13 @@ export type UpdateUserRequest = Partial<Omit<User, "id">>;
 export type UpdateDietProfileRequest = Partial<DietProfile>;
 
 // POST /api/user/meal-history
-export type CreateMealHistoryRequest = Omit<MealHistory, "id">;
+export interface CreateMealHistoryRequest {
+  dish_id: number;
+  edited_carbs?: number;
+  edited_protein?: number;
+  edited_fat?: number;
+  edited_alcohol?: number;
+}
 
 // DELETE /api/user/meal-history
 export interface DeleteMealRecordsByIdsRequest {
@@ -160,7 +152,10 @@ export interface DeleteMealRecordsByIdsRequest {
 
 // PATCH /api/user/meal-history/:mid
 export type UpdateMealHistoryRequest = Partial<
-  Omit<MealHistory, "id" | "user_id" | "dish_id">
+  Pick<
+    MealHistory,
+    "at" | "edited_carbs" | "edited_protein" | "edited_fat" | "edited_alcohol"
+  >
 >;
 
 // GET /api/dishes
@@ -255,4 +250,24 @@ export interface RawDishData {
     has_delivery: boolean;
     restaurant_type_map: RawRestaurantType[];
   };
+}
+
+export interface RawDishSumViewData {
+  id: number;
+  name_th: string;
+  name_en: string;
+  res_id: number;
+  price: number;
+  dish_type_map: RawDishType[];
+  total_calorie: number;
+  total_protein: number;
+  total_fat: number;
+  total_carbs: number;
+  total_alcohol: number;
+  is_vegetarian: boolean;
+  is_halal: boolean;
+  has_shellfish: boolean;
+  has_lactose: boolean;
+  has_peanut: boolean;
+  has_gluten: boolean;
 }
