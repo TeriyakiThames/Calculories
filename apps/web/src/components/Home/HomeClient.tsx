@@ -13,6 +13,7 @@ import PageBottom from "@/components/Shared/PageBottom";
 import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
 import { MockAPI } from "@/mocks/mockAPI";
 import { Locale, Messages } from "@calculories/shared-types";
+import getDishesByIds from "@/services/api/getDishesByIds";
 
 export default function HomeClient({
   locale,
