@@ -71,7 +71,7 @@ export default function HomeClient({
 
       {authUser ? (
         <TopBar
-          name={authUser.user_metadata?.name || appUser?.username || "User"}
+          name={appUser?.username || authUser.user_metadata?.name || "User"}
           imageURL={
             authUser.user_metadata?.avatar_url || "/Home/MockProfilePicture.svg"
           }
@@ -83,10 +83,10 @@ export default function HomeClient({
 
       {appUser && (
         <>
-          <Streak dietProfile={appUser.dietProfile} messages={messages} />
+          <Streak dietProfile={appUser.diet_profile} messages={messages} />
           <CalorieGoals
             user={appUser}
-            dietProfile={appUser.dietProfile}
+            dietProfile={appUser.diet_profile}
             messages={messages}
           />
           <SmartPicks

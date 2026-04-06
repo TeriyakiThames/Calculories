@@ -22,7 +22,6 @@ export default function MealCardList({
     navigator.geolocation.getCurrentPosition((position) => {
       setUserLat(position.coords.latitude);
       setUserLon(position.coords.longitude);
-      console.log("****location access");
     });
   }, []);
 
