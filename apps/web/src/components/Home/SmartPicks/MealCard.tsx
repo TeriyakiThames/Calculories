@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import { Dish, Locale } from "@calculories/shared-types";
+import { DishNoComp, Locale } from "@calculories/shared-types";
+import { useEffect, useState } from "react";
+import calculateDistance from "@/services/calculateDistance";
+import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
 
 interface MealCardProps {
-  dish: Dish;
+  dish: DishNoComp;
   locale: Locale;
   isRefreshing?: boolean;
 }
@@ -46,17 +51,42 @@ export default function MealCard({
     locale === "en"
       ? dish.name_en || dish.name_th || "Unknown Menu"
       : dish.name_th || dish.name_en || "Unknown Menu";
+  const dishTypes = dish.dish_types?.map((type) => {
+    if (locale === "en") return type.type_en;
+    else return type.type_th;
+  });
 
-  const calories =
-    dish.components?.reduce((sum, comp) => sum + comp.calorie, 0) || 0;
+  const calories = dish.total_calorie || "-";
   const price = dish.price || 0;
   const imageUrl = "/Home/UnknownMeal.svg";
 
-  // TODO: Calculate this using user's location and dish.restaurant.lat/lon
-  const distance = 1.2;
+  const [distance, setDistance] = useState<number | "-">("-");
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let userLat: number | undefined = undefined;
+      let userLon: number | undefined = undefined;
+
+      userLat = position.coords.latitude;
+      userLon = position.coords.longitude;
+
+      if (dish.restaurant?.lat && dish.restaurant?.lon && userLat && userLon) {
+        setDistance(
+          calculateDistance(
+            dish.restaurant?.lat,
+            dish.restaurant?.lon,
+            userLat,
+            userLon,
+          ),
+        );
+      } else {
+        setDistance("-");
+      }
+    });
+  }, []);
 
   return (
-    <div className="flex h-24 items-center justify-between gap-10.75 rounded-xl border-[0.5px] border-green-100 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
       <div className="flex gap-4">
         {/* Image */}
         <Image
@@ -64,28 +94,31 @@ export default function MealCard({
           alt={menuName}
           width={80}
           height={80}
-          className="h-20 w-20"
+          className="h-20 w-20 self-center"
         />
 
         {/* Restaurant information */}
-        <div className="flex w-42.5 flex-col gap-1">
-          <h3 className="w-42.5 translate-y-1 truncate text-xs font-bold text-green-100">
+        <div className="flex flex-col gap-0.5">
+          <h3 className="text-grey-60 truncate text-xs font-bold">
             {restaurantName}
           </h3>
-          <h2 className="w-42.5 truncate font-bold">{menuName}</h2>
-          <span className="flex gap-1">
-            <p className="rounded-sm bg-[#dcdcdc] px-1 py-0.5 text-xs text-[#777E7D]">
+          <h2 className="leading-tight font-bold">{menuName}</h2>
+          <h3 className="text-grey-60 truncate text-xs leading-tight font-bold">
+            {dishTypes?.join(" • ")}
+          </h3>
+          <h1 className="leading-tight font-bold text-green-100">฿{price}</h1>
+          <span className="mt-1 flex gap-1">
+            <p className="bg-green-80 rounded-sm py-0.5 pr-1.5 pl-1 text-xs text-white">
               {calories} kcal
             </p>
-            <p className="rounded-sm bg-[#dcdcdc] px-1 py-0.5 text-xs text-[#777E7D]">
+            <p className="text-grey-60 rounded-sm bg-gray-200 px-1 py-0.5 text-xs">
               {distance} km
             </p>
           </span>
         </div>
       </div>
 
-      {/* Price */}
-      <h1 className="font-bold text-[#8E8E93]">฿{price}</h1>
+      <MealCardButton dishId={dish.id} />
     </div>
   );
 }

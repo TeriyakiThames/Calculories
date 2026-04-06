@@ -1,10 +1,10 @@
-import { RefreshIcon } from "../../../../public/Icons/Refresh";
+import { RefreshIcon } from "@/../public/Icons/Refresh";
 import { t } from "@/lib/internationalisation/i18n-helpers";
-import { Dish, Locale, Messages } from "@calculories/shared-types";
+import { DishNoComp, Locale, Messages } from "@calculories/shared-types";
 import MealCard from "./MealCard";
 
 interface SmartPicksProps {
-  dishes?: Dish[];
+  dishes?: DishNoComp[];
   messages: Messages;
   locale: Locale;
   onRefresh?: () => void;

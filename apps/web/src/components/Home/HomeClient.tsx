@@ -32,8 +32,16 @@ export default function HomeClient({
     data: recommendedDishes = [],
     mutate: refreshSmartPicks,
     isValidating: isRefreshingPicks,
-  } = useSWR(authUser?.id ? `smart-picks-${authUser.id}` : null, () =>
-    MockAPI.getRecommendedDishes(authUser!.id as string),
+  } = useSWR(
+    authUser?.id ? `smart-picks-${authUser.id}` : null,
+    () => getDishesByIds({ ids: [1, 2, 3] }),
+    {
+      //temp for development
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+      refreshInterval: 0,
+    },
   );
 
   if (authLoading || apiLoading) {
