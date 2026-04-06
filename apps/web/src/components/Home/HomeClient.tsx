@@ -39,7 +39,7 @@ export default function HomeClient({
       //temp for development
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      revalidateOnMount: false,
+      revalidateOnMount: true,
       refreshInterval: 0,
     },
   );

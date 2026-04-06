@@ -13,19 +13,21 @@ interface MealCardProps {
 }
 
 export const MealCardSkeleton = () => (
-  <div className="flex h-24 items-center justify-between gap-10.75 rounded-xl border-[0.5px] border-green-100 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+  <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
     <div className="flex gap-4">
-      <div className="h-20 w-20 animate-pulse rounded-md bg-gray-200" />
-      <div className="flex w-42.5 flex-col justify-center gap-2">
+      <div className="h-20 w-20 animate-pulse self-center rounded-md bg-gray-200" />
+      <div className="flex w-42.5 flex-col justify-center gap-1.5">
         <div className="h-3 w-24 animate-pulse rounded bg-gray-200" />
         <div className="h-4 w-32 animate-pulse rounded bg-gray-200" />
+        <div className="h-3 w-24 animate-pulse rounded bg-gray-200" />
+        <div className="h-6 w-10 animate-pulse rounded bg-gray-200" />
         <span className="flex gap-2">
           <div className="h-4 w-12 animate-pulse rounded-sm bg-gray-200" />
           <div className="h-4 w-12 animate-pulse rounded-sm bg-gray-200" />
         </span>
       </div>
     </div>
-    <div className="h-6 w-10 animate-pulse rounded bg-gray-200" />
+    <div className="h-11.5 w-11.5 animate-pulse rounded-full bg-gray-200" />
   </div>
 );
 
@@ -51,6 +53,7 @@ export default function MealCard({
     locale === "en"
       ? dish.name_en || dish.name_th || "Unknown Menu"
       : dish.name_th || dish.name_en || "Unknown Menu";
+
   const dishTypes = dish.dish_types?.map((type) => {
     if (locale === "en") return type.type_en;
     else return type.type_th;
@@ -64,11 +67,8 @@ export default function MealCard({
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      let userLat: number | undefined = undefined;
-      let userLon: number | undefined = undefined;
-
-      userLat = position.coords.latitude;
-      userLon = position.coords.longitude;
+      let userLat: number | undefined = position.coords.latitude;
+      let userLon: number | undefined = position.coords.longitude;
 
       if (dish.restaurant?.lat && dish.restaurant?.lon && userLat && userLon) {
         setDistance(
