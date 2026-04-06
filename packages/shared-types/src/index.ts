@@ -44,6 +44,11 @@ export interface User {
   target_fats: number;
 }
 
+export interface UserLocation {
+  userLat?: number;
+  userLon?: number;
+}
+
 export interface UpdateUserDto {
   username?: string;
   dob?: string;

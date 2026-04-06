@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { DishNoComp, Locale } from "@calculories/shared-types";
-import { useEffect, useState } from "react";
+import { DishNoComp, Locale, UserLocation } from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
 
@@ -10,6 +9,7 @@ interface MealCardProps {
   dish: DishNoComp;
   locale: Locale;
   isRefreshing?: boolean;
+  userLocation: UserLocation;
 }
 
 export const MealCardSkeleton = () => (
@@ -35,6 +35,7 @@ export default function MealCard({
   dish,
   locale,
   isRefreshing,
+  userLocation,
 }: MealCardProps) {
   if (isRefreshing) {
     return <MealCardSkeleton />;
@@ -63,27 +64,25 @@ export default function MealCard({
   const price = dish.price || 0;
   const imageUrl = "/Home/UnknownMeal.svg";
 
-  const [distance, setDistance] = useState<number | "-">("-");
+  function callCalculateDistance() {
+    if (
+      userLocation.userLat &&
+      userLocation.userLon &&
+      dish.restaurant.lat &&
+      dish.restaurant.lon
+    ) {
+      return calculateDistance(
+        dish.restaurant.lat,
+        dish.restaurant.lon,
+        userLocation.userLat,
+        userLocation.userLon,
+      );
+    } else {
+      return "-";
+    }
+  }
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let userLat: number | undefined = position.coords.latitude;
-      let userLon: number | undefined = position.coords.longitude;
-
-      if (dish.restaurant?.lat && dish.restaurant?.lon && userLat && userLon) {
-        setDistance(
-          calculateDistance(
-            dish.restaurant?.lat,
-            dish.restaurant?.lon,
-            userLat,
-            userLon,
-          ),
-        );
-      } else {
-        setDistance("-");
-      }
-    });
-  }, []);
+  const distance: number | "-" = callCalculateDistance();
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
