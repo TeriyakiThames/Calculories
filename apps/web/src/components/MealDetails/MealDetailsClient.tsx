@@ -1,13 +1,13 @@
 "use client";
 
 import { Dish, Locale } from "@calculories/shared-types";
-import BackButton from "../Shared/BackButton";
+import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
-import { Button } from "../Shared/Button";
-import { AiSummary } from "./AiSummary";
-import { IngredientsDropdown } from "./IngredientsDropdown";
-import { MealHeader } from "./MealHeader";
-import { NutritionalInfo } from "./NutritionalInfo";
+import { Button } from "@/components/Shared/Button";
+import { AiSummary } from "@/components/MealDetails/AiSummary";
+import { IngredientsDropdown } from "@/components/MealDetails/IngredientsDropdown";
+import { MealHeader } from "@/components/MealDetails/MealHeader";
+import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
 import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
@@ -78,20 +78,25 @@ export default function MealDetailsClient({
   id: number;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
-
-  const callGetDish = async () => {
-    const tempDish = (await getDish(id)) as Dish;
-    setDish(tempDish);
-    if (!dish) return notFound();
-  };
 
   useEffect(() => {
-    callGetDish();
-    setLoading(false);
-  }, []);
+    const fetchDish = async () => {
+      try {
+        const tempDish = (await getDish(id)) as Dish;
 
-  if (loading || !dish) return <MealDetailsClientSkeleton />;
+        if (!tempDish) return notFound();
+
+        setDish(tempDish);
+      } catch (error) {
+        console.error(error);
+        return notFound();
+      }
+    };
+
+    fetchDish();
+  }, [id]);
+
+  if (!dish) return <MealDetailsClientSkeleton />;
 
   return (
     <main className="relative pb-28">

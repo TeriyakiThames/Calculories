@@ -1,5 +1,5 @@
 // V 1.0.0
-
+/*
 import {
   User,
   DietProfile,
@@ -532,3 +532,4 @@ export const MockAPI = {
     return shuffledDishes;
   },
 };
+*/

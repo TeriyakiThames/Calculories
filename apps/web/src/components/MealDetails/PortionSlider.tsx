@@ -1,16 +1,18 @@
 "use client";
 
 import { IngredientRow } from "@/components/MealDetails/IngredientsDropdown";
-import { Component } from "@calculories/shared-types";
+import { Component, Locale } from "@calculories/shared-types";
 
 interface PortionSliderProps {
   component: Component;
   handleWeightChange: (componentId: number, newWeight: string | number) => void;
+  locale: Locale;
 }
 
 export default function PortionSlider({
   component,
   handleWeightChange,
+  locale,
 }: PortionSliderProps) {
   const percent = component.ratio * 100;
   const fillPercentage = (percent / 200) * 100;
@@ -27,7 +29,7 @@ export default function PortionSlider({
   return (
     <div className="flex w-full max-w-sm flex-col gap-2 py-4">
       {/* Ingredient Row uses the component directly since the parent state updates immediately */}
-      <IngredientRow component={component} />
+      <IngredientRow component={component} locale={locale} />
 
       {/* Slider Area */}
       <div className="relative mt-2 w-full">

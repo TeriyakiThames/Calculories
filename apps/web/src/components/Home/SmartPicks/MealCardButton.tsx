@@ -20,7 +20,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
         message:
           "Your daily intake values has been updated. You can check the record in Meal History.",
       });
-    } catch (error) {
+    } catch {
       setPopup({
         show: true,
         type: "error",

@@ -198,6 +198,7 @@ export function IngredientsDropdown({
                     key={c.id}
                     component={c}
                     handleWeightChange={handleWeightChange}
+                    locale={locale}
                   />
                 ))}
               {portionMode === "input" && (
