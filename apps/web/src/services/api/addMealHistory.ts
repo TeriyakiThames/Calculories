@@ -1,6 +1,6 @@
-import { AddMealHistoryDto } from "@calculories/shared-types";
+import { CreateMealHistoryRequest } from "@calculories/shared-types";
 
-export default async function addMealHistory(data: AddMealHistoryDto) {
+export default async function addMealHistory(data: CreateMealHistoryRequest) {
   try {
     const baseUrl =
       typeof window === "undefined"
