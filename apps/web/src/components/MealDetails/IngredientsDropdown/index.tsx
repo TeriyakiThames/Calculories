@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Dish, Component } from "@calculories/shared-types";
+import { Dish, Component, Locale } from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
 import { Input } from "@/components/Shared/Input";
 
@@ -12,9 +12,13 @@ import { IngredientRow } from "./IngredientRow";
 
 interface IngredientsDropdownProps {
   dish: Dish;
+  locale: Locale;
 }
 
-export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
+export function IngredientsDropdown({
+  dish,
+  locale,
+}: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [components, setComponents] = useState<Component[]>(
@@ -99,6 +103,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
                     key={c.id}
                     component={c}
                     handleWeightChange={handleWeightChange}
+                    locale={locale}
                   />
                 ))}
 

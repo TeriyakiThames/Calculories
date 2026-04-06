@@ -44,6 +44,11 @@ export interface User {
   target_fats: number;
 }
 
+export interface UserLocation {
+  userLat?: number;
+  userLon?: number;
+}
+
 export interface UpdateUserDto {
   username?: string;
   dob?: string;
@@ -79,17 +84,24 @@ export interface Component {
   has_gluten: boolean;
 }
 
+export interface TypeItem {
+  id: number;
+  type_en: string;
+  type_th: string;
+}
+
 export interface Restaurant {
-  id?: number;
+  id: number;
   name_th: string;
   name_en: string;
-  lat?: number;
-  lon?: number;
-  url?: string;
-  has_dine_in?: boolean;
-  has_delivery?: boolean;
-  type?: string[];
-  dishes?: Dish[];
+  lat: number;
+  lon: number;
+  url: string;
+  has_dine_in: boolean;
+  has_delivery: boolean;
+  is_halal: boolean;
+  restaurant_types: TypeItem[];
+  dishes: Dish[];
 }
 
 export interface Dish {
@@ -97,11 +109,26 @@ export interface Dish {
   name_th: string;
   name_en: string;
   price: number;
-  res_id?: number;
-  dish_type?: string[];
-  restaurant?: Restaurant;
-  components?: Component[];
+  res_id: number;
+  dish_types: TypeItem[];
+  restaurant: Restaurant;
+  components: Component[];
+  total_calorie: number;
+  total_protein: number;
+  total_fat: number;
+  total_carbs: number;
+  total_alcohol: number;
+  is_vegetarian: boolean;
+  is_halal: boolean;
+  has_shellfish: boolean;
+  has_lactose: boolean;
+  has_peanut: boolean;
+  has_gluten: boolean;
 }
+
+export type DishRestaurant = Omit<Restaurant, "dishes">;
+
+export type DishNoComp = Omit<Dish, "components">;
 
 export interface MealHistory {
   id: number;
@@ -194,19 +221,11 @@ export interface GetRestaurantResponse extends Restaurant {
 // ------------------------------------------------------------------
 
 export interface RawDishType {
-  dish_type: {
-    id: number;
-    type_en: string;
-    type_th: string;
-  };
+  dish_type: TypeItem;
 }
 
 export interface RawRestaurantType {
-  restaurant_type: {
-    id: number;
-    type_en: string;
-    type_th: string;
-  };
+  restaurant_type: TypeItem;
 }
 
 export interface RawDishComponent {

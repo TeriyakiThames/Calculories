@@ -1,27 +1,52 @@
-import { Dish } from "@calculories/shared-types";
+import { Dish, Locale } from "@calculories/shared-types";
 
 interface MealHeaderProps {
   dish: Dish;
+  locale: Locale;
 }
 
-export function MealHeader({ dish }: MealHeaderProps) {
+export function MealHeader({ dish, locale }: MealHeaderProps) {
+  const menuName =
+    locale === "en"
+      ? dish.name_en || dish.name_th || "Unknown Menu"
+      : dish.name_th || dish.name_en || "Unknown Menu";
+
+  const restaurantName =
+    locale === "en"
+      ? dish.restaurant?.name_en ||
+        dish.restaurant?.name_th ||
+        "Unknown Restaurant"
+      : dish.restaurant?.name_th ||
+        dish.restaurant?.name_en ||
+        "Unknown Restaurant";
+
+  const restaurantTypes = dish.restaurant.restaurant_types.map((type) => {
+    if (locale === "en") return type.type_en;
+    else return type.type_th;
+  });
+
+  const dishComponents = dish.components.map((components) => {
+    if (locale === "en") return components.name_en;
+    else return components.name_th;
+  });
+
   return (
     <div>
       <div className="flex items-center justify-between text-[26px] leading-6 font-bold">
-        <h1 className="h-fit w-65 text-black">{dish.name_en}</h1>
+        <h1 className="h-fit w-65 text-black">{menuName}</h1>
         <span className="text-center text-green-100">฿{dish.price}</span>
       </div>
 
       <div className="mt-2.5 flex flex-col gap-1">
         {/* TODO: Link to restaurant page when its done */}
         <span className="font-bold text-green-100 underline">
-          {dish.restaurant?.name_en}
+          {restaurantName}
         </span>
         <span className="text-grey-60 text-xs font-bold">
-          {dish.restaurant?.type?.join(" • ")}
+          {restaurantTypes.join(" • ")}
         </span>
         <span className="text-grey-40 text-xs wrap-normal">
-          {dish.components?.map((component) => component.name_en).join(" • ")}
+          {dishComponents.join(" • ")}
         </span>
       </div>
     </div>

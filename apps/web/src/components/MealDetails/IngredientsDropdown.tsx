@@ -2,17 +2,21 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Dish, Component } from "@calculories/shared-types";
+import { Dish, Component, Locale } from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
 import { Input } from "@/components/Shared/Input";
 
 interface IngredientsDropdownProps {
   dish: Dish;
+  locale: Locale;
 }
 
 type PortionMode = "display" | "slider" | "input";
 
-export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
+export function IngredientsDropdown({
+  dish,
+  locale,
+}: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -186,7 +190,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
             <div className="flex flex-col gap-4">
               {portionMode === "display" &&
                 components.map((c) => (
-                  <IngredientRow key={c.id} component={c} />
+                  <IngredientRow key={c.id} component={c} locale={locale} />
                 ))}
               {portionMode === "slider" &&
                 components.map((c) => (
@@ -194,6 +198,7 @@ export function IngredientsDropdown({ dish }: IngredientsDropdownProps) {
                     key={c.id}
                     component={c}
                     handleWeightChange={handleWeightChange}
+                    locale={locale}
                   />
                 ))}
               {portionMode === "input" && (
@@ -290,12 +295,22 @@ function Tag({
   );
 }
 
-export function IngredientRow({ component }: { component: Component }) {
+export function IngredientRow({
+  component,
+  locale,
+}: {
+  component: Component;
+  locale: Locale;
+}) {
+  const componentName =
+    locale === "en"
+      ? component.name_en || component.name_th || "Unknown Menu"
+      : component.name_th || component.name_en || "Unknown Menu";
   const baseWeight = component.protein + component.fat + component.carbs;
   const currentWeight = (baseWeight * component.ratio).toFixed(0);
   return (
     <div className="flex items-center justify-between">
-      <span className="text-grey-100 leading-5">{component.name_en}</span>
+      <span className="text-grey-100 leading-5">{componentName}</span>
       <span className="text-grey-60 text-xs leading-5">
         {currentWeight} grams
       </span>
