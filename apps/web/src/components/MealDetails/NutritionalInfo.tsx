@@ -50,26 +50,13 @@ interface NutritionalInfoProps {
 }
 
 export function NutritionalInfo({ dish }: NutritionalInfoProps) {
-  const totals = dish.components?.reduce(
-    (acc, { calorie, protein, fat, carbs, ratio }) => {
-      acc.energy += calorie * ratio;
-      acc.protein += protein * ratio;
-      acc.carbs += carbs * ratio;
-      acc.fat += fat * ratio;
-      return acc;
-    },
-    { energy: 0, protein: 0, fat: 0, carbs: 0 },
-  ) ?? { energy: 0, protein: 0, fat: 0, carbs: 0 };
-
-  const { energy, protein, carbs, fat } = totals;
-
   return (
     <div className="flex flex-col gap-2.5">
-      <NutrientCard nutrient="ENERGY" value={energy} />
+      <NutrientCard nutrient="ENERGY" value={dish.total_calorie} />
       <span className="flex gap-2.5">
-        <NutrientCard nutrient="PROTEIN" value={protein} />
-        <NutrientCard nutrient="CARBS" value={carbs} />
-        <NutrientCard nutrient="FATS" value={fat} />
+        <NutrientCard nutrient="PROTEIN" value={dish.total_protein} />
+        <NutrientCard nutrient="CARBS" value={dish.total_carbs} />
+        <NutrientCard nutrient="FATS" value={dish.total_fat} />
       </span>
     </div>
   );

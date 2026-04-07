@@ -1,10 +1,8 @@
-"use server";
-
 import createClient from "@/lib/supabase/server";
 import {
-  RawDishType,
   RawRestaurantType,
-  RawDishComponent,
+  RawDishType,
+  RawDishSumViewData,
 } from "@calculories/shared-types";
 
 export async function GET(
@@ -12,6 +10,12 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const id = parseInt((await params).id);
+  if (Number.isNaN(id)) {
+    return new Response(JSON.stringify({ error: "Invalid restaurant ID" }), {
+      status: 400,
+    });
+  }
+
   const supabase = await createClient();
 
   try {
@@ -26,50 +30,41 @@ export async function GET(
     }
 
     const { data, error } = await supabase
-      .from("dish_sum_view")
+      .from("restaurant")
       .select(
         `
-        *,
-        dish_type_map(
-         dish_type(*)
-        ),
-        restaurant (
-         *,
-         restaurant_type_map(
-          restaurant_type(*)
-         )
-        ),
-        dish_component_map(
-         *,
-         component(*)
-        )
-        `,
+          *,
+          restaurant_type_map(restaurant_type(*)),
+          dish_sum_view(*, dish_type_map(dish_type(*)))
+            `,
       )
       .eq("id", id)
       .single();
 
     if (error) {
-      console.error("Error fetching dish from database:", error);
-      return new Response(JSON.stringify({ error: "Failed to fetch dish" }), {
-        status: 500,
-      });
+      console.error(`Error fetching restaurant ID ${id} from database:`, error);
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch restaurant" }),
+        {
+          status: 500,
+        },
+      );
     }
 
     const formattedData = {
       ...data,
-      dish_types: data.dish_type_map.map((t: RawDishType) => t.dish_type),
-      restaurant: {
-        ...data.restaurant,
-        restaurant_types: data.restaurant.restaurant_type_map.map(
-          (t: RawRestaurantType) => t.restaurant_type,
+      restaurant_types: data?.restaurant_type_map?.map(
+        (t: RawRestaurantType) => t.restaurant_type,
+      ),
+      dishes: data?.dish_sum_view.map((dish: RawDishSumViewData) => ({
+        ...dish,
+        dish_types: dish.dish_type_map.map(
+          (type: RawDishType) => type.dish_type,
         ),
-        restaurant_type_map: undefined,
-      },
-      components: data.dish_component_map?.map((d: RawDishComponent) => {
-        return { ...d.component, ratio: d.ratio };
-      }),
-      dish_component_map: undefined,
-      dish_type_map: undefined,
+        dish_type_map: undefined,
+      })),
+      dish_sum_view: undefined,
+      restaurant_type_map: undefined,
     };
 
     return new Response(JSON.stringify(formattedData), {

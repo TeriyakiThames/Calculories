@@ -1,10 +1,10 @@
-import { RefreshIcon } from "../../../../public/Icons/Refresh";
+import { RefreshIcon } from "@/../public/Icons/Refresh";
 import { t } from "@/lib/internationalisation/i18n-helpers";
-import { Dish, Locale, Messages } from "@calculories/shared-types";
-import MealCard from "./MealCard";
+import { DishNoComp, Locale, Messages } from "@calculories/shared-types";
+import MealCardList from "@/components/Home/SmartPicks/MealCardList";
 
 interface SmartPicksProps {
-  dishes?: Dish[];
+  dishes?: DishNoComp[];
   messages: Messages;
   locale: Locale;
   onRefresh?: () => void;
@@ -52,14 +52,11 @@ export default function SmartPicks({
         isRefreshing={isRefreshing}
       />
 
-      {dishes.map((dish) => (
-        <MealCard
-          key={dish.id}
-          dish={dish}
-          locale={locale}
-          isRefreshing={isRefreshing}
-        />
-      ))}
+      <MealCardList
+        dishes={dishes}
+        locale={locale}
+        isRefreshing={isRefreshing}
+      />
 
       {dishes.length === 0 && (
         <p className="text-center text-sm text-gray-400">
