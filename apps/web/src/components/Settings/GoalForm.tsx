@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 import { Button } from "@/components/Shared/Button";
 import GoalSelection from "@/components/Setup/GoalSelection";
 import { Messages, t } from "@/lib/internationalisation/i18n-helpers";
-import { Locale } from "@calculories/shared-types";
+import { Locale, Goal } from "@calculories/shared-types";
 import { userSchema } from "@/constants/SetupSchema";
+
+// Real API & Hooks
+import useUser from "@/hooks/useUser";
+import updateUser from "@/services/api/updateUser";
 
 interface GoalFormProps {
   initialGoal: string;
@@ -20,9 +25,11 @@ export default function GoalForm({
   locale,
 }: GoalFormProps) {
   const router = useRouter();
+  const { user: authUser } = useUser();
 
   // --- Form State ---
-  const [goal, setGoal] = useState(initialGoal);
+  // Explicitly cast initialGoal to the Goal type to satisfy the API requirements
+  const [goal, setGoal] = useState<Goal>(initialGoal as Goal);
 
   // --- UI State ---
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -64,17 +71,28 @@ export default function GoalForm({
       setIsSubmitting(true);
       setErrors({});
 
-      // --- TODO: Replace with actual Supabase / API logic ---
-      console.log("Goal saved successfully:", goal);
-      // Simulate network latency for mock testing
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      // ------------------------------------------------------
+      // Call actual API service
+      await updateUser({ goal });
 
-      router.push(`/${locale}/settings`);
+      // Invalidate the cache to ensure the UI updates everywhere
+      if (authUser?.id) {
+        await mutate(`user-profile-${authUser.id}`);
+      }
+
+      // Navigate back 1 page as requested
+      router.back();
+      // Optional: router.refresh() forces the server to re-sync if necessary
       router.refresh();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Submission error:", error);
-      setErrors({ submit: "Failed to save goal. Please try again." });
+
+      // Safely extract error message without using 'any'
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to save goal. Please try again.";
+
+      setErrors({ submit: errorMessage });
       setIsSubmitting(false);
     }
   };
@@ -87,8 +105,10 @@ export default function GoalForm({
       <GoalSelection
         value={goal}
         onChange={(val) => {
-          setGoal(val);
-          validateField("goal", val);
+          // Cast the selection value to Goal type
+          const selectedGoal = val as Goal;
+          setGoal(selectedGoal);
+          validateField("goal", selectedGoal);
         }}
         error={errors.goal}
         messages={messages}
