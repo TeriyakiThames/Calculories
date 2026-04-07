@@ -1,3 +1,3 @@
 export default function PageBottom() {
-  return <div className="p-5"></div>;
+  return <div className="p-15"></div>;
 }

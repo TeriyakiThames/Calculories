@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/Shared/Button";
 import { Input } from "@/components/Shared/Input";
-import PageBottom from "@/components/Shared/PageBottom";
 import { userSchema } from "@/constants/SetupSchema";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { Locale, Messages } from "@calculories/shared-types";
@@ -243,7 +242,6 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         >
           {t("Skip for now", messages)}
         </Link>
-        <PageBottom />
       </div>
     </form>
   );
