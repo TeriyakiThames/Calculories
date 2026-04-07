@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import "@/styles/globals.css";
 import { Locale } from "@calculories/shared-types";
+import PageBottom from "@/components/Shared/PageBottom";
 
 const locales = ["en", "th"] as const;
 export const dynamicParams = false;
@@ -26,8 +27,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="bg-[#3A3A3A]">
-      <body className="bg-background-100 relative mx-auto min-h-screen max-w-105 shadow-2xl">
+      <body className="bg-background-10 relative mx-auto min-h-screen max-w-105 shadow-2xl">
         {children}
+        <PageBottom />
       </body>
     </html>
   );
