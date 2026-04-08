@@ -4,7 +4,6 @@ import useSWR from "swr";
 import Image from "next/image";
 import PageTitle from "@/components/Shared/PageTitle";
 import AuthButton from "@/components/Shared/AuthButton";
-import PageBottom from "@/components/Shared/PageBottom";
 import { Locale, Messages } from "@calculories/shared-types";
 import useUser from "@/hooks/useUser";
 import getUser from "@/services/api/getUser";
