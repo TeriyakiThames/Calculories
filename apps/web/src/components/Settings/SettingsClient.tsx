@@ -97,8 +97,6 @@ export default function SettingsClient({
           <DeleteAccountButton messages={messages} />
         </div>
       </nav>
-
-      <PageBottom />
     </main>
   );
 }

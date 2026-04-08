@@ -223,7 +223,9 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         messages={messages}
       />
 
-      <div className="border-grey-40 bg-background-10 -mx-5 flex flex-col items-center gap-3 border-t px-9 pt-7">
+      <div className="pb-5" />
+
+      <div className="border-grey-40 bg-background-10 fixed bottom-0 left-1/2 z-10 flex w-full max-w-105 -translate-x-1/2 flex-col items-center gap-3 border-t px-9 py-5">
         {errors.submit && (
           <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
         )}

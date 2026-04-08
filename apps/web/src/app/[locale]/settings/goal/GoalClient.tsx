@@ -38,10 +38,7 @@ export default function GoalClient({
   return (
     <main className="bg-background-10 flex min-h-screen flex-col px-5">
       <PageTitle messages={messages} titleOnly={true} />
-
       <GoalForm initialGoal={currentGoal} messages={messages} locale={locale} />
-
-      <PageBottom />
     </main>
   );
 }
