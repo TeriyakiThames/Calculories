@@ -12,10 +12,5 @@ export default async function Goal({
   const settingsMessages = await loadMessages(locale, ["Settings"], "Settings");
   const setupMessages = await loadMessages(locale, ["SetupForm"], "Setup");
 
-  return (
-    <GoalClient
-      locale={locale}
-      messages={{ ...settingsMessages, ...setupMessages }}
-    />
-  );
+  return <GoalClient messages={{ ...settingsMessages, ...setupMessages }} />;
 }
