@@ -1,6 +1,6 @@
 {
   "delete_account": "Delete Account",
-  "popup_main_message": "Are you sure you want to delete your account?",
+  "popup_main_message": "Are you sure you want to delete\nyour account?",
   "popup_additional_message": "All user information will be lost and cannot be restored.",
   "cancel": "Cancel",
   "confirm": "Delete Account",

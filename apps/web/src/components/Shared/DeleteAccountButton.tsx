@@ -47,22 +47,26 @@ export default function DeleteAccountButton({
       </button>
       {isModalVisible && (
         <div className="fixed inset-0 flex h-screen items-center justify-center bg-black/30">
-          <div className="flex h-84 w-3/4 max-w-100 flex-col items-center justify-center gap-5 rounded-xl bg-white p-5 text-center whitespace-pre-line shadow">
-            <p>{t("popup_main_message", messages)}</p>
-            <p>{t("popup_additional_message", messages)}</p>
+          <div className="flex w-3/4 max-w-100 flex-col items-center justify-center gap-5 rounded-xl bg-white px-9 py-8 text-center whitespace-pre-line shadow">
+            <p className="text-grey-80 font-bold">
+              {t("popup_main_message", messages)}
+            </p>
+            <p className="text-grey-80">
+              {t("popup_additional_message", messages)}
+            </p>
 
             {deletionLoading ? (
               <div>loading</div>
             ) : (
               <div className="flex w-full justify-between gap-5">
                 <button
-                  className="border"
+                  className="w-full rounded-2xl border border-red-100 p-3.75 font-bold text-red-100"
                   onClick={() => setModalVisible(false)}
                 >
                   {t("cancel", messages)}
                 </button>
                 <button
-                  className="border text-red-700"
+                  className="w-full rounded-2xl border border-red-100 bg-red-100 p-3.75 font-bold text-white"
                   onClick={deleteAccount}
                   disabled={deletionLoading}
                 >
