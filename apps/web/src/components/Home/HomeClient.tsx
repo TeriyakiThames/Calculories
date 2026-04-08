@@ -2,18 +2,15 @@
 
 import useUser from "@/hooks/useUser";
 import useSWR from "swr";
-import LocaleSwitcher from "@/components/Shared/LocaleSwitcher";
-import AuthButton from "@/components/Shared/AuthButton";
 import TopBar from "@/components/Home/TopBar";
 import Streak from "@/components/Home/Streak";
 import CalorieGoals from "@/components/Home/CalorieGoals";
 import SmartPicks from "@/components/Home/SmartPicks/SmartPicks";
 import SearchBar from "@/components/Home/SearchBar";
-import PageBottom from "@/components/Shared/PageBottom";
-import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
 import { Locale, Messages } from "@calculories/shared-types";
 import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
+import NavBar from "@/components/Shared/NavBar";
 
 export default function HomeClient({
   locale,
@@ -63,12 +60,6 @@ export default function HomeClient({
 
   return (
     <main>
-      <div className="flex items-center justify-center gap-10 border border-black bg-white">
-        <LocaleSwitcher locale={locale} />
-        <AuthButton messages={messages} />
-        <DeleteAccountButton messages={messages} />
-      </div>
-
       {authUser ? (
         <TopBar
           name={appUser?.username || authUser.user_metadata?.name || "User"}
@@ -100,7 +91,7 @@ export default function HomeClient({
       )}
 
       <SearchBar messages={messages} />
-      <PageBottom />
+      <NavBar />
     </main>
   );
 }
