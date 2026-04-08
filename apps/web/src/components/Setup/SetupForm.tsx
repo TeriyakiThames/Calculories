@@ -25,7 +25,9 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [sex, setSex] = useState("");
+  const [sexDisplay, setSexDisplay] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
+  const [activityLevelDisplay, setActivityLevelDisplay] = useState("");
   const [dietary, setDietary] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
 
@@ -176,12 +178,14 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         header={t("sex_header", messages)}
         placeholder={t("sex_placeholder", messages)}
         type="dropdown"
-        options={["Male", "Female"]}
+        options={{ Male: t("male", messages), Female: t("female", messages) }}
         value={sex}
         onChange={(val) => {
           setSex(val);
           validateField("sex", val);
         }}
+        onDropDownNameChange={(name) => setSexDisplay(name)}
+        dropDownName={sexDisplay}
         error={errors.sex}
       />
 
@@ -189,18 +193,20 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         header={t("activity_level_header", messages)}
         placeholder={t("activity_level_placeholder", messages)}
         type="dropdown"
-        options={[
-          "Sedentary (little to no exercise)",
-          "Lightly active (1-3 days per week)",
-          "Moderately active (3-5 days per week)",
-          "Very active (5-7 days per week)",
-          "Extra active (Very hard exercise or twice a day)",
-        ]}
+        options={{
+          Sedentary: t("sedentary", messages),
+          LightlyActive: t("lightly_active", messages),
+          ModeratelyActive: t("moderately_active", messages),
+          VeryActive: t("very_active", messages),
+          ExtraActive: t("extra_active", messages),
+        }}
         value={activityLevel}
         onChange={(val) => {
           setActivityLevel(val);
           validateField("activityLevel", val);
         }}
+        onDropDownNameChange={(name) => setActivityLevelDisplay(name)}
+        dropDownName={activityLevelDisplay}
         error={errors.activityLevel}
       />
 

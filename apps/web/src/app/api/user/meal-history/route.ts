@@ -90,7 +90,7 @@ export async function GET() {
       .select(
         `
         *,
-        dish_sum_view ( 
+        dish_sum_mat_view ( 
         *
         )
       `,
@@ -99,8 +99,9 @@ export async function GET() {
 
     const formattedData = data?.map((meal) => ({
       ...meal,
-      ...meal.dish_sum_view,
-      dish_sum_view: undefined,
+      ...meal.dish_sum_mat_view,
+      dish_sum_mat_view: undefined,
+      id: meal.id!,
     }));
 
     if (error) {
