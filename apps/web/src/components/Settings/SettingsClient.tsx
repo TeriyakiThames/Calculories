@@ -9,6 +9,7 @@ import { Locale, Messages } from "@calculories/shared-types";
 import useUser from "@/hooks/useUser";
 import getUser from "@/services/api/getUser";
 import { SettingsButton } from "@/components/Settings/SettingsButton";
+import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
 
 export default function SettingsClient({
   locale,
@@ -93,6 +94,7 @@ export default function SettingsClient({
             messages={messages}
           />
           <AuthButton messages={messages} />
+          <DeleteAccountButton messages={messages} />
         </div>
       </nav>
 

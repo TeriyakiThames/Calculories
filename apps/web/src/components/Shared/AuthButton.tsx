@@ -31,7 +31,7 @@ export default function AuthButton({ messages }: { messages: Messages }) {
   const buttonElement = (
     <Button
       onClick={user ? handleLogout : undefined}
-      className={`text-grey-100! flex items-center border bg-white! px-5! active:bg-white! ${borderColor} active:shadow-[0_0_2px_0_${activeShadow}]`}
+      className={`text-grey-100! hover:bg-red-10! flex items-center border bg-white! px-5! active:bg-white! ${borderColor} active:shadow-[0_0_2px_0_${activeShadow}]`}
     >
       <span className="flex items-center gap-3">
         {isLogin ? (
