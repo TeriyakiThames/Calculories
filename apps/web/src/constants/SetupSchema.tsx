@@ -3,11 +3,11 @@ import { z } from "zod";
 export const SEX_OPTIONS = ["Male", "Female"] as const;
 
 export const ACTIVITY_LEVEL_OPTIONS = [
-  "Sedentary (little to no exercise)",
-  "Lightly active (1-3 days per week)",
-  "Moderately active (3-5 days per week)",
-  "Very active (5-7 days per week)",
-  "Extra active (Very hard exercise or twice a day)",
+  "Sedentary",
+  "LightlyActive",
+  "ModeratelyActive",
+  "VeryActive",
+  "ExtraActive",
 ] as const;
 
 export const DIETARY_OPTIONS = [

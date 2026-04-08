@@ -18,8 +18,10 @@ interface InputProps {
   frontImageURL?: string;
   backImageURL?: string;
   unit?: string;
-  options?: string[];
+  options?: Record<string, string>;
   error?: string;
+  onDropDownNameChange?: (name: string) => void;
+  dropDownName?: string;
 }
 
 export function InputHeader({ header, subheader }: InputHeaderProps) {
@@ -41,10 +43,12 @@ export function Input({
   backImageURL,
   unit,
   type,
-  options = [],
+  options = {},
   value = "",
   error = "",
   onChange,
+  onDropDownNameChange = () => {},
+  dropDownName = "",
 }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -105,8 +109,12 @@ export function Input({
             </div>
           ) : (
             <div className="flex w-full items-center justify-between py-4 leading-4">
-              <span className={value === "" ? "text-grey-40" : "text-grey-100"}>
-                {value === "" ? placeholder : value}
+              <span
+                className={
+                  dropDownName === "" ? "text-grey-40" : "text-grey-100"
+                }
+              >
+                {dropDownName === "" ? placeholder : dropDownName}
               </span>
               <Image
                 src="/Icons/Dropdown.svg"
@@ -132,16 +140,17 @@ export function Input({
         {/* Dropdown Menu */}
         {type === "dropdown" && isOpen && (
           <div className="border-grey-20 bg-background-1 absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-xl border-[1.5px] shadow-md">
-            {options.map((opt, index) => (
+            {Object.entries(options).map(([value, name], index) => (
               <div
-                key={`${opt}-${index}`}
+                key={`${value}-${index}`}
                 onClick={() => {
-                  onChange(opt);
+                  onChange(value);
+                  onDropDownNameChange(name);
                   setIsOpen(false);
                 }}
                 className="border-grey-20 text-grey-100 hover:bg-green-10 cursor-pointer border-b px-5 py-4 text-sm transition-colors last:border-b-0 hover:text-green-100"
               >
-                {opt}
+                {name}
               </div>
             ))}
           </div>
