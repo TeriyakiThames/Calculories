@@ -26,7 +26,7 @@ export default async function RestaurantDetailPage(
   }
 
   return (
-    <main className="relative px-5 pb-28">
+    <main className="relative px-5">
       <RestaurantHeader restaurant={restaurant} locale={locale} />
       <DishRecommendation restaurantId={restaurantId} locale={locale} />
       <AllDishes restaurant={restaurant} locale={locale} />

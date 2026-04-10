@@ -106,7 +106,7 @@ export default function MealCard({
         />
 
         {/* Restaurant information */}
-        <div className="flex flex-col gap-0.5">
+        <div className="flex min-w-0 flex-col gap-0.5">
           <h3 className="text-grey-60 truncate text-xs font-bold">
             {restaurantName}
           </h3>
