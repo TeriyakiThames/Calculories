@@ -76,7 +76,7 @@ export default function SettingsClient({
           <span className="text-grey-60 text-xl font-bold">Settings</span>
           <SettingsButton
             label="Edit Dietary Restrictions"
-            link="/settings/restrictions"
+            link="/settings/dietary-restrictions"
             locale={locale}
             messages={messages}
           />

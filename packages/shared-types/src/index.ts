@@ -49,7 +49,16 @@ export interface UserLocation {
   userLon?: number;
 }
 
-export interface UpdateUserDto {
+export interface DietaryPreferences {
+  vegetarian_default?: boolean;
+  no_lactose_default?: boolean;
+  no_peanut_default?: boolean;
+  gluten_free_default?: boolean;
+  halal_default?: boolean;
+  no_shellfish_default?: boolean;
+}
+
+export interface UpdateUserDto extends DietaryPreferences {
   username?: string;
   dob?: string;
   sex?: Sex;
@@ -57,12 +66,6 @@ export interface UpdateUserDto {
   height?: number;
   activity_level?: number;
   goal?: Goal;
-  vegetarian_default?: boolean;
-  no_lactose_default?: boolean;
-  no_peanut_default?: boolean;
-  gluten_free_default?: boolean;
-  halal_default?: boolean;
-  no_shellfish_default?: boolean;
   is_setup_finished?: boolean;
 }
 
