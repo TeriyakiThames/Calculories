@@ -1,13 +1,13 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/Shared/Button";
-import { Input } from "@/components/Shared/Input";
 import { userSchema } from "@/constants/SetupSchema";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { Locale, Messages } from "@calculories/shared-types";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import BasicInfo from "@/components/Setup/BasicInfo";
 import DietaryRestrictions from "@/components/Setup/DietaryRestrictions";
 import GoalSelection from "@/components/Setup/GoalSelection";
 
@@ -18,16 +18,17 @@ interface SetupFormProps {
 
 export default function SetupForm({ locale, messages }: SetupFormProps) {
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    username: "",
+    birthdate: "",
+    weight: "",
+    height: "",
+    sex: "",
+    sexDisplay: "",
+    activityLevel: "",
+    activityLevelDisplay: "",
+  });
 
-  // --- Form State ---
-  const [username, setUsername] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [sex, setSex] = useState("");
-  const [sexDisplay, setSexDisplay] = useState("");
-  const [activityLevel, setActivityLevel] = useState("");
-  const [activityLevelDisplay, setActivityLevelDisplay] = useState("");
   const [dietary, setDietary] = useState<string[]>([]);
   const [goal, setGoal] = useState("");
 
@@ -54,32 +55,14 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
     }
   };
 
-  // --- Input Handlers ---
-  const handleDateChange = (input: string) => {
-    const numericValue = input.replace(/\D/g, "");
-    let formattedDate = numericValue;
-
-    if (numericValue.length > 2 && numericValue.length <= 4) {
-      formattedDate = `${numericValue.slice(0, 2)}/${numericValue.slice(2)}`;
-    } else if (numericValue.length > 4) {
-      formattedDate = `${numericValue.slice(0, 2)}/${numericValue.slice(2, 4)}/${numericValue.slice(4, 8)}`;
-    }
-
-    setBirthdate(formattedDate);
-    validateField("birthdate", formattedDate);
-  };
-
-  const handleNumberChange = (
-    input: string,
-    setter: React.Dispatch<React.SetStateAction<string>>,
-    fieldName: string,
-  ) => {
-    const numericValue = input
-      .replace(/[^0-9.]/g, "")
-      .replace(/(\..*?)\..*/g, "$1");
-
-    setter(numericValue);
-    validateField(fieldName, numericValue);
+  const handleUpdateBasicInfo = (updates: Partial<typeof formData>) => {
+    setFormData((prev) => {
+      const newData = { ...prev, ...updates };
+      Object.keys(updates).forEach((key) => {
+        validateField(key, newData[key as keyof typeof formData]);
+      });
+      return newData;
+    });
   };
 
   // --- Submission Handler ---
@@ -87,17 +70,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
     e.preventDefault();
     if (isSubmitting) return;
 
-    const rawData = {
-      username,
-      birthdate,
-      weight,
-      height,
-      sex,
-      activityLevel,
-      dietary,
-      goal,
-    };
-
+    const rawData = { ...formData, dietary, goal };
     const validationResult = userSchema.safeParse(rawData);
 
     if (!validationResult.success) {
@@ -129,85 +102,11 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
       onSubmit={handleSubmit}
       className="mx-auto mt-3 flex max-w-md flex-col gap-9"
     >
-      <Input
-        header={t("username_header", messages)}
-        placeholder={t("username_placeholder", messages)}
-        type="text"
-        value={username}
-        onChange={(val) => {
-          setUsername(val);
-          validateField("username", val);
-        }}
-        error={errors.username}
-      />
-
-      <Input
-        header={t("birthdate_header", messages)}
-        placeholder={t("birthdate_placeholder", messages)}
-        type="text"
-        backImageURL="/Icons/Calendar.svg"
-        value={birthdate}
-        onChange={handleDateChange}
-        error={errors.birthdate}
-      />
-
-      <div className="flex w-full justify-between gap-8">
-        <div className="w-full">
-          <Input
-            header={t("weight_header", messages)}
-            placeholder={t("weight_placeholder", messages)}
-            type="text"
-            value={weight}
-            onChange={(val) => handleNumberChange(val, setWeight, "weight")}
-            error={errors.weight}
-          />
-        </div>
-        <div className="w-full">
-          <Input
-            header={t("height_header", messages)}
-            placeholder={t("height_placeholder", messages)}
-            type="text"
-            value={height}
-            onChange={(val) => handleNumberChange(val, setHeight, "height")}
-            error={errors.height}
-          />
-        </div>
-      </div>
-
-      <Input
-        header={t("sex_header", messages)}
-        placeholder={t("sex_placeholder", messages)}
-        type="dropdown"
-        options={{ Male: t("male", messages), Female: t("female", messages) }}
-        value={sex}
-        onChange={(val) => {
-          setSex(val);
-          validateField("sex", val);
-        }}
-        onDropDownNameChange={(name) => setSexDisplay(name)}
-        dropDownName={sexDisplay}
-        error={errors.sex}
-      />
-
-      <Input
-        header={t("activity_level_header", messages)}
-        placeholder={t("activity_level_placeholder", messages)}
-        type="dropdown"
-        options={{
-          Sedentary: t("sedentary", messages),
-          LightlyActive: t("lightly_active", messages),
-          ModeratelyActive: t("moderately_active", messages),
-          VeryActive: t("very_active", messages),
-          ExtraActive: t("extra_active", messages),
-        }}
-        value={activityLevel}
-        onChange={(val) => {
-          setActivityLevel(val);
-          validateField("activityLevel", val);
-        }}
-        onDropDownNameChange={(name) => setActivityLevelDisplay(name)}
-        dropDownName={activityLevelDisplay}
-        error={errors.activityLevel}
+      <BasicInfo
+        data={formData}
+        onUpdate={handleUpdateBasicInfo}
+        errors={errors}
+        messages={messages}
       />
 
       <DietaryRestrictions
