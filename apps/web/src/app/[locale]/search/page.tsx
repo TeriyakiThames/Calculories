@@ -1,4 +1,4 @@
-import SearchBar from "@/components/Search/SearchBar";
+import SortFilterClient from "@/components/Search/SortFilterClient";
 import NavBar from "@/components/Shared/NavBar";
 import { loadMessages } from "@/lib/internationalisation/i18n";
 import { t } from "@/lib/internationalisation/i18n-helpers";
@@ -31,9 +31,7 @@ export default async function SearchPage({
           {t("Search Food", messages)}
         </h1>
       </div>
-      <div className="flex flex-col">
-        <SearchBar messages={messages} />
-      </div>
+      <SortFilterClient locale={locale} messages={messages} />
       <NavBar />
     </div>
   );

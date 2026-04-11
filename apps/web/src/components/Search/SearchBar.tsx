@@ -6,17 +6,17 @@ import { useState, FormEvent, useEffect, useCallback } from "react";
 
 interface SearchBarProps {
   messages: Messages;
+  onSearch: (query: string) => void;
 }
 
-export default function SearchBar({ messages }: SearchBarProps) {
+export default function SearchBar({ messages, onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const performSearch = useCallback((query: string) => {
     const trimmedQuery = query.trim();
     if (!trimmedQuery) return;
 
-    console.log("Executing search for:", trimmedQuery);
-    // TODO: Call backend API here
+    onSearch(trimmedQuery);
   }, []);
 
   useEffect(() => {
