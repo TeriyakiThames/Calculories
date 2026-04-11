@@ -1,0 +1,18 @@
+{
+  "meal_history": "Meal History",
+  "edit": "Edit",
+  "view": "View",
+  "calories": "Calories",
+  "protein": "Protein",
+  "carbohydrate": "Carbohydrate",
+  "fat": "Fat",
+  "kcal": "kcal",
+  "g_protein_front": "",
+  "g_carb_front": "",
+  "g_fat_front": "",
+  "g_protein_back": "g of protein",
+  "g_carb_back": "g of carbohydrate",
+  "g_fat_back": "g of fat",
+  "today": "Today",
+  "yesterday": "Yesterday"
+}

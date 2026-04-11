@@ -1,0 +1,18 @@
+{
+  "meal_history": "ประวัติการทาน",
+  "edit": "แก้ไข",
+  "view": "เลือกดู",
+  "calories": "แคลอรี",
+  "protein": "โปรตีน",
+  "carbohydrate": "คาร์โบไฮเดรต",
+  "fat": "ไขมัน",
+  "kcal": "กิโลแคลอรี",
+  "g_protein_front": "โปรตีน",
+  "g_carb_front": "คาร์โบไฮเดรต",
+  "g_fat_front": "ไขมัน",
+  "g_protein_back": "กรัม",
+  "g_carb_back": "กรัม",
+  "g_fat_back": "กรัม",
+  "today": "วันนี้",
+  "yesterday": "เมื่อวาน"
+}
