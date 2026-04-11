@@ -6,7 +6,7 @@ import getUser from "@/services/api/getUser";
 
 import PageBottom from "@/components/Shared/PageBottom";
 import PageTitle from "@/components/Shared/PageTitle";
-import GoalForm from "@/components/Settings/GoalForm";
+import GoalForm from "@/app/[locale]/settings/goal/GoalForm";
 import { Messages } from "@calculories/shared-types";
 
 export default function GoalClient({ messages }: { messages: Messages }) {
