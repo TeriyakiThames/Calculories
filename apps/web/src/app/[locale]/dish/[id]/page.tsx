@@ -1,5 +1,5 @@
 import { Locale } from "@calculories/shared-types";
-import MealDetailsClient from "@/components/MealDetails/MealDetailsClient";
+import MealDetailsClient from "@/app/[locale]/dish/[id]/MealDetailsClient";
 
 interface DishDetailPageProps {
   params: Promise<{
