@@ -25,7 +25,7 @@ export default async function SearchPage({
 
   const messages = { ...sharedMessages, ...SearchMessages };
   return (
-    <div className="flex w-full flex-col">
+    <div className="fixed z-0 flex h-dvh w-full max-w-105 flex-col">
       <div className="mb-6 flex w-full items-center justify-center pt-7.5">
         <h1 className="text-grey-100 text-2xl font-bold">
           {t("Search Food", messages)}

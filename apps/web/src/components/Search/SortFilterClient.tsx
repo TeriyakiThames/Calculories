@@ -2,17 +2,19 @@
 
 import {
   DishNoComp,
+  GetDishesBySearchRequest,
   Locale,
   Messages,
   SortBy,
 } from "@calculories/shared-types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DISH_TYPES } from "@/constants/DishTypes";
 import SearchBar from "@/components/Search/SearchBar";
 import SortFilterPopup from "@/components/Search/SortFilterPopup";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import SubTypes from "@/components/Search/SubTypes";
-import { RESTAURANT_TYPES } from "@/constants/RestaurantTypes";
+import getDishesBySearch from "@/services/api/getDishesBySearch";
+import MealCardList from "@/components/Home/SmartPicks/MealCardList";
 
 const BATCH_SIZE = 15;
 
@@ -25,11 +27,8 @@ export default function SortFClientrForm({
   locale,
   messages,
 }: SortFilterClientProps) {
-  const DISH_OPTIONS = DISH_TYPES.filter((type) =>
-    [1, 2, 3, 5, 7, 8, 10, 15].includes(type.id),
-  );
-
   // --- Form State ---
+  const [searchString, setSearchString] = useState<string>();
   const [sortBy, setSortBy] = useState<SortBy | undefined>(undefined);
   const [ascending, setAscending] = useState<boolean>(true);
   const [dishTypes, setDishTypes] = useState<number[]>([]);
@@ -43,8 +42,6 @@ export default function SortFClientrForm({
   const [noLactose, setNoLactose] = useState<boolean>(false);
   const [noPeanut, setNoPeanut] = useState<boolean>(false);
   const [noShellfish, setNoShellfish] = useState<boolean>(false);
-  const [startIndex, setStartIndex] = useState<number>(0);
-  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const optionState = {
     sortBy,
@@ -72,36 +69,119 @@ export default function SortFClientrForm({
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const [dishes, setDishes] = useState<DishNoComp[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const performSearch = (searchString: string) => {};
+  const paramsRef = useRef<Partial<GetDishesBySearchRequest>>({});
+  const scrollDivRef = useRef<HTMLDivElement>(null);
+
+  const loadMore = async (
+    params: Partial<GetDishesBySearchRequest>,
+    reset?: boolean,
+  ) => {
+    if (reset) {
+      setDishes([]);
+      setHasMore(true);
+    } else {
+      if (loading || !hasMore) return;
+    }
+    console.log("call api");
+    setLoading(true);
+
+    const from = reset ? 0 : dishes.length;
+    const to = from + BATCH_SIZE - 1;
+
+    const newDishes = await getDishesBySearch({
+      ...params,
+      from: from,
+      to: to,
+    });
+
+    if (newDishes.length < BATCH_SIZE) {
+      setHasMore(false);
+    }
+
+    setDishes((prev) => [...prev, ...newDishes]);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    paramsRef.current = {
+      search_string: searchString,
+      sort_by: sortBy,
+      ascending: ascending,
+      dish_type_ids: dishTypes,
+      restaurant_type_ids: restaurantTypes,
+      has_dine_in: hasDineIn,
+      has_delivery: hasDelivery,
+      restaurant_is_halal: restaurantIsHalal,
+      is_vegetarian: isVegetarian,
+      dish_is_halal: dishIsHalal,
+      no_gluten: noGluten,
+      no_lactose: noLactose,
+      no_peanut: noPeanut,
+      no_shellfish: noShellfish,
+    };
+
+    // const handleScroll = () => {
+    //   if (scrollDivRef.current && !loading) {
+    //     const { scrollTop, scrollHeight, clientHeight } = scrollDivRef.current;
+    //     const isAtBottom =
+    //       Math.abs(scrollHeight - clientHeight - scrollTop) < 5;
+    //     console.log(scrollHeight - clientHeight - scrollTop);
+
+    //     if (isAtBottom) {
+    //       console.log("Reached bottom");
+    //       loadMore({ ...paramsRef.current });
+    //     }
+    //   }
+    // };
+
+    // const element = scrollDivRef.current;
+    // element?.addEventListener("scroll", handleScroll);
+    // return () => element?.removeEventListener("scroll", handleScroll);
+  }, [
+    // dishes.length,
+    searchString,
+    sortBy,
+    ascending,
+    dishTypes,
+    restaurantTypes,
+    hasDineIn,
+    hasDelivery,
+    restaurantIsHalal,
+    isVegetarian,
+    dishIsHalal,
+    noGluten,
+    noLactose,
+    noPeanut,
+    noShellfish,
+  ]);
+
+  // useEffect(() => {
+  //   loadMore({ ...paramsRef.current }); //run first time
+  //   console.log("load first time");
+  // }, []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-1 flex-col gap-4">
       <SearchBar
         messages={messages}
-        onSearch={(query) => performSearch(query)}
+        onSearch={(query) => {
+          setSearchString(query);
+          loadMore({ ...paramsRef.current, search_string: query }, true);
+        }}
       />
-      <div className="flex gap-2.5 overflow-x-scroll px-4.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex shrink-0 gap-2.5 overflow-x-scroll px-4.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <SubTypes
-          idList={[8, 11]}
+          idList={[8, 11, 15, 17, 10]}
           allItems={DISH_TYPES}
           selectedIds={dishTypes}
-          onChange={(val) => setDishTypes(val)}
-          locale={locale}
-          scroll={true}
-        />
-        <SubTypes
-          idList={[7]}
-          allItems={RESTAURANT_TYPES}
-          selectedIds={restaurantTypes}
-          onChange={(val) => setRestaurantTypes(val)}
-          locale={locale}
-        />
-        <SubTypes
-          idList={[17, 10]}
-          allItems={DISH_TYPES}
-          selectedIds={dishTypes}
-          onChange={(val) => setDishTypes(val)}
+          onChange={(val) => {
+            setDishTypes(val);
+            loadMore({ ...paramsRef.current, dish_type_ids: val }, true);
+          }}
           locale={locale}
           scroll={true}
         />
@@ -114,8 +194,12 @@ export default function SortFClientrForm({
         <div className="flex items-center gap-3.5">
           <button
             title="ascending/decending"
-            onClick={() => setAscending(!ascending)}
-            className={`transition-transform duration-300 ${ascending && "rotate-x-180"}`}
+            onClick={() => {
+              const newAscending = !ascending;
+              setAscending(newAscending);
+              loadMore({ ...paramsRef.current, ascending: newAscending }, true);
+            }}
+            className={`transition-transform duration-300 ${!ascending && "rotate-x-180"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -165,6 +249,10 @@ export default function SortFClientrForm({
       <SortFilterPopup
         isShown={showPopup}
         onClose={() => setShowPopup(false)}
+        onApply={() => {
+          setShowPopup(false);
+          loadMore({ ...paramsRef.current }, true);
+        }}
         onSelectDishTypes={(value) => setDishTypes(value)}
         dishTypes={dishTypes}
         onSelectRestaurantTypes={(value) => setRestaurantTypes(value)}
@@ -173,6 +261,31 @@ export default function SortFClientrForm({
         messages={messages}
         locale={locale}
       />
+      <div
+        // ref={scrollDivRef}
+        className="border-grey-10 mb-38 flex min-h-0 flex-1 flex-col gap-3 overflow-y-scroll border-t px-4.5 py-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1"
+      >
+        <MealCardList dishes={dishes} locale={locale} />
+        <div
+          onClick={() => loadMore({ ...paramsRef.current })}
+          className="my-3 flex justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`lucide lucide-loader-circle-icon lucide-loader-circle animate-spin ${loading ? "text-grey-40" : "text-transparent"}`}
+          >
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

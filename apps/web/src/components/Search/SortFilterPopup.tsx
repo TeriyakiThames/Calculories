@@ -32,6 +32,7 @@ interface OptionStateType {
 interface SortFilterPopupProps {
   isShown: boolean;
   onClose: () => void;
+  onApply: () => void;
   onSelectDishTypes?: (value: number[]) => void;
   dishTypes: number[];
   onSelectRestaurantTypes?: (value: number[]) => void;
@@ -50,6 +51,7 @@ interface SortOptionType {
 export default function SortFilterPopup({
   isShown,
   onClose,
+  onApply,
   onSelectDishTypes = (value) => {},
   dishTypes,
   onSelectRestaurantTypes = (value) => {},
@@ -362,7 +364,10 @@ export default function SortFilterPopup({
         >
           {t("Reset", messages)}
         </button>
-        <button className="flex grow justify-center rounded-4xl bg-green-100 p-4 text-sm leading-none font-bold text-white">
+        <button
+          onClick={onApply}
+          className="flex grow justify-center rounded-4xl bg-green-100 p-4 text-sm leading-none font-bold text-white"
+        >
           {t("Apply", messages)}
         </button>
       </div>
