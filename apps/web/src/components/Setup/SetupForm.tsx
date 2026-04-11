@@ -6,10 +6,19 @@ import Link from "next/link";
 import { Button } from "@/components/Shared/Button";
 import { userSchema } from "@/constants/SetupSchema";
 import { t } from "@/lib/internationalisation/i18n-helpers";
-import { Locale, Messages } from "@calculories/shared-types";
+import {
+  Goal,
+  Locale,
+  Messages,
+  Sex,
+  UpdateUserDto,
+} from "@calculories/shared-types";
 import BasicInfo from "@/components/Setup/BasicInfo";
 import DietaryRestrictions from "@/components/Setup/DietaryRestrictions";
 import GoalSelection from "@/components/Setup/GoalSelection";
+import updateUser from "@/services/api/updateUser";
+import { mutate } from "swr";
+import useUser from "@/hooks/useUser";
 
 interface SetupFormProps {
   locale: Locale;
@@ -17,6 +26,7 @@ interface SetupFormProps {
 }
 
 export default function SetupForm({ locale, messages }: SetupFormProps) {
+  const { user: authUser } = useUser();
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
@@ -65,6 +75,11 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
     });
   };
 
+  const parseSafeFloat = (val: string) => {
+    const parsed = parseFloat(val);
+    return isNaN(parsed) ? undefined : parsed;
+  };
+
   // --- Submission Handler ---
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,13 +101,53 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
       setIsSubmitting(true);
       setErrors({});
 
-      // TODO: Replace this with your actual API call
-      console.log("Data saved successfully:", validationResult.data);
+      let isoDob: string | undefined;
+      if (formData.birthdate.includes("/")) {
+        const [day, month, year] = formData.birthdate.split("/");
+        isoDob = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+
+      const activityLevelMap: Record<string, number> = {
+        Sedentary: 1.2,
+        LightlyActive: 1.375,
+        ModeratelyActive: 1.55,
+        VeryActive: 1.725,
+        ExtraActive: 1.9,
+      };
+
+      const updatePayload: UpdateUserDto = {
+        username: formData.username || undefined,
+        dob: isoDob,
+        sex: formData.sex as Sex,
+        weight: parseSafeFloat(formData.weight),
+        height: parseSafeFloat(formData.height),
+        activity_level: activityLevelMap[formData.activityLevel] || undefined,
+        goal: goal as Goal,
+        vegetarian_default: dietary.includes("Vegetarian"),
+        halal_default: dietary.includes("Halal Diet"),
+        no_lactose_default: dietary.includes("Lactose Intolerance"),
+        gluten_free_default: dietary.includes("Gluten Intolerance"),
+        no_peanut_default: dietary.includes("Peanut Allergy"),
+        no_shellfish_default: dietary.includes("Shellfish Allergy"),
+        is_setup_finished: true,
+      };
+
+      const cleanPayload = Object.fromEntries(
+        Object.entries(updatePayload).filter(([_, v]) => v !== undefined),
+      );
+
+      await updateUser(cleanPayload as UpdateUserDto);
+
+      if (authUser?.id) {
+        await mutate(`user-profile-${authUser.id}`);
+      }
 
       router.push(`/${locale}`);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Submission error:", error);
-      setErrors({ submit: "Failed to save user data. Please try again." });
+      const errorMessage =
+        error instanceof Error ? error.message : t("error_saving", messages);
+      setErrors({ submit: errorMessage });
       setIsSubmitting(false);
     }
   };
