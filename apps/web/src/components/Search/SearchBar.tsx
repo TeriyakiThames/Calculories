@@ -45,7 +45,7 @@ export default function SearchBar({ messages, onSearch }: SearchBarProps) {
         backImageURL="/Icons/Cross.svg"
         onClickBackImage={() => {
           handleInputChange("");
-          onSearch("");
+          if (searchQuery.trim() !== "") onSearch("");
         }}
         value={searchQuery}
         onChange={handleInputChange}
