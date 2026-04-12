@@ -7,7 +7,7 @@ import {
   Messages,
   SortBy,
 } from "@calculories/shared-types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { DISH_TYPES } from "@/constants/DishTypes";
 import SearchBar from "@/components/Search/SearchBar";
 import SortFilterPopup from "@/components/Search/SortFilterPopup";
@@ -111,6 +111,16 @@ export default function SortFClientrForm({
     setLoading(false);
   };
 
+  const loadMoreRef = useRef(loadMore);
+  useEffect(() => {
+    loadMoreRef.current = loadMore;
+  });
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchString(query);
+    loadMoreRef.current({ ...paramsRef.current, search_string: query }, true);
+  }, []);
+
   useEffect(() => {
     paramsRef.current = {
       search_string: searchString,
@@ -146,18 +156,12 @@ export default function SortFClientrForm({
   ]);
 
   useEffect(() => {
-    if (inView) loadMore({ ...paramsRef.current });
+    if (inView) loadMoreRef.current({ ...paramsRef.current });
   }, [inView]);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-4">
-      <SearchBar
-        messages={messages}
-        onSearch={(query) => {
-          setSearchString(query);
-          loadMore({ ...paramsRef.current, search_string: query }, true);
-        }}
-      />
+      <SearchBar messages={messages} onSearch={handleSearch} />
       <div className="flex shrink-0 gap-2.5 overflow-x-scroll px-4.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <SubTypes
           idList={[8, 11, 15, 17, 10]}

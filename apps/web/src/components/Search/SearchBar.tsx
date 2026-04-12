@@ -12,16 +12,14 @@ interface SearchBarProps {
 export default function SearchBar({ messages, onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const performSearch = useCallback((query: string) => {
-    const trimmedQuery = query.trim();
-    if (!trimmedQuery) return;
-
-    onSearch(trimmedQuery);
-  }, []);
+  const performSearch = useCallback(
+    (query: string) => {
+      onSearch(query.trim());
+    },
+    [onSearch],
+  );
 
   useEffect(() => {
-    if (!searchQuery) return;
-
     const delayDebounceFn = setTimeout(() => {
       performSearch(searchQuery);
     }, 500);
@@ -47,7 +45,7 @@ export default function SearchBar({ messages, onSearch }: SearchBarProps) {
         backImageURL="/Icons/Cross.svg"
         onClickBackImage={() => {
           handleInputChange("");
-          if (searchQuery.trim() !== "") onSearch("");
+          onSearch("");
         }}
         value={searchQuery}
         onChange={handleInputChange}
