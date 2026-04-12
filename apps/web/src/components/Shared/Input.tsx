@@ -17,6 +17,7 @@ interface InputProps {
   onChange: (value: string) => void;
   frontImageURL?: string;
   backImageURL?: string;
+  onClickBackImage?: () => void;
   unit?: string;
   options?: Record<string, string>;
   error?: string;
@@ -41,6 +42,7 @@ export function Input({
   placeholder,
   frontImageURL,
   backImageURL,
+  onClickBackImage = () => {},
   unit,
   type,
   options = {},
@@ -129,6 +131,7 @@ export function Input({
           {backImageURL && (
             <Image
               src={backImageURL}
+              onClick={onClickBackImage}
               alt=""
               width={20}
               height={20}
