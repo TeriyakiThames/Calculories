@@ -89,7 +89,7 @@ export default function HomeClient({
         </>
       )}
 
-      <NavBar />
+      <NavBar messages={messages} />
     </main>
   );
 }

@@ -158,7 +158,7 @@ export default function MealHistoryClient({
           </div>
         </Popup>
       )}
-      <NavBar />
+      <NavBar messages={messages} />
     </div>
   );
 }

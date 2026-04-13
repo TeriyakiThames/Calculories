@@ -32,7 +32,7 @@ export default async function SearchPage({
         </h1>
       </div>
       <SortFilterClient locale={locale} messages={messages} />
-      <NavBar />
+      <NavBar messages={messages} />
     </div>
   );
 }

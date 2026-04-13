@@ -42,7 +42,10 @@ export default function DeleteAccountButton({
 
   return (
     <div>
-      <button onClick={() => setModalVisible(true)}>
+      <button
+        className="w-full rounded-2xl border border-red-100 px-4 py-5 text-center font-bold text-red-100 hover:bg-red-100 hover:text-white"
+        onClick={() => setModalVisible(true)}
+      >
         {t("delete_account", messages)}
       </button>
       {isModalVisible && (

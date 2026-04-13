@@ -20,10 +20,10 @@ export const DIETARY_OPTIONS = [
 ] as const;
 
 export const GOAL_OPTIONS = [
-  "balanced",
-  "moderate",
-  "protein",
-  "keto",
+  "Balanced",
+  "Moderate",
+  "HighProtein",
+  "Ketogenic",
 ] as const;
 
 export const userSchema = z.object({
