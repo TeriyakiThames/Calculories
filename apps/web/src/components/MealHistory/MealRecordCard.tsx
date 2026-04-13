@@ -63,7 +63,13 @@ export default function MealRecordCard({
   const imageUrl = "/Home/UnknownMeal.svg";
 
   const value =
-    view === "Calories" ? record.total_calorie : record.total_protein;
+    view === "Calories"
+      ? record.total_calorie
+      : view === "Protein"
+        ? record.total_protein
+        : view === "Carbohydrate"
+          ? record.total_carbs
+          : record.total_fat;
   const formattedValue = value.toLocaleString("en-US");
   const unit = view == "Calories" ? t("kcal", messages) : t("g", messages);
 
