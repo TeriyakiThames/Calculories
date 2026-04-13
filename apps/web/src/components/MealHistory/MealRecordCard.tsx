@@ -114,19 +114,18 @@ export default function MealRecordCard({
             </p>
           </span>
         </div>
-        {!isEditing && (
-          <button
-            className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 hover:cursor-pointer"
-            onClick={handleClick}
-          >
-            <Image
-              src="/Icons/EditIcon.svg"
-              alt="Edit meal record"
-              width={24}
-              height={24}
-            />
-          </button>
-        )}
+        <button
+          className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 hover:cursor-pointer"
+          onClick={handleClick}
+          hidden={isEditing}
+        >
+          <Image
+            src="/Icons/EditIcon.svg"
+            alt="Edit meal record"
+            width={24}
+            height={24}
+          />
+        </button>
       </div>
     </div>
   );
