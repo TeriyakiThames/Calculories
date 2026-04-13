@@ -75,7 +75,7 @@ export default function MealHistoryClient({
               setCheckedList({}); // reset checkboxes
             }}
           >
-            Cancel
+            {t("cancel", messages)}
           </button>
         ) : (
           <BackButton />
@@ -87,7 +87,7 @@ export default function MealHistoryClient({
             onClick={() => setShowPopup(true)}
             disabled={Object.keys(checkedList).every((r) => !checkedList[+r])}
           >
-            Delete
+            {t("delete", messages)}
           </button>
         ) : (
           <button
@@ -96,7 +96,7 @@ export default function MealHistoryClient({
               setIsEditing(true);
             }}
           >
-            Edit
+            {t("edit", messages)}
           </button>
         )}
       </div>
@@ -143,7 +143,7 @@ export default function MealHistoryClient({
       {showPopup && (
         <Popup>
           <p className="text-grey-80 mb-2 leading-tight font-bold">
-            Are you sure you want to delete these meal record(s)?
+            {t("delete_confirm", messages)}
           </p>
 
           <div className="flex w-full gap-2">
@@ -151,13 +151,13 @@ export default function MealHistoryClient({
               onClick={() => setShowPopup(false)}
               className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
             >
-              Cancel
+              {t("cancel", messages)}
             </button>
             <button
               onClick={() => handleDelete()}
               className="w-full rounded-2xl bg-red-100 py-3 font-bold text-white hover:cursor-pointer"
             >
-              Delete
+              {t("delete", messages)}
             </button>
           </div>
         </Popup>

@@ -1,6 +1,11 @@
 {
   "meal_history": "Meal History",
   "edit": "Edit",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "delete_confirm": "Are you sure you want to delete these meal record(s)?",
+  "confirm": "ยืนยัน",
+  "no_records": "No records yet. Try adding one?",
   "view": "View",
   "calories": "Calories",
   "protein": "Protein",

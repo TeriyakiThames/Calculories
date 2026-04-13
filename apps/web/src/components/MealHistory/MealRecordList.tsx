@@ -46,38 +46,59 @@ function sortRecords(records: MealRecord[]) {
   return recordsSortedByDate;
 }
 
-function sumValues(date: string, records: MealRecord[], view: ViewBy) {
+function sumValuesWithUnit(
+  date: string,
+  records: MealRecord[],
+  view: ViewBy,
+  messages: Messages,
+) {
   let sum = 0;
+  let unit_front = "g";
+  let unit_back = "g";
   switch (view) {
     case "Calories":
       sum = records
         .entries()
         .reduce((acc, [_, { total_calorie, ...r }]) => acc + total_calorie, 0);
+      unit_front = "";
+      unit_back = "kcal";
       break;
 
     case "Protein":
       sum = records
         .entries()
         .reduce((acc, [_, { total_protein, ...r }]) => acc + total_protein, 0);
+      unit_front += "_protein_front";
+      unit_back += "_protein_back";
       break;
 
     case "Carbohydrate":
       sum = records
         .entries()
         .reduce((acc, [_, { total_carbs, ...r }]) => acc + total_carbs, 0);
+      unit_front += "_carb_front";
+      unit_back += "_carb_back";
       break;
 
     case "Fat":
       sum = records
         .entries()
         .reduce((acc, [_, { total_fat, ...r }]) => acc + total_fat, 0);
+      unit_front += "_fat_front";
+      unit_back += "_fat_back";
       break;
 
     default:
       break;
   }
 
-  return Number(sum.toFixed(0)).toLocaleString("en-US");
+  return (
+    t(unit_front, messages) +
+    " " +
+    Number(sum.toFixed(0)).toLocaleString("en-US") +
+    " " +
+    t(unit_back, messages)
+  );
 }
 
 export default function MealRecordList({
@@ -107,7 +128,7 @@ export default function MealRecordList({
           width={100}
           height={100}
         />
-        <p>No records yet. Try adding one?</p>
+        <p>{t("no_records", messages)}</p>
       </div>
     );
   }
@@ -174,10 +195,7 @@ export default function MealRecordList({
 
                 <h2 className="font-bold">{formatDate(date)}</h2>
               </div>
-              <p>
-                {sumValues(date, records, view)}{" "}
-                {view == "Calories" ? "kcal" : "g"}
-              </p>
+              <p>{sumValuesWithUnit(date, records, view, messages)} </p>
             </div>
             <div className="flex flex-col gap-4">
               {records.map((record: MealRecord) => {
