@@ -101,25 +101,26 @@ export default function MealRecordCard({
         {/* Record information */}
         <div className="flex w-full flex-col gap-0.5">
           <h3 className="text-grey-60 truncate text-xs font-bold">{time}</h3>
-          <h2 className="leading-tight font-bold">{menuName}</h2>
+          <h2 className="font-bold text-pretty">{menuName}</h2>
           <span className="mt-1 flex gap-1">
             <p className="bg-green-80 rounded-sm py-0.5 pr-1.5 pl-1 text-xs text-white">
               {formattedValue} {unit}
             </p>
           </span>
         </div>
-
-        <button
-          className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 hover:cursor-pointer"
-          onClick={handleClick}
-        >
-          <Image
-            src="/Icons/EditIcon.svg"
-            alt="Edit meal record"
-            width={24}
-            height={24}
-          />
-        </button>
+        {!isEditing && (
+          <button
+            className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 hover:cursor-pointer"
+            onClick={handleClick}
+          >
+            <Image
+              src="/Icons/EditIcon.svg"
+              alt="Edit meal record"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
       </div>
     </div>
   );

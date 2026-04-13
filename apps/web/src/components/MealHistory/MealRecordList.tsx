@@ -153,10 +153,10 @@ export default function MealRecordList({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       {Array.from(sortedMealRecords.entries()).map(([date, records]) => {
         return (
-          <div key={date}>
+          <div key={date} className="flex flex-col gap-3">
             <div className="flex justify-between py-2">
               <div className="animate-collapsible-down flex gap-2">
                 <Checkbox
@@ -179,23 +179,25 @@ export default function MealRecordList({
                 {view == "Calories" ? "kcal" : "g"}
               </p>
             </div>
-            {records.map((record: MealRecord) => {
-              const isRecordChecked = checkedList[record.id] || false;
-              return (
-                <MealRecordCard
-                  locale={locale}
-                  record={record}
-                  key={record.id}
-                  messages={messages}
-                  view={view}
-                  isChecked={isRecordChecked}
-                  isEditing={isEditing}
-                  onChange={(isChecked) =>
-                    handleRecordCheckboxChange(isChecked, record.id)
-                  }
-                />
-              );
-            })}
+            <div className="flex flex-col gap-4">
+              {records.map((record: MealRecord) => {
+                const isRecordChecked = checkedList[record.id] || false;
+                return (
+                  <MealRecordCard
+                    locale={locale}
+                    record={record}
+                    key={record.id}
+                    messages={messages}
+                    view={view}
+                    isChecked={isRecordChecked}
+                    isEditing={isEditing}
+                    onChange={(isChecked) =>
+                      handleRecordCheckboxChange(isChecked, record.id)
+                    }
+                  />
+                );
+              })}
+            </div>
           </div>
         );
       })}
