@@ -69,7 +69,7 @@ export default function MealHistoryClient({
       <div className="text-grey-100 flex items-center justify-between">
         {isEditing ? (
           <button
-            className="hover:bg-grey-10 rounded-xl p-2 hover:cursor-pointer"
+            className="hover:bg-grey-10 rounded-xl p-2 transition-all hover:cursor-pointer"
             onClick={() => {
               setIsEditing(false);
               setCheckedList({}); // reset checkboxes
@@ -91,7 +91,7 @@ export default function MealHistoryClient({
           </button>
         ) : (
           <button
-            className="hover:bg-grey-10 rounded-xl p-2"
+            className="hover:bg-grey-10 rounded-xl p-2 transition-all"
             onClick={() => {
               setIsEditing(true);
             }}
@@ -117,13 +117,9 @@ export default function MealHistoryClient({
             value={view}
             onChange={(val) => {
               setView(val);
-              // TODO
-              // validateField("sex", val);
             }}
             onDropDownNameChange={(name) => setViewDisplay(name)}
             dropDownName={viewDisplay}
-            // TODO
-            // error={errors.sex}
           />
         </div>
       </div>

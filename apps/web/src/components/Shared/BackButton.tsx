@@ -19,7 +19,7 @@ export default function BackButton({
       <button
         onClick={() => router.back()}
         aria-label="Go back"
-        className={`${hasBg ? "bg-white" : ""} hover:bg-grey-10 flex h-9 w-9 flex-col items-center justify-center gap-2.5 rounded-full p-2.5`}
+        className={`${hasBg ? "bg-white" : ""} hover:bg-grey-10 flex h-9 w-9 flex-col items-center justify-center gap-2.5 rounded-full p-2.5 transition-all`}
       >
         <Image
           src={"/Icons/Arrow.svg"}

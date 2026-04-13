@@ -180,18 +180,24 @@ export default function MealRecordList({
           <div key={date} className="flex flex-col gap-3">
             <div className="flex justify-between py-2">
               <div className="animate-collapsible-down flex gap-2">
-                <Checkbox
-                  id={formatDate(date)}
-                  isChecked={
-                    sortedMealRecords
-                      .get(date)!
-                      .every((record) => checkedList[record.id]) || false
-                  }
-                  isVisible={isEditing}
-                  onChange={(isChecked) =>
-                    handleDayCheckboxChange(isChecked, date)
-                  }
-                />
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    isEditing ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                  }`}
+                >
+                  <Checkbox
+                    id={formatDate(date)}
+                    isChecked={
+                      sortedMealRecords
+                        .get(date)!
+                        .every((record) => checkedList[record.id]) || false
+                    }
+                    isVisible={isEditing}
+                    onChange={(isChecked) =>
+                      handleDayCheckboxChange(isChecked, date)
+                    }
+                  />
+                </div>
 
                 <h2 className="font-bold">{formatDate(date)}</h2>
               </div>

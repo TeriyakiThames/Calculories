@@ -22,8 +22,9 @@ export default function Checkbox({
       <label className="relative flex cursor-pointer items-center">
         <input
           type="checkbox"
-          className={`${isVisible ? "visible" : "hidden w-0"} peer h-5 w-5 cursor-pointer appearance-none rounded border border-green-100 shadow transition-all checked:bg-green-100 hover:shadow-md`}
+          className="hover:bg-green-20 peer h-5 w-5 cursor-pointer appearance-none rounded border border-green-100 shadow transition-all checked:bg-green-100 hover:shadow-md"
           id={id}
+          hidden={!isVisible}
           checked={isChecked}
           onChange={(e) => onChange(e.target.checked, id)}
         />

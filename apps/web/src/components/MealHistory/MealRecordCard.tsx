@@ -85,15 +85,20 @@ export default function MealRecordCard({
   const time = formatter.format(new Date(record.at));
 
   return (
-    <div className="hover:bg-grey-10 flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer">
+    <div className="hover:bg-grey-10 flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] transition-all hover:cursor-pointer">
       <div className="flex w-full items-center gap-4">
-        <Checkbox
-          id={record.id.toString()}
-          // how do i do this... nested checkbox
-          isChecked={isChecked}
-          isVisible={isEditing}
-          onChange={(isChecked) => onChange(isChecked, record.id)}
-        />
+        <div
+          className={`transition-all duration-300 ease-in-out ${
+            isEditing ? "scale-100" : "scale-0"
+          }`}
+        >
+          <Checkbox
+            id={record.id.toString()}
+            isChecked={isChecked}
+            isVisible={isEditing}
+            onChange={(isChecked) => onChange(isChecked, record.id)}
+          />
+        </div>
 
         {/* Image */}
         <Image
@@ -114,8 +119,9 @@ export default function MealRecordCard({
             </p>
           </span>
         </div>
+
         <button
-          className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 hover:cursor-pointer"
+          className="bg-green-10 hover:bg-green-20 size-14 h-fit rounded-full p-3 transition-all hover:cursor-pointer"
           onClick={handleClick}
           hidden={isEditing}
         >
