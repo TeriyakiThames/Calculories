@@ -44,7 +44,7 @@ export default function SettingsClient({
   }
 
   // --- Derived Values ---
-  const name = authUser?.user_metadata?.name || appUser?.username || "User";
+  const name = appUser?.username || authUser?.user_metadata?.name || "User";
   const imageURL =
     authUser?.user_metadata?.avatar_url || "/Home/MockProfilePicture.svg";
 

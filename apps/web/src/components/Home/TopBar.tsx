@@ -12,7 +12,6 @@ export default function TopBar({
   imageURL = "/Home/MockProfilePicture.svg",
   messages,
 }: TopBarProps) {
-  const firstName = name ? name.split(" ")[0] : "";
   return (
     <div className="flex items-center justify-between p-7.5">
       <span className="flex items-center gap-3">
@@ -27,7 +26,7 @@ export default function TopBar({
         <span>
           <h1 className="flex items-center text-xl font-bold whitespace-pre text-[#1A1A1A]">
             {t("greeting", messages)},{" "}
-            <span className="max-w-[15ch] truncate">{firstName}</span>
+            <span className="max-w-[15ch] truncate">{name}</span>
           </h1>
           <p className="text-xs font-bold text-[#8E8E93]">
             {t("subtitle", messages)}
