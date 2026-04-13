@@ -11,6 +11,7 @@ import useSWR from "swr";
 import MealRecordList from "./MealRecordList";
 import deleteMealRecords from "@/services/api/deleteMealRecords";
 import NavBar from "../Shared/NavBar";
+import Popup from "../Shared/Popup";
 
 export default function MealHistoryClient({
   locale,
@@ -134,29 +135,29 @@ export default function MealHistoryClient({
         checkedList={checkedList}
         setCheckedList={setCheckedList}
       />
-      {showPopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="flex w-80 flex-col items-center gap-2.5 rounded-2xl bg-white p-6 text-center shadow-xl">
-            <p className="text-grey-80 mb-2 leading-tight font-bold">
-              Are you sure you want to delete these meal record(s)?
-            </p>
 
-            <div className="flex w-full gap-2">
-              <button
-                onClick={() => setShowPopup(false)}
-                className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleDelete()}
-                className="w-full rounded-2xl bg-red-100 py-3 font-bold text-white hover:cursor-pointer"
-              >
-                Delete
-              </button>
-            </div>
+      {/* Popup */}
+      {showPopup && (
+        <Popup>
+          <p className="text-grey-80 mb-2 leading-tight font-bold">
+            Are you sure you want to delete these meal record(s)?
+          </p>
+
+          <div className="flex w-full gap-2">
+            <button
+              onClick={() => setShowPopup(false)}
+              className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleDelete()}
+              className="w-full rounded-2xl bg-red-100 py-3 font-bold text-white hover:cursor-pointer"
+            >
+              Delete
+            </button>
           </div>
-        </div>
+        </Popup>
       )}
       <NavBar />
     </div>
