@@ -6,7 +6,11 @@ import getUser from "@/services/api/getUser";
 import PageBottom from "@/components/Shared/PageBottom";
 import PageTitle from "@/components/Shared/PageTitle";
 import DietaryForm from "@/app/[locale]/settings/dietary-restrictions/DietaryForm";
-import { Messages, DietaryPreferences } from "@calculories/shared-types";
+import {
+  Messages,
+  DietaryPreferences,
+  Locale,
+} from "@calculories/shared-types";
 
 const mapDietaryToArray = (user?: DietaryPreferences | null) => {
   if (!user) return [];
@@ -23,7 +27,15 @@ const mapDietaryToArray = (user?: DietaryPreferences | null) => {
   return dietary;
 };
 
-export default function DietaryClient({ messages }: { messages: Messages }) {
+interface DietaryClientProps {
+  locale: Locale;
+  messages: Messages;
+}
+
+export default function DietaryClient({
+  locale,
+  messages,
+}: DietaryClientProps) {
   const { loading: authLoading, user: authUser } = useUser();
 
   const { data: appUser, isLoading: apiLoading } = useSWR(
@@ -43,7 +55,11 @@ export default function DietaryClient({ messages }: { messages: Messages }) {
 
   return (
     <main className="bg-background-10 flex min-h-screen flex-col px-5">
-      <PageTitle messages={messages} titleOnly={true} />
+      <PageTitle
+        messages={messages}
+        titleOnly={true}
+        backHref={`/${locale}/settings`}
+      />
       <DietaryForm initialDietary={currentDietary} messages={messages} />
       <PageBottom />
     </main>

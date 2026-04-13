@@ -12,5 +12,10 @@ export default async function DietaryRestrictionsPage({
   const settingsMessages = await loadMessages(locale, ["Settings"], "Settings");
   const setupMessages = await loadMessages(locale, ["SetupForm"], "Setup");
 
-  return <DietaryClient messages={{ ...settingsMessages, ...setupMessages }} />;
+  return (
+    <DietaryClient
+      locale={locale}
+      messages={{ ...settingsMessages, ...setupMessages }}
+    />
+  );
 }

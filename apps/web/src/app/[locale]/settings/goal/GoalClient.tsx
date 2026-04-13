@@ -7,9 +7,14 @@ import getUser from "@/services/api/getUser";
 import PageBottom from "@/components/Shared/PageBottom";
 import PageTitle from "@/components/Shared/PageTitle";
 import GoalForm from "@/app/[locale]/settings/goal/GoalForm";
-import { Messages } from "@calculories/shared-types";
+import { Locale, Messages } from "@calculories/shared-types";
 
-export default function GoalClient({ messages }: { messages: Messages }) {
+interface GoalClientProps {
+  locale: Locale;
+  messages: Messages;
+}
+
+export default function GoalClient({ locale, messages }: GoalClientProps) {
   // --- Data Fetching ---
   const { loading: authLoading, user: authUser } = useUser();
 
@@ -31,10 +36,12 @@ export default function GoalClient({ messages }: { messages: Messages }) {
 
   return (
     <main className="bg-background-10 flex min-h-screen flex-col px-5">
-      <PageTitle messages={messages} titleOnly={true} />
-
+      <PageTitle
+        messages={messages}
+        titleOnly={true}
+        backHref={`/${locale}/settings`}
+      />
       <GoalForm initialGoal={currentGoal} messages={messages} />
-
       <PageBottom />
     </main>
   );

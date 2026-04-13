@@ -50,7 +50,11 @@ export default function SettingsClient({
 
   return (
     <main className="bg-background-10 px-5 pb-10">
-      <PageTitle messages={messages} titleOnly={true} />
+      <PageTitle
+        messages={messages}
+        titleOnly={true}
+        backHref={`/${locale}/`}
+      />
 
       <div className="mb-6 flex flex-col items-center gap-6">
         <Image
