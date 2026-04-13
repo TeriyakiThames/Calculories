@@ -91,7 +91,7 @@ export default function HomeClient({
       )}
 
       <SearchBar messages={messages} />
-      <NavBar />
+      <NavBar messages={messages} />
     </main>
   );
 }

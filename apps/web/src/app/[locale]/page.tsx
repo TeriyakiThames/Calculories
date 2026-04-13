@@ -17,7 +17,7 @@ export default async function Page({
 
   const sharedMessages = await loadMessages(
     locale,
-    ["AuthButton", "DeleteAccountButton"],
+    ["AuthButton", "DeleteAccountButton", "NavBar"],
     "Shared",
   );
 
