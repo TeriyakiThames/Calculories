@@ -33,13 +33,6 @@ export default function TopBar({
           </p>
         </span>
       </span>
-
-      <Image
-        src="/Icons/HistoryIcon.svg"
-        alt="History icon"
-        width={24}
-        height={27}
-      />
     </div>
   );
 }
