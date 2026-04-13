@@ -13,7 +13,7 @@ export default function NavBar() {
     { label: "Home", href: `/${locale}`, icon: <HomeIcon /> },
     { label: "Search", href: `/${locale}/search`, icon: <SearchIcon /> },
     { label: "History", href: `/${locale}/history`, icon: <HistoryIcon /> },
-    { label: "Profile", href: `/${locale}/settings`, icon: <ProfileIcon /> },
+    { label: "Settings", href: `/${locale}/settings`, icon: <ProfileIcon /> },
   ];
 
   return (
