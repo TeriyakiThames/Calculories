@@ -9,6 +9,7 @@ import { Locale, MealRecord, ViewBy } from "@calculories/shared-types";
 import { useState } from "react";
 import useSWR from "swr";
 import MealRecordList from "./MealRecordList";
+import deleteMealRecords from "@/services/api/deleteMealRecords";
 
 export default function MealHistoryClient({
   locale,
@@ -27,7 +28,7 @@ export default function MealHistoryClient({
 
   const {
     data,
-    // mutate: refreshMeal,
+    mutate: refreshMeal,
     isValidating: isLoadingMealRecords,
   } = useSWR(
     authUser?.id ? `meal-history-${authUser.id}` : null,
@@ -40,6 +41,15 @@ export default function MealHistoryClient({
       refreshInterval: 0,
     },
   );
+
+  const handleDelete = async () => {
+    await deleteMealRecords({
+      ids: Object.keys(checkedList)
+        .filter((key) => checkedList[Number(key)])
+        .map(Number),
+    });
+    refreshMeal();
+  };
 
   const mealRecords: MealRecord[] = data?.data;
 
@@ -64,9 +74,7 @@ export default function MealHistoryClient({
         {isEditing ? (
           <button
             className="hover:bg-grey-10 rounded-xl p-2"
-            onClick={() => {
-              alert("deleting records");
-            }}
+            onClick={() => handleDelete()}
           >
             Delete
           </button>
