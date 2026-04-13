@@ -141,10 +141,10 @@ export default function MealRecordList({
   };
 
   function formatDate(date: string) {
-    const today = new Date().toLocaleDateString();
+    const today = new Date().toLocaleDateString("en-US");
     const y = new Date();
     y.setDate(new Date().getDate() - 1);
-    const yesterday = y.toLocaleDateString();
+    const yesterday = y.toLocaleDateString("en-US");
 
     if (date === today) return t("today", messages);
     if (date === yesterday) return t("yesterday", messages);
