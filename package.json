@@ -14,5 +14,9 @@
     "prettier": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "turbo": "^2.9.4"
+  },
+  "dependencies": {
+    "react-intersection-observer": "^10.0.3",
+    "web": "^0.0.2"
   }
 }

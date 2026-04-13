@@ -6,7 +6,6 @@ import TopBar from "@/components/Home/TopBar";
 import Streak from "@/components/Home/Streak";
 import CalorieGoals from "@/components/Home/CalorieGoals";
 import SmartPicks from "@/components/Home/SmartPicks/SmartPicks";
-import SearchBar from "@/components/Home/SearchBar";
 import { Locale, Messages } from "@calculories/shared-types";
 import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
@@ -90,7 +89,6 @@ export default function HomeClient({
         </>
       )}
 
-      <SearchBar messages={messages} />
       <NavBar />
     </main>
   );
