@@ -13,6 +13,7 @@ export type SortBy =
   | "total_protein"
   | "total_fat"
   | "total_carbs";
+export type ViewBy = "Calories" | "Protein" | "Carbohydrate" | "Fat";
 
 // ------------------------------------------------------------------
 // Base Entity Types
@@ -133,6 +134,7 @@ export type DishRestaurant = Omit<Restaurant, "dishes">;
 
 export type DishNoComp = Omit<Dish, "components">;
 
+// TODO: change this to MealRecord? but where is this used...
 export interface MealHistory {
   id: number;
   user_id: string; // uuid
@@ -149,6 +151,33 @@ export interface MealHistory {
   dish_type?: string[];
   restaurant?: Restaurant;
   components?: Component[];
+}
+
+// TODO: discuss w/ king abt having both edited_ and total_ in the same layer...
+export interface MealRecord {
+  id: number;
+  user_id: string;
+  dish_id: number;
+  at: string; // ISO datetime string
+  edited_fat: number;
+  edited_protein: number;
+  edited_carbs: number;
+  edited_alcohol: number;
+  name_th: string;
+  name_en: string;
+  res_id: number;
+  price: number;
+  is_halal: boolean;
+  has_gluten: boolean;
+  has_peanut: boolean;
+  has_lactose: boolean;
+  has_shellfish: boolean;
+  is_vegetarian: boolean;
+  total_fat: number;
+  total_carbs: number;
+  total_alcohol: number;
+  total_calorie: number;
+  total_protein: number;
 }
 
 // ------------------------------------------------------------------

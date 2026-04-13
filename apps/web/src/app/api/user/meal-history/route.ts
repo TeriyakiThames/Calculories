@@ -48,7 +48,6 @@ export async function POST(request: Request) {
 
     const { ...data } = parsedMealHistory.data;
 
-    console.log({ ...data });
     const { error } = await supabase
       .from("meal_history")
       .insert({ ...data, user_id: user!.id });
