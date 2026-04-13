@@ -9,6 +9,7 @@ import useUser from "@/hooks/useUser";
 import getUser from "@/services/api/getUser";
 import { SettingsButton } from "@/components/Settings/SettingsButton";
 import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 export default function SettingsClient({
   locale,
@@ -73,7 +74,9 @@ export default function SettingsClient({
         />
 
         <div className="mt-6 flex flex-col gap-5">
-          <span className="text-grey-60 text-xl font-bold">Settings</span>
+          <span className="text-grey-60 text-xl font-bold">
+            {t("Settings", messages)}
+          </span>
           <SettingsButton
             label="Edit Dietary Restrictions"
             link="/settings/dietary-restrictions"
