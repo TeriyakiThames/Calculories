@@ -47,17 +47,40 @@ export default function MealHistoryClient({
     <div className="flex flex-col gap-5 px-7 py-5">
       {/* Header */}
       <div className="text-grey-100 flex items-center justify-between">
-        <BackButton />
+        {isEditing ? (
+          <button
+            className="hover:bg-grey-10 rounded-xl p-2"
+            onClick={() => {
+              setIsEditing(false);
+              setCheckedList({}); // reset checkboxes
+            }}
+          >
+            Cancel
+          </button>
+        ) : (
+          <BackButton />
+        )}
         <h1 className="pb-1 text-xl font-bold">Meal History</h1>
-        <button
-          className="hover:bg-grey-10 rounded-xl p-2"
-          // TODO: setIsEditing(true) and has Delete button
-          onClick={() => {
-            setIsEditing(!isEditing);
-          }}
-        >
-          Edit
-        </button>
+        {isEditing ? (
+          <button
+            className="hover:bg-grey-10 rounded-xl p-2"
+            onClick={() => {
+              alert("deleting records");
+            }}
+          >
+            Delete
+          </button>
+        ) : (
+          <button
+            className="hover:bg-grey-10 rounded-xl p-2"
+            // TODO: setIsEditing(true) and has Delete button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Edit
+          </button>
+        )}
       </div>
 
       {/* View */}
