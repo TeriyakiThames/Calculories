@@ -1,12 +1,13 @@
+import { t } from "@/lib/internationalisation/i18n-helpers";
 import {
   Locale,
-  MealHistory,
   MealRecord,
   Messages,
   ViewBy,
 } from "@calculories/shared-types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Checkbox from "../Shared/Checkbox";
 
 interface MealRecordCardProps {
   locale: Locale;
@@ -14,6 +15,9 @@ interface MealRecordCardProps {
   isRefreshing?: boolean;
   record: MealRecord;
   view: ViewBy;
+  isChecked: boolean;
+  isEditing: boolean;
+  onChange: (isChecked: boolean, id: number) => void;
 }
 
 export const MealRecordCardSkeleton = () => (
@@ -41,6 +45,9 @@ export default function MealRecordCard({
   isRefreshing,
   record,
   view,
+  isChecked,
+  isEditing,
+  onChange,
 }: MealRecordCardProps) {
   const router = useRouter();
 
@@ -58,7 +65,7 @@ export default function MealRecordCard({
   const value =
     view === "Calories" ? record.total_calorie : record.total_protein;
   const formattedValue = value.toLocaleString("en-US");
-  const unit = view == "Calories" ? "kcal" : "g";
+  const unit = view == "Calories" ? t("kcal", messages) : t("g", messages);
 
   const handleClick = () => {
     router.push(`history/${record.id}`);
@@ -74,6 +81,14 @@ export default function MealRecordCard({
   return (
     <div className="hover:bg-grey-10 flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer">
       <div className="flex w-full items-center gap-4">
+        <Checkbox
+          id={record.id.toString()}
+          // how do i do this... nested checkbox
+          isChecked={isChecked}
+          isVisible={isEditing}
+          onChange={(isChecked) => onChange(isChecked, record.id)}
+        />
+
         {/* Image */}
         <Image
           src={imageUrl}
@@ -105,11 +120,7 @@ export default function MealRecordCard({
             height={24}
           />
         </button>
-
-        {/* {JSON.stringify(record)} */}
       </div>
-
-      {/* <MealCardButton dishId={dish.id} /> */}
     </div>
   );
 }

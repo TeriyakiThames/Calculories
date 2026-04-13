@@ -5,8 +5,9 @@ import {
   ViewBy,
 } from "@calculories/shared-types";
 import MealRecordCard from "./MealRecordCard";
-import { locales } from "zod";
 import { t } from "@/lib/internationalisation/i18n-helpers";
+import Checkbox from "../Shared/Checkbox";
+import { Dispatch, SetStateAction } from "react";
 
 interface MealRecordListProps {
   locale: Locale;
@@ -14,6 +15,9 @@ interface MealRecordListProps {
   mealRecords: MealRecord[];
   isLoading?: boolean;
   view: ViewBy;
+  isEditing: boolean;
+  checkedList: { [key: number]: boolean };
+  setCheckedList: Dispatch<SetStateAction<{ [key: number]: boolean }>>;
 }
 
 function sortRecords(records: MealRecord[]) {
@@ -27,13 +31,11 @@ function sortRecords(records: MealRecord[]) {
   >();
 
   for (const r of tempRecords) {
-    const date = new Date(r.at).toLocaleDateString();
-    // console.log(date, r.at, recordsSortedByDate.has(date));
+    const date = new Date(r.at).toLocaleDateString("en-US");
     if (recordsSortedByDate.has(date)) {
       const records = recordsSortedByDate.get(date);
       records!.push(r);
       recordsSortedByDate.set(date, records!);
-      // console.log(recordsSortedByDate.get(date));
     } else {
       recordsSortedByDate.set(date, [r]);
     }
@@ -41,12 +43,6 @@ function sortRecords(records: MealRecord[]) {
 
   return recordsSortedByDate;
 }
-
-const options: Intl.DateTimeFormatOptions = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
 
 function sumValues(date: string, records: MealRecord[], view: ViewBy) {
   let sum = 0;
@@ -88,7 +84,25 @@ export default function MealRecordList({
   mealRecords,
   isLoading,
   view,
+  isEditing,
+  checkedList,
+  setCheckedList,
 }: MealRecordListProps) {
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
+  if (!mealRecords || mealRecords.length == 0) {
+    return <p>No records yet. Try adding one?</p>;
+  }
+
+  const sortedMealRecords = sortRecords(mealRecords);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   function formatDate(date: string) {
     const today = new Date().toLocaleDateString();
     const y = new Date();
@@ -103,42 +117,72 @@ export default function MealRecordList({
     );
   }
 
-  if (isLoading) {
-    return <p>loading...</p>;
+  function handleRecordCheckboxChange(isChecked: boolean, recordId: number) {
+    setCheckedList((prevCheckedList) => {
+      const updatedState = { ...prevCheckedList };
+      updatedState[recordId] = isChecked;
+      return updatedState;
+    });
   }
 
-  if (!mealRecords || mealRecords.length == 0) {
-    return <p>No records yet. Try adding one?</p>;
+  function handleDayCheckboxChange(isChecked: boolean, date: string) {
+    setCheckedList((prevCheckedList) => {
+      const updatedState = { ...prevCheckedList };
+      sortedMealRecords.get(date)!.forEach((record) => {
+        updatedState[record.id] = isChecked;
+      });
+
+      return updatedState;
+    });
   }
-
-  const sortedMealRecords = sortRecords(mealRecords);
-
-  console.log("aaa", sortedMealRecords);
-  console.log("b", Object.entries(sortedMealRecords));
 
   return (
     <div className="flex flex-col gap-8">
-      {sortedMealRecords.entries().map(([date, records], index) => (
-        <div key={date}>
-          <div className="flex justify-between">
-            {" "}
-            <h2 className="font-bold">{formatDate(date)}</h2>
-            <p>
-              {sumValues(date, records, view)}{" "}
-              {view == "Calories" ? "kcal" : "g"}
-            </p>
+      {Array.from(sortedMealRecords.entries()).map(([date, records]) => {
+        return (
+          <div key={date}>
+            <div className="flex justify-between py-2">
+              <div className="animate-collapsible-down flex gap-2">
+                <Checkbox
+                  id={formatDate(date)}
+                  isChecked={
+                    sortedMealRecords
+                      .get(date)!
+                      .every((record) => checkedList[record.id]) || false
+                  }
+                  isVisible={isEditing}
+                  onChange={(isChecked) =>
+                    handleDayCheckboxChange(isChecked, date)
+                  }
+                />
+
+                <h2 className="font-bold">{formatDate(date)}</h2>
+              </div>
+              <p>
+                {sumValues(date, records, view)}{" "}
+                {view == "Calories" ? "kcal" : "g"}
+              </p>
+            </div>
+            {records.map((record: MealRecord) => {
+              const isRecordChecked = checkedList[record.id] || false;
+              return (
+                <MealRecordCard
+                  locale={locale}
+                  record={record}
+                  key={record.id}
+                  messages={messages}
+                  view={view}
+                  isChecked={isRecordChecked}
+                  isEditing={isEditing}
+                  onChange={(isChecked) =>
+                    handleRecordCheckboxChange(isChecked, record.id)
+                  }
+                />
+              );
+            })}
           </div>
-          {records.map((record: MealRecord) => (
-            <MealRecordCard
-              locale={locale}
-              record={record}
-              key={record.id}
-              messages={messages}
-              view={view}
-            />
-          ))}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

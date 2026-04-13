@@ -18,6 +18,12 @@ export default function MealHistoryClient({
   messages: Messages;
 }) {
   const { loading: authLoading, error: authError, user: authUser } = useUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [checkedList, setCheckedList] = useState<{ [key: number]: boolean }>(
+    {},
+  );
+  const [view, setView] = useState("Calories");
+  const [viewDisplay, setViewDisplay] = useState(t("calories", messages));
 
   const {
     data,
@@ -36,15 +42,22 @@ export default function MealHistoryClient({
   );
 
   const mealRecords: MealRecord[] = data?.data;
-  const [view, setView] = useState("Calories");
-  const [viewDisplay, setViewDisplay] = useState(t("calories", messages));
+
   return (
     <div className="flex flex-col gap-5 px-7 py-5">
       {/* Header */}
       <div className="text-grey-100 flex items-center justify-between">
         <BackButton />
         <h1 className="pb-1 text-xl font-bold">Meal History</h1>
-        <button className="hover:bg-grey-10 rounded-xl p-2">Edit</button>
+        <button
+          className="hover:bg-grey-10 rounded-xl p-2"
+          // TODO: setIsEditing(true) and has Delete button
+          onClick={() => {
+            setIsEditing(!isEditing);
+          }}
+        >
+          Edit
+        </button>
       </div>
 
       {/* View */}
@@ -54,7 +67,6 @@ export default function MealHistoryClient({
           <Input
             placeholder={t("calories", messages)}
             type="dropdown"
-            // TODO: issues on localization. ViewBy for thai? maybe we don't use ViewBy.
             options={{
               Calories: t("calories", messages),
               Protein: t("protein", messages),
@@ -64,10 +76,12 @@ export default function MealHistoryClient({
             value={view}
             onChange={(val) => {
               setView(val);
+              // TODO
               // validateField("sex", val);
             }}
             onDropDownNameChange={(name) => setViewDisplay(name)}
             dropDownName={viewDisplay}
+            // TODO
             // error={errors.sex}
           />
         </div>
@@ -79,6 +93,9 @@ export default function MealHistoryClient({
         locale={locale}
         isLoading={isLoadingMealRecords}
         view={view as ViewBy}
+        isEditing={isEditing}
+        checkedList={checkedList}
+        setCheckedList={setCheckedList}
       />
     </div>
   );
