@@ -28,6 +28,7 @@ export default function MealHistoryClient({
   const [view, setView] = useState("Calories");
   const [viewDisplay, setViewDisplay] = useState(t("calories", messages));
   const [showPopup, setShowPopup] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const {
     data,
@@ -47,12 +48,14 @@ export default function MealHistoryClient({
 
   const handleDelete = async () => {
     setShowPopup(false);
+    setIsDeleting(true);
     if (Object.keys(checkedList).length !== 0) {
       await deleteMealRecords({
         ids: Object.keys(checkedList)
           .filter((key) => checkedList[Number(key)])
           .map(Number),
       });
+      setIsDeleting(false);
       setCheckedList({});
       refreshMeal();
     }
@@ -129,7 +132,7 @@ export default function MealHistoryClient({
         mealRecords={mealRecords}
         messages={messages}
         locale={locale}
-        isLoading={isLoadingMealRecords}
+        isLoading={isLoadingMealRecords || isDeleting}
         view={view as ViewBy}
         isEditing={isEditing}
         checkedList={checkedList}

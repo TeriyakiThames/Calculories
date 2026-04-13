@@ -8,6 +8,8 @@ import MealRecordCard from "./MealRecordCard";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import Checkbox from "../Shared/Checkbox";
 import { Dispatch, SetStateAction } from "react";
+import Loading from "../Shared/Loading";
+import Image from "next/image";
 
 interface MealRecordListProps {
   locale: Locale;
@@ -89,11 +91,25 @@ export default function MealRecordList({
   setCheckedList,
 }: MealRecordListProps) {
   if (isLoading) {
-    return <p>loading...</p>;
+    return (
+      <div className="align-center mt-40 flex w-full items-center justify-center">
+        <Loading size={24} />
+      </div>
+    );
   }
 
   if (!mealRecords || mealRecords.length == 0) {
-    return <p>No records yet. Try adding one?</p>;
+    return (
+      <div className="align-center mt-40 flex w-full flex-col items-center justify-center gap-5">
+        <Image
+          src="/Icons/DishIcon.svg"
+          alt="Toggle"
+          width={100}
+          height={100}
+        />
+        <p>No records yet. Try adding one?</p>
+      </div>
+    );
   }
 
   const sortedMealRecords = sortRecords(mealRecords);

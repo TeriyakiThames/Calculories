@@ -115,7 +115,7 @@ export default function MealRecordCard({
         >
           <Image
             src="/Icons/EditIcon.svg"
-            alt="Toggle"
+            alt="Edit meal record"
             width={24}
             height={24}
           />

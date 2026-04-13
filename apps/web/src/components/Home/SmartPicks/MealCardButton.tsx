@@ -36,7 +36,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
   return (
     <div>
       <button
-        title="add meal"
+        title="Add meal"
         onClick={onAddMeal}
         className="bg-green-10 rounded-full p-2"
       >
