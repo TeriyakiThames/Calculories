@@ -22,7 +22,7 @@ export default function Checkbox({
       <label className="relative flex cursor-pointer items-center">
         <input
           type="checkbox"
-          className="hover:bg-green-20 peer h-5 w-5 cursor-pointer appearance-none rounded border border-green-100 shadow transition-all checked:bg-green-100 hover:shadow-md"
+          className="hover:not-checked:bg-green-20 peer h-5 w-5 cursor-pointer appearance-none rounded border border-green-100 shadow transition-all checked:bg-green-100"
           id={id}
           hidden={!isVisible}
           checked={isChecked}
