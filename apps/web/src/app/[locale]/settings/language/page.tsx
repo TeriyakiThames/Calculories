@@ -15,6 +15,7 @@ export default async function Language({
   return (
     <main className="px-9.5">
       <PageTitle
+        text="language-title"
         messages={settingsMessages}
         titleOnly={true}
         backHref={`/${locale}/settings`}

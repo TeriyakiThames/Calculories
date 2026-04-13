@@ -5,12 +5,14 @@ import { t } from "@/lib/internationalisation/i18n-helpers";
 import BackButton from "@/components/Shared/BackButton";
 
 interface PageTitleProps {
+  text?: string;
   messages: Messages;
   titleOnly?: boolean;
   backHref?: string;
 }
 
 export default function PageTitle({
+  text = "Title",
   messages,
   titleOnly,
   backHref,
@@ -23,7 +25,7 @@ export default function PageTitle({
       />
 
       <h1 className="text-grey-100 text-center text-2xl font-bold">
-        {t("Title", messages)}
+        {t(text, messages)}
       </h1>
 
       <BackButton containerClassName="w-14.5 invisible" />
