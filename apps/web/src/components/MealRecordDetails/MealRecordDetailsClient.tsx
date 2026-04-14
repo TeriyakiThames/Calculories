@@ -1,16 +1,23 @@
 "use client";
 
-import { Dish, Locale } from "@calculories/shared-types";
+import { Dish, Locale, MealRecord, Messages } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
 import { Button } from "@/components/Shared/Button";
-import { AiSummary } from "@/components/MealDetails/AiSummary";
 import { IngredientsDropdown } from "@/components/MealDetails/IngredientsDropdown";
 import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
-import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
+import getMealRecord from "@/services/api/getMealRecord";
+import HadAt from "./HadAt";
+import updateMealRecord from "@/services/api/updateMealRecord";
+
+interface MealRecordDetailsClientProps {
+  locale: Locale;
+  id: number;
+  messages: Messages;
+}
 
 export const MealRecordDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
@@ -73,20 +80,20 @@ export const MealRecordDetailsClientSkeleton = () => (
 export default function MealRecordDetailsClient({
   locale,
   id,
-}: {
-  locale: Locale;
-  id: number;
-}) {
+  messages,
+}: MealRecordDetailsClientProps) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
+  const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
     const fetchDish = async () => {
       try {
-        const tempDish = (await getDish(id)) as Dish;
+        const tempRecord = (await getMealRecord(id)) as MealRecord;
 
-        if (!tempDish) return notFound();
+        if (!tempRecord) return notFound();
 
-        setDish(tempDish);
+        setDish(tempRecord as unknown as Dish);
+        setDate(new Date(tempRecord.at));
       } catch (error) {
         console.error(error);
         return notFound();
@@ -95,6 +102,18 @@ export default function MealRecordDetailsClient({
 
     fetchDish();
   }, [id]);
+
+  useEffect(() => {
+    const updateHadAt = async () => {
+      try {
+        await updateMealRecord({ at: date.toISOString() }, id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    updateHadAt();
+  }, [date]);
 
   if (!dish) return <MealRecordDetailsClientSkeleton />;
 
@@ -112,15 +131,16 @@ export default function MealRecordDetailsClient({
         priority
         className="h-auto w-full object-cover"
       />
-      <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
+      <div className="relative -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
-        <AiSummary />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown dish={dish} locale={locale} />
+        <div className="bg-grey-40 my h-[0.5px] w-full" />
+        <HadAt date={date} setDate={setDate} messages={messages} />
       </div>
 
-      <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
+      <div className="fixed right-0 bottom-0 left-0 z-3 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
         <Button>Add Meal</Button>
       </div>
     </main>
