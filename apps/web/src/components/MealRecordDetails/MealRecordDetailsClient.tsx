@@ -135,9 +135,20 @@ export default function MealRecordDetailsClient({
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
-        <IngredientsDropdown dish={dish} locale={locale} />
+        <IngredientsDropdown
+          dish={record as unknown as Dish}
+          locale={locale}
+          portionMode={portionMode}
+          setPortionMode={setPortionMode}
+        />
+        {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
-        <HadAt date={date} setDate={setDate} messages={messages} />
+        <HadAt
+          date={date}
+          setDate={setDate}
+          messages={messages}
+          locale={locale}
+        />
       </div>
 
       <div className="fixed right-0 bottom-0 left-0 z-3 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">

@@ -3,7 +3,7 @@
 import "react-day-picker/style.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
-import { Messages } from "@calculories/shared-types";
+import { Locale, Messages } from "@calculories/shared-types";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import Popup from "@/components/Shared/Popup";
 import DatePicker from "@/components/Shared/DatePicker";
@@ -11,14 +11,17 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { StaticTimePicker } from "@mui/x-date-pickers/StaticTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Button } from "@/components/Shared/Button";
+import { th } from "date-fns/locale";
+import { PickersInputComponentLocaleText } from "@mui/x-date-pickers/locales";
 
 interface HadAtProps {
   date: Date;
   setDate: Dispatch<SetStateAction<Date>>;
   messages: Messages;
+  locale: Locale;
 }
 
-export default function HadAt({ date, setDate, messages }: HadAtProps) {
+export default function HadAt({ date, setDate, messages, locale }: HadAtProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(date);
   const [showMainPopup, setShowMainPopup] = useState(false);
   const [showTimePopup, setShowTimePopup] = useState(false);
@@ -118,6 +121,7 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
           <DatePicker
             selectedDate={selectedDate}
             setSelectedDate={setOnlyDate}
+            locale={locale}
           />
 
           <div
@@ -171,7 +175,7 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
             setShowTimePopup(false);
           }}
         >
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={th}>
             <StaticTimePicker
               value={selectedDate}
               onChange={(newValue) => {
@@ -186,6 +190,15 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
                 setShowTimePopup(false);
               }}
               ampm={false}
+              localeText={
+                locale == "en"
+                  ? {}
+                  : ({
+                      timePickerToolbarTitle: "เลือกเวลา",
+                      cancelButtonLabel: "ยกเลิก",
+                      okButtonLabel: "บันทึก",
+                    } as PickersInputComponentLocaleText)
+              }
               sx={{
                 "& .MuiClock-pin": {
                   backgroundColor: "#4aae9b", // text-green-100
