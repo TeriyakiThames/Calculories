@@ -4,6 +4,7 @@ import getRestaurantById from "@/services/api/getRestaurantById";
 import RestaurantHeader from "@/components/RestaurantDetails/RestaurantHeader";
 import DishRecommendation from "@/components/RestaurantDetails/DishRecommendation";
 import AllDishes from "@/components/RestaurantDetails/AllDishes";
+import { loadMessages } from "@/lib/internationalisation/i18n";
 
 interface RestaurantDetailPageProps {
   params: Promise<{
@@ -18,6 +19,11 @@ export default async function RestaurantDetailPage(
   const { locale, id } = await props.params;
   const restaurantId = parseInt(id, 10);
   let restaurant;
+  const messages = await loadMessages(
+    locale,
+    ["RestaurantHeader", "DishRecommendation", "AllDishes"],
+    "RestaurantDetails",
+  );
 
   try {
     restaurant = await getRestaurantById(restaurantId);
@@ -27,9 +33,17 @@ export default async function RestaurantDetailPage(
 
   return (
     <main className="relative px-5">
-      <RestaurantHeader restaurant={restaurant} locale={locale} />
-      <DishRecommendation restaurantId={restaurantId} locale={locale} />
-      <AllDishes restaurant={restaurant} locale={locale} />
+      <RestaurantHeader
+        restaurant={restaurant}
+        locale={locale}
+        messages={messages}
+      />
+      <DishRecommendation
+        restaurantId={restaurantId}
+        locale={locale}
+        messages={messages}
+      />
+      <AllDishes restaurant={restaurant} locale={locale} messages={messages} />
     </main>
   );
 }
