@@ -311,7 +311,7 @@ export function IngredientRow({
   return (
     <div className="flex items-center justify-between">
       <span className="text-grey-100 leading-5">{componentName}</span>
-      <span className="text-grey-60 text-xs leading-5">
+      <span className="text-grey-60 min-w-15 text-right text-xs leading-5">
         {currentWeight} grams
       </span>
     </div>
