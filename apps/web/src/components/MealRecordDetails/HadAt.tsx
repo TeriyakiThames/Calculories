@@ -64,7 +64,7 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
           }}
         >
           <div
-            className={`bg-background-1 flex items-center rounded-xl border-[1.5px] px-5 transition-colors`}
+            className={`bg-background-1 border-grey-20 flex items-center rounded-xl border-[1.5px] px-5 transition-colors`}
           >
             <p className="text-grey-80 w-full bg-transparent py-4 leading-4 outline-none">
               {formatterDateTime.format(date)}
@@ -89,9 +89,32 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
         </div>
       </div>
 
-      {/* Date Picker */}
+      {/* Main Popup: Date Picker */}
       {showMainPopup && (
         <Popup onClickOutside={() => setShowMainPopup(false)}>
+          {/* Close button */}
+          <button
+            onClick={() => setShowMainPopup(false)}
+            title="Close"
+            className="hover:text-grey-100 hover:bg-grey-10 -m-3 self-end rounded-full p-3 hover:cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#858585" // text-grey-60
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-x-icon lucide-x text-grey-100"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+
           <DatePicker
             selectedDate={selectedDate}
             setSelectedDate={setOnlyDate}
@@ -105,7 +128,7 @@ export default function HadAt({ date, setDate, messages }: HadAtProps) {
             }}
           >
             <div
-              className={`flex items-center rounded-xl border-[1.5px] px-5 align-baseline transition-colors`}
+              className={`border-grey-20 flex items-center rounded-xl border-[1.5px] px-5 align-baseline transition-colors`}
             >
               <p className="text-grey-80 w-full items-start py-4 text-left leading-4 hover:cursor-pointer">
                 {formatterTime.format(selectedDate)}
