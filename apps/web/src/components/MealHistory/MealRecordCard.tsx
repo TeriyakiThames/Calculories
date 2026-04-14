@@ -111,8 +111,8 @@ export default function MealRecordCard({
 
         {/* Record information */}
         <div className="flex w-full flex-col gap-0.5">
-          <h3 className="text-grey-60 truncate text-xs font-bold">{time}</h3>
-          <h2 className="font-bold text-pretty">{menuName}</h2>
+          <p className="text-grey-60 truncate text-xs font-bold">{time}</p>
+          <p className="font-bold text-pretty">{menuName}</p>
           <span className="mt-1 flex gap-1">
             <p className="bg-green-80 rounded-sm py-0.5 pr-1.5 pl-1 text-xs text-white">
               {formattedValue} {unit}
