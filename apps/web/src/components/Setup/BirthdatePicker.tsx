@@ -77,7 +77,7 @@ export default function BirthdatePicker({
               }}
               onAccept={(value) => {
                 setShowPopup(false);
-                onChange(value);
+                onChange(value as Date);
               }}
               onClose={() => setShowPopup(false)}
               //  TODO: fix bug where year button appears blue on open year selector
