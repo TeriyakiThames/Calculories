@@ -30,7 +30,6 @@ export default function BasicInfo({
   messages,
 }: BasicInfoProps) {
   // --- Local Input Handlers ---
-
   const handleNumberChange = (
     input: string,
     fieldName: keyof BasicInfoData,
@@ -51,16 +50,6 @@ export default function BasicInfo({
         onChange={(val) => onUpdate({ username: val })}
         error={errors.username}
       />
-
-      {/* <Input
-        header={t("birthdate_header", messages)}
-        placeholder={t("birthdate_placeholder", messages)}
-        type="text"
-        backImageURL="/Icons/Calendar.svg"
-        value={data.birthdate}
-        onChange={handleDateChange}
-        error={errors.birthdate}
-      /> */}
 
       <BirthdatePicker
         header={t("birthdate_header", messages)}
