@@ -1,0 +1,13 @@
+{
+  "Title": "โปรไฟล์และการตั้งค่า",
+  "Edit Profile": "แก้ไขโปรไฟล์",
+  "Settings": "การตั้งค่า",
+  "Edit Dietary Restrictions": "แก้ไขข้อจำกัดด้านอาหาร",
+  "Edit Goal": "แก้ไขเป้าหมาย",
+  "Edit Language": "แก้ไขภาษา",
+
+  "profile-title": "โปรไฟล์",
+  "dietary-restriction-title": "ข้อจำกัดด้านอาหาร",
+  "goal-title": "เป้าหมาย",
+  "language-title": "ภาษา"
+}

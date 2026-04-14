@@ -1,29 +1,50 @@
 "use client";
 
-import { Locale } from "@calculories/shared-types";
+import { t } from "@/lib/internationalisation/i18n-helpers";
+import { Locale, Messages } from "@calculories/shared-types";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
-export default function NavBar() {
+interface NavBarProps {
+  messages: Messages;
+}
+
+export default function NavBar({ messages }: NavBarProps) {
   const params = useParams();
   const pathname = usePathname();
   const locale = (params?.locale as Locale) || "en";
 
   const navLinks = [
-    { label: "Home", href: `/${locale}`, icon: <HomeIcon /> },
-    { label: "Search", href: `/${locale}/search`, icon: <SearchIcon /> },
-    { label: "History", href: `/${locale}/history`, icon: <HistoryIcon /> },
-    { label: "Profile", href: `/${locale}/settings`, icon: <ProfileIcon /> },
+    {
+      label: t("home", messages),
+      href: `/${locale}`,
+      icon: <HomeIcon />,
+    },
+    {
+      label: t("search", messages),
+      href: `/${locale}/search`,
+      icon: <SearchIcon />,
+    },
+    {
+      label: t("history", messages),
+      href: `/${locale}/history`,
+      icon: <HistoryIcon />,
+    },
+    {
+      label: t("settings", messages),
+      href: `/${locale}/settings`,
+      icon: <ProfileIcon />,
+    },
   ];
 
   return (
-    <nav className="border-grey-40 fixed right-0 bottom-0 left-0 z-50 mx-auto flex w-full max-w-105 items-center justify-between gap-10 border-t-[0.5px] bg-white px-7.5 py-2.5">
+    <nav className="border-grey-40 fixed right-0 bottom-0 left-0 z-40 mx-auto flex w-full max-w-105 items-center justify-between gap-10 border-t-[0.5px] bg-white px-7.5 py-2.5">
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
 
         return (
           <Link
-            key={link.label}
+            key={link.href}
             href={link.href}
             className={`flex flex-col items-center gap-1 ${
               isActive ? "text-green-100" : "text-grey-60 hover:text-green-100"

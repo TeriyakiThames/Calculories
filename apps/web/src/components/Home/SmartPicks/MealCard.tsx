@@ -111,7 +111,7 @@ export default function MealCard({
             {restaurantName}
           </h3>
           <h2 className="leading-tight font-bold">{menuName}</h2>
-          <h3 className="text-grey-60 truncate text-xs leading-tight font-bold">
+          <h3 className="text-grey-60 max-w-45 truncate text-xs leading-tight font-bold">
             {dishTypes?.join(" • ")}
           </h3>
           <h1 className="leading-tight font-bold text-green-100">฿{price}</h1>

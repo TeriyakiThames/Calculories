@@ -1,5 +1,5 @@
 import { loadMessages } from "@/lib/internationalisation/i18n";
-import HomeClient from "@/components/Home/HomeClient";
+import HomeClient from "@/app/[locale]/HomeClient";
 import { Locale } from "@calculories/shared-types";
 
 export default async function Page({
@@ -11,13 +11,13 @@ export default async function Page({
 
   const homeMessages = await loadMessages(
     locale,
-    ["TopBar", "Streak", "CalorieGoals", "SmartPicks", "SearchBar"],
+    ["TopBar", "Streak", "CalorieGoals", "SmartPicks"],
     "Home",
   );
 
   const sharedMessages = await loadMessages(
     locale,
-    ["AuthButton", "DeleteAccountButton"],
+    ["AuthButton", "DeleteAccountButton", "NavBar"],
     "Shared",
   );
 

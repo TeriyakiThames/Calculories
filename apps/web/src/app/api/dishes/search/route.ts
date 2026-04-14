@@ -106,7 +106,7 @@ export async function POST(request: Request) {
       ); // match th or en name
     }
     if (sort_by) {
-      query = query.order(sort_by, { ascending: ascending }); // sort by, accending
+      query = query.order(sort_by, { ascending: ascending }).order("id"); // sort by, accending (secondary sort by id to ensure the same order when values are equal)
     }
     if (dish_type_ids && dish_type_ids.length != 0) {
       query = query.in("dish_type_map.type_id", dish_type_ids); // dish types
