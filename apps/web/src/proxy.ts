@@ -7,5 +7,8 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:locale/auth/login"],
+  matcher: [
+    // Match all paths except /api, /_next, and static files
+    "/((?!api|_next|_next/static|_next/image|assets|Icons|favicon.ico|sw.js).*)",
+  ],
 };
