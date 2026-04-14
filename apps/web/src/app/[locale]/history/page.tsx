@@ -10,5 +10,8 @@ export default async function MealHistoryPage({
   const { locale } = await params;
 
   const messages = await loadMessages(locale, ["MealHistory"], "MealHistory");
-  return <MealHistoryClient locale={locale} messages={messages} />;
+  const navBarMessages = await loadMessages(locale, ["NavBar"], "Shared");
+  const allMessages = { ...messages, ...navBarMessages };
+
+  return <MealHistoryClient locale={locale} messages={allMessages} />;
 }
