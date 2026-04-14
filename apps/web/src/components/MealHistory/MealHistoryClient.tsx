@@ -80,7 +80,9 @@ export default function MealHistoryClient({
         ) : (
           <BackButton />
         )}
-        <h1 className="pb-1 text-xl font-bold">Meal History</h1>
+        <h1 className="pb-1 text-xl font-bold">
+          {t("meal_history", messages)}
+        </h1>
         {isEditing ? (
           <button
             className={`hover:bg-grey-10 disabled:text-grey-40 rounded-xl p-2 text-red-100 transition-all ${Object.keys(checkedList).every((r) => !checkedList[+r]) ?? "hover:cursor-pointer"}`}
@@ -137,7 +139,7 @@ export default function MealHistoryClient({
 
       {/* Popup */}
       {showPopup && (
-        <Popup>
+        <Popup onClickOutside={() => setShowPopup(false)}>
           <p className="text-grey-80 mb-2 leading-tight font-bold">
             {t("delete_confirm", messages)}
           </p>
