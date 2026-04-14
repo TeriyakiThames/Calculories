@@ -2,7 +2,7 @@
   "username_header": "Username",
   "username_placeholder": "What is your name?",
 
-  "birthdate_header": "Birthdate",
+  "birthdate_header": "Date of birth",
   "birthdate_placeholder": "DD/MM/YYYY",
 
   "weight_header": "Weight (kg)",

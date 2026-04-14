@@ -2,7 +2,7 @@
   "username_header": "ชื่อผู้ใช้",
   "username_placeholder": "คุณชื่ออะไร?",
 
-  "birthdate_header": "วันเกิด",
+  "birthdate_header": "วันเดือนปีเกิด",
   "birthdate_placeholder": "วว/ดด/ปปปป",
 
   "weight_header": "น้ำหนัก (กก.)",

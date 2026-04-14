@@ -3,6 +3,7 @@
 import { Input } from "@/components/Shared/Input";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { Messages } from "@calculories/shared-types";
+import BirthdatePicker from "./BirthdatePicker";
 
 interface BasicInfoData {
   username: string;
@@ -29,17 +30,6 @@ export default function BasicInfo({
   messages,
 }: BasicInfoProps) {
   // --- Local Input Handlers ---
-  const handleDateChange = (input: string) => {
-    const numericValue = input.replace(/\D/g, "");
-    let formattedDate = numericValue;
-
-    if (numericValue.length > 2 && numericValue.length <= 4) {
-      formattedDate = `${numericValue.slice(0, 2)}/${numericValue.slice(2)}`;
-    } else if (numericValue.length > 4) {
-      formattedDate = `${numericValue.slice(0, 2)}/${numericValue.slice(2, 4)}/${numericValue.slice(4, 8)}`;
-    }
-    onUpdate({ birthdate: formattedDate });
-  };
 
   const handleNumberChange = (
     input: string,
@@ -62,13 +52,23 @@ export default function BasicInfo({
         error={errors.username}
       />
 
-      <Input
+      {/* <Input
         header={t("birthdate_header", messages)}
         placeholder={t("birthdate_placeholder", messages)}
         type="text"
         backImageURL="/Icons/Calendar.svg"
         value={data.birthdate}
         onChange={handleDateChange}
+        error={errors.birthdate}
+      /> */}
+
+      <BirthdatePicker
+        header={t("birthdate_header", messages)}
+        placeholder={t("birthdate_placeholder", messages)}
+        value={data.birthdate}
+        onChange={(date) =>
+          onUpdate({ birthdate: date.toLocaleDateString("en-UK") })
+        }
         error={errors.birthdate}
       />
 
