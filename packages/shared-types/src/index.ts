@@ -88,6 +88,10 @@ export interface Component {
   has_gluten: boolean;
 }
 
+export interface ComponentWithNewRatio extends Component {
+  new_ratio: number;
+}
+
 export interface TypeItem {
   id: number;
   type_en: string;
@@ -246,6 +250,14 @@ export interface GetDishesBySearchRequest {
 export interface GetRestaurantResponse extends Restaurant {
   id: number; // Guaranteed to be present in this response
   dishes: Dish[];
+}
+
+// PATCH and POST /api/meal-history/[mid] on ratios edited
+export interface createOrUpdateMealRecordRatiosRequest {
+  edited_carbs: number;
+  edited_protein: number;
+  edited_fat: number;
+  edited_alcohol: number;
 }
 
 // ------------------------------------------------------------------

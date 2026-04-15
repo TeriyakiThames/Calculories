@@ -1,11 +1,11 @@
 "use client";
 
 import { IngredientRow } from "@/components/MealDetails/IngredientsDropdown";
-import { Component, Locale } from "@calculories/shared-types";
+import { ComponentWithNewRatio, Locale } from "@calculories/shared-types";
 
 interface PortionSliderProps {
-  component: Component;
-  handleWeightChange: (componentId: number, newWeight: string | number) => void;
+  component: ComponentWithNewRatio;
+  handleWeightChange: (componentId: number, newRatio: number) => void;
   locale: Locale;
 }
 
@@ -14,14 +14,14 @@ export default function PortionSlider({
   handleWeightChange,
   locale,
 }: PortionSliderProps) {
-  const percent = component.ratio * 100;
+  const percent = (component.new_ratio / component.ratio) * 100;
   const fillPercentage = (percent / 200) * 100;
 
   const onSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPercent = Number(e.target.value);
-
+    const newRatio = component.ratio * (newPercent / 100);
     const baseWeight = component.protein + component.fat + component.carbs;
-    const newWeight = baseWeight * (newPercent / 100);
+    const newWeight = baseWeight * newRatio;
 
     handleWeightChange(component.id, newWeight);
   };
@@ -45,7 +45,7 @@ export default function PortionSlider({
             background: `linear-gradient(to right, var(--color-green-100) ${fillPercentage}%, var(--color-grey-40) ${fillPercentage}%)`,
           }}
         />
-
+        <p>{percent}</p>
         {/* Labels below the track */}
         <div className="text-grey-40 mt-4 flex w-full justify-between text-center text-xs font-bold">
           <span className={`w-8 ${percent >= 0 ? "text-green-100" : ""}`}>

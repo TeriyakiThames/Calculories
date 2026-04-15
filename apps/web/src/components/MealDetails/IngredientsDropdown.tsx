@@ -2,13 +2,24 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Dish, Component, Locale } from "@calculories/shared-types";
+import {
+  Dish,
+  Locale,
+  createOrUpdateMealRecordRatiosRequest,
+  ComponentWithNewRatio,
+} from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
 import { Input } from "@/components/Shared/Input";
 
 interface IngredientsDropdownProps {
   dish: Dish;
   locale: Locale;
+  createOrUpdateMealRecord: ({
+    edited_carbs,
+    edited_protein,
+    edited_fat,
+    edited_alcohol,
+  }: createOrUpdateMealRecordRatiosRequest) => void;
 }
 
 type PortionMode = "display" | "slider" | "input";
@@ -16,21 +27,27 @@ type PortionMode = "display" | "slider" | "input";
 export function IngredientsDropdown({
   dish,
   locale,
+  createOrUpdateMealRecord,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const [components, setComponents] = useState<Component[]>(
-    dish?.components || [],
+  const [portionMode, setPortionMode] = useState<PortionMode>("display");
+  const [components, setComponents] = useState<ComponentWithNewRatio[]>(
+    dish?.components.map((c) => {
+      return { ...c, new_ratio: c.ratio };
+    }) || [],
   );
 
   const [prevDish, setPrevDish] = useState<Dish | undefined>(dish);
 
   if (dish !== prevDish) {
     setPrevDish(dish);
-    setComponents(dish?.components || []);
+    setComponents(
+      dish?.components.map((c) => {
+        return { ...c, new_ratio: c.ratio };
+      }) || [],
+    );
   }
 
   useEffect(() => {
@@ -72,7 +89,8 @@ export function IngredientsDropdown({
         if (c.id === componentId) {
           const baseWeight = c.protein + c.fat + c.carbs;
           const newRatio = baseWeight > 0 ? newWeight / baseWeight : 0;
-          return { ...c, ratio: newRatio };
+
+          return { ...c, new_ratio: newRatio };
         }
         return c;
       }),
@@ -81,22 +99,28 @@ export function IngredientsDropdown({
 
   const handleDoneEditing = async () => {
     setPortionMode("display");
-
-    // TODO: Send the updated `components` data to your API.
-    // console.log("Sending to API:", components);
-
-    // Example of what this might look like once your API is ready:
-    /*
-    try {
-      await fetch('/api/update-dish-components', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dishId: dish.id, components })
-      });
-    } catch (error) {
-      console.error("Failed to update components", error);
-    }
-    */
+    const edited_carbs = components.reduce(
+      (acc, c) => acc + c.carbs * c.new_ratio,
+      0,
+    );
+    const edited_protein = components.reduce(
+      (acc, c) => acc + c.protein * c.new_ratio,
+      0,
+    );
+    const edited_fat = components.reduce(
+      (acc, c) => acc + c.fat * c.new_ratio,
+      0,
+    );
+    const edited_alcohol = components.reduce(
+      (acc, c) => acc + c.alcohol * c.new_ratio,
+      0,
+    );
+    createOrUpdateMealRecord({
+      edited_carbs,
+      edited_protein,
+      edited_fat,
+      edited_alcohol,
+    });
   };
 
   return (
@@ -205,7 +229,7 @@ export function IngredientsDropdown({
                 <div className="flex flex-col gap-4">
                   {components.map((c, index) => {
                     const baseWeight = c.protein + c.fat + c.carbs;
-                    const currentWeight = (baseWeight * c.ratio).toFixed(0);
+                    const currentWeight = (baseWeight * c.new_ratio).toFixed(0);
 
                     return (
                       <Input
@@ -226,27 +250,35 @@ export function IngredientsDropdown({
 
             {/* Submit Button */}
             {portionMode !== "display" && (
-              <button
-                onClick={handleDoneEditing}
-                className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-17 py-2 text-white transition-transform"
-              >
-                <svg
-                  width="23"
-                  height="23"
-                  viewBox="0 0 23 23"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div className="flex w-full gap-4">
+                <button
+                  onClick={() => selectMode("display")}
+                  className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform"
                 >
-                  <circle cx="11.5" cy="11.5" r="11.5" fill="#FDFDFD" />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M16.1693 8.01244C16.6265 8.38525 16.6728 9.03287 16.2727 9.45894L12.0636 13.9419C11.1591 14.9052 9.60113 15.0342 8.52859 14.2346L5.9578 12.318C5.48341 11.9643 5.4065 11.3192 5.78601 10.8771C6.16551 10.435 6.85773 10.3634 7.33212 10.717L9.90291 12.6337C10.0561 12.7479 10.2787 12.7295 10.4079 12.5918L14.6171 8.10887C15.0171 7.6828 15.7121 7.63963 16.1693 8.01244Z"
-                    fill="#333333"
-                  />
-                </svg>
-                Done Editing
-              </button>
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDoneEditing}
+                  className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-4 py-2 text-white transition-transform"
+                >
+                  <svg
+                    width="23"
+                    height="23"
+                    viewBox="0 0 23 23"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="11.5" cy="11.5" r="11.5" fill="#FDFDFD" />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M16.1693 8.01244C16.6265 8.38525 16.6728 9.03287 16.2727 9.45894L12.0636 13.9419C11.1591 14.9052 9.60113 15.0342 8.52859 14.2346L5.9578 12.318C5.48341 11.9643 5.4065 11.3192 5.78601 10.8771C6.16551 10.435 6.85773 10.3634 7.33212 10.717L9.90291 12.6337C10.0561 12.7479 10.2787 12.7295 10.4079 12.5918L14.6171 8.10887C15.0171 7.6828 15.7121 7.63963 16.1693 8.01244Z"
+                      fill="#333333"
+                    />
+                  </svg>
+                  Done Editing
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -299,7 +331,7 @@ export function IngredientRow({
   component,
   locale,
 }: {
-  component: Component;
+  component: ComponentWithNewRatio;
   locale: Locale;
 }) {
   const componentName =
@@ -307,7 +339,7 @@ export function IngredientRow({
       ? component.name_en || component.name_th || "Unknown Menu"
       : component.name_th || component.name_en || "Unknown Menu";
   const baseWeight = component.protein + component.fat + component.carbs;
-  const currentWeight = (baseWeight * component.ratio).toFixed(0);
+  const currentWeight = (baseWeight * component.new_ratio).toFixed(0);
   return (
     <div className="flex items-center justify-between">
       <span className="text-grey-100 leading-5">{componentName}</span>

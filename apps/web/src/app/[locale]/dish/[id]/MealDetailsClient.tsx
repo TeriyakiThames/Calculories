@@ -1,6 +1,10 @@
 "use client";
 
-import { Dish, Locale } from "@calculories/shared-types";
+import {
+  createOrUpdateMealRecordRatiosRequest,
+  Dish,
+  Locale,
+} from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
 import { Button } from "@/components/Shared/Button";
@@ -11,6 +15,7 @@ import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
 import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
+import addMealHistory from "@/services/api/addMealHistory";
 
 export const MealDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
@@ -79,6 +84,18 @@ export default function MealDetailsClient({
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
 
+  // TODO: setComponent(data)
+  const createMealRecordRatios = async (
+    data: createOrUpdateMealRecordRatiosRequest,
+  ) => {
+    console.log(data);
+    // try {
+    //   await addMealHistory({ dish_id: id, ...data });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
   useEffect(() => {
     const fetchDish = async () => {
       try {
@@ -117,7 +134,11 @@ export default function MealDetailsClient({
         <NutritionalInfo dish={dish} />
         <AiSummary />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
-        <IngredientsDropdown dish={dish} locale={locale} />
+        <IngredientsDropdown
+          dish={dish}
+          locale={locale}
+          createOrUpdateMealRecord={createMealRecordRatios}
+        />
       </div>
 
       <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">

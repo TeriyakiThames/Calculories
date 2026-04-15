@@ -1,9 +1,14 @@
 "use client";
 
-import { Dish, Locale, MealRecord, Messages } from "@calculories/shared-types";
+import {
+  createOrUpdateMealRecordRatiosRequest,
+  Dish,
+  Locale,
+  MealRecord,
+  Messages,
+} from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
-import { Button } from "@/components/Shared/Button";
 import { IngredientsDropdown } from "@/components/MealDetails/IngredientsDropdown";
 import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
@@ -82,8 +87,18 @@ export default function MealRecordDetailsClient({
   id,
   messages,
 }: MealRecordDetailsClientProps) {
-  const [dish, setDish] = useState<Dish | undefined>(undefined);
+  const [record, setRecord] = useState<MealRecord | undefined>(undefined);
   const [date, setDate] = useState<Date>(new Date());
+
+  const updateMealRecordRatios = async (
+    data: createOrUpdateMealRecordRatiosRequest,
+  ) => {
+    try {
+      await updateMealRecord(data, id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchDish = async () => {
@@ -91,8 +106,7 @@ export default function MealRecordDetailsClient({
         const tempRecord = (await getMealRecord(id)) as MealRecord;
 
         if (!tempRecord) return notFound();
-
-        setDish(tempRecord as unknown as Dish);
+        setRecord(tempRecord);
         setDate(new Date(tempRecord.at));
       } catch (error) {
         console.error(error);
@@ -113,9 +127,9 @@ export default function MealRecordDetailsClient({
     };
 
     updateHadAt();
-  }, [date]);
+  }, [date, id]);
 
-  if (!dish) return <MealRecordDetailsClientSkeleton />;
+  if (!record) return <MealRecordDetailsClientSkeleton />;
 
   return (
     <main className="relative pb-28">
@@ -132,14 +146,13 @@ export default function MealRecordDetailsClient({
         className="h-auto w-full object-cover"
       />
       <div className="relative -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
-        <MealHeader dish={dish} locale={locale} />
-        <NutritionalInfo dish={dish} />
+        <MealHeader dish={record as unknown as Dish} locale={locale} />
+        <NutritionalInfo dish={record as unknown as Dish} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={record as unknown as Dish}
           locale={locale}
-          portionMode={portionMode}
-          setPortionMode={setPortionMode}
+          createOrUpdateMealRecord={updateMealRecordRatios}
         />
         {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
@@ -149,10 +162,6 @@ export default function MealRecordDetailsClient({
           messages={messages}
           locale={locale}
         />
-      </div>
-
-      <div className="fixed right-0 bottom-0 left-0 z-3 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-        <Button>Add Meal</Button>
       </div>
     </main>
   );
