@@ -36,6 +36,7 @@ export interface User extends DietaryPreferences {
   sex: string;
   weight: number;
   height: number;
+  goal: Goal;
   created_at: string; // ISO datetime string
   activity_level: number;
   target_protein: number;
