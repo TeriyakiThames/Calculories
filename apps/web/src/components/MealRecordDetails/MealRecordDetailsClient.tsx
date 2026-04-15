@@ -1,24 +1,30 @@
 "use client";
 
 import {
-  CreateMealHistoryRequest,
   setOrUpdateMealRecordRatiosRequest,
   Dish,
   Locale,
+  MealRecord,
+  Messages,
 } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
-import { Button } from "@/components/Shared/Button";
-import { AiSummary } from "@/components/MealDetails/AiSummary";
 import { IngredientsDropdown } from "@/components/MealDetails/IngredientsDropdown";
 import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
-import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
-import addMealHistory from "@/services/api/addMealHistory";
+import getMealRecord from "@/services/api/getMealRecord";
+import HadAt from "./HadAt";
+import updateMealRecord from "@/services/api/updateMealRecord";
 
-export const MealDetailsClientSkeleton = () => (
+interface MealRecordDetailsClientProps {
+  locale: Locale;
+  id: number;
+  messages: Messages;
+}
+
+export const MealRecordDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
     {/* Image Skeleton */}
     <div className="">
@@ -68,42 +74,35 @@ export const MealDetailsClientSkeleton = () => (
         </div>
       </div>
     </div>
-
-    {/* Button */}
-    <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-      <div className="h-16 w-full rounded-2xl bg-gray-400" />
-    </div>
   </div>
 );
 
-export default function MealDetailsClient({
+export default function MealRecordDetailsClient({
   locale,
   id,
-}: {
-  locale: Locale;
-  id: number;
-}) {
-  const [dish, setDish] = useState<Dish | undefined>(undefined);
+  messages,
+}: MealRecordDetailsClientProps) {
+  const [record, setRecord] = useState<MealRecord | undefined>(undefined);
+  const [date, setDate] = useState<Date>(new Date());
 
-  // Request body for addMealHistory
-  const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
-    dish_id: id,
-  });
-
-  const setMealRecordRatios = (data: setOrUpdateMealRecordRatiosRequest) => {
-    setRequestData((prev) => {
-      return { ...prev, ...data };
-    });
+  const updateMealRecordRatios = async (
+    data: setOrUpdateMealRecordRatiosRequest,
+  ) => {
+    try {
+      await updateMealRecord(data, id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     const fetchDish = async () => {
       try {
-        const tempDish = (await getDish(id)) as Dish;
+        const tempRecord = (await getMealRecord(id)) as MealRecord;
 
-        if (!tempDish) return notFound();
-
-        setDish(tempDish);
+        if (!tempRecord) return notFound();
+        setRecord(tempRecord);
+        setDate(new Date(tempRecord.at));
       } catch (error) {
         console.error(error);
         return notFound();
@@ -113,7 +112,19 @@ export default function MealDetailsClient({
     fetchDish();
   }, [id]);
 
-  if (!dish) return <MealDetailsClientSkeleton />;
+  useEffect(() => {
+    const updateHadAt = async () => {
+      try {
+        await updateMealRecord({ at: date.toISOString() }, id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    updateHadAt();
+  }, [date, id]);
+
+  if (!record) return <MealRecordDetailsClientSkeleton />;
 
   return (
     <main className="relative pb-28">
@@ -129,19 +140,23 @@ export default function MealDetailsClient({
         priority
         className="h-auto w-full object-cover"
       />
-      <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
-        <MealHeader dish={dish} locale={locale} />
-        <NutritionalInfo dish={dish} />
-        <AiSummary />
+      <div className="relative -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
+        <MealHeader dish={record as unknown as Dish} locale={locale} />
+        <NutritionalInfo dish={record as unknown as Dish} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
-          dish={dish}
+          dish={record as unknown as Dish}
           locale={locale}
-          setOrUpdateMealRecord={setMealRecordRatios}
+          setOrUpdateMealRecord={updateMealRecordRatios}
         />
-      </div>
-      <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-        <Button>Add Meal</Button>
+        {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
+        <div className="bg-grey-40 my h-[0.5px] w-full" />
+        <HadAt
+          date={date}
+          setDate={setDate}
+          messages={messages}
+          locale={locale}
+        />
       </div>
     </main>
   );

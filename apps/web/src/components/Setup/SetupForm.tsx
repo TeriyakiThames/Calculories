@@ -183,6 +183,11 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         messages={messages}
       />
 
+      {Object.entries(errors).length !== 0 && (
+        <div className="text-red-100">
+          Please correctly fill out all the fields
+        </div>
+      )}
       <div className="pb-5" />
 
       <div className="border-grey-40 bg-background-10 fixed bottom-0 left-1/2 z-10 flex w-full max-w-105 -translate-x-1/2 flex-col items-center gap-3 border-t px-9 py-5">
