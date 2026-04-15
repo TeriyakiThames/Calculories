@@ -5,8 +5,10 @@ import {
   setOrUpdateMealRecordRatiosRequest,
   Dish,
   Locale,
-  User,
   Messages,
+  Reason,
+  getWhyThisWorksForYouResponse,
+  GetUserResponse,
 } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
@@ -23,6 +25,7 @@ import getUser from "@/services/api/getUser";
 import Popup from "@/components/Shared/Popup";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { useRouter } from "next/navigation";
+import getWhyThisWorksForYou from "@/services/api/getWhyThisWorksForYou";
 
 export const MealDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
@@ -104,16 +107,20 @@ export default function MealDetailsClient({
   messages: Messages;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<GetUserResponse | undefined>(undefined);
+  const [whyThisWorks, setWhyThisWorks] = useState<Reason[] | undefined>(
+    undefined,
+  );
   const [showHalalInfo, setShowHalalInfo] = useState(false);
   const [allergenAlert, setAllergenAlert] = useState<allergenAlert>({
     visible: false,
     allergens: new Set<Allergen>(),
   });
   // Request body for addMealHistory
-  const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
-    dish_id: id,
-  });
+  const [addMealHistoryRequestData, setAddMealHistoryRequestData] =
+    useState<CreateMealHistoryRequest>({
+      dish_id: id,
+    });
   const [creatingMealRecordStatus, setCreatingMealRecordStatus] =
     useState("add_meal");
   const router = useRouter();
@@ -121,7 +128,7 @@ export default function MealDetailsClient({
   const createMealRecord = async () => {
     try {
       setCreatingMealRecordStatus("adding_meal");
-      await addMealHistory(requestData);
+      await addMealHistory(addMealHistoryRequestData);
       setCreatingMealRecordStatus("meal_added");
     } catch (error) {
       console.error(error);
@@ -129,10 +136,28 @@ export default function MealDetailsClient({
   };
 
   const setMealRecordRatios = (data: setOrUpdateMealRecordRatiosRequest) => {
-    setRequestData((prev) => {
+    setAddMealHistoryRequestData((prev) => {
       return { ...prev, ...data };
     });
   };
+
+  const mockWhyThisWorks = [
+    {
+      type: "High Protein",
+      emoji: "💪",
+      explanation: "Supports your muscle recovery goal.",
+    },
+    {
+      type: "Low Glycemic",
+      emoji: "💪",
+      explanation: "Quinoa base prevents blood sugar spikes.",
+    },
+    {
+      type: "High Satiety",
+      emoji: "💪",
+      explanation: "Fiber-rich avocado keeps you full longer.",
+    },
+  ];
 
   useEffect(() => {
     const fetchDish = async () => {
@@ -150,7 +175,7 @@ export default function MealDetailsClient({
 
     const fetchUser = async () => {
       try {
-        const tempUser = (await getUser()) as User;
+        const tempUser = (await getUser()) as GetUserResponse;
 
         if (!tempUser) return notFound();
 
@@ -196,6 +221,66 @@ export default function MealDetailsClient({
 
     fetchDish();
     fetchUser();
+
+    // const fetchWhyThisWorksForYou = async () => {
+    //   try {
+    //     const requestBody = {
+    //       user: {
+    //         goal: Goal,
+    //         target_calorie: user?.target_calories,
+    //         target_protein: user?.target_protein,
+    //         target_fat: user?.target_fats,
+    //         target_carbs: user?.target_carbs,
+    //         dietary_restrictions: {
+    //           vegetarian: user?.vegetarian_default,
+    //           no_shellfish: user?.no_shellfish_default,
+    //           no_lactose: user?.no_lactose_default,
+    //           no_peanut: user?.no_peanut_default,
+    //           gluten_free: user?.gluten_free_default,
+    //           halal: user?.halal_default,
+    //         },
+    //         diet_profile: {
+    //           calorie_intake: user?.diet_profile.calorie_intake,
+    //           protein_intake: user?.diet_profile.protein_intake,
+    //           fat_intake: user?.diet_profile.fat_intake,
+    //           carbs_intake: user?.diet_profile.carbs_intake,
+    //         },
+    //         location: {
+    //           latitude: dish?.restaurant.lat,
+    //           longitude: dish?.restaurant.lon,
+    //         },
+    //         language: locale,
+    //       },
+    //       dish: {
+    //         id: dish?.id,
+    //         name_en: dish?.name_en,
+    //         name_th: dish?.name_th,
+    //         restaurant_name: dish?.restaurant.name_en,
+    //         restaurant_type: dish?.restaurant.restaurant_types,
+    //         price_thb: dish?.price,
+    //         nutrition: {
+    //           calories: dish?.total_calorie,
+    //           protein_g: dish?.total_protein,
+    //           fat_g: dish?.total_fat,
+    //           carbs_g: dish?.total_carbs,
+    //           fiber_g: dish.,
+    //         },
+    //       },
+    //     };
+
+    //     const tempResponse =
+    //       (await getWhyThisWorksForYou()) as getWhyThisWorksForYouResponse;
+
+    //     if (!tempResponse) return notFound();
+
+    //     const { reasons } = tempResponse;
+    //     setWhyThisWorks(reasons);
+    //   } catch (error) {
+    //     console.error(error);
+    //     return notFound();
+    //   }
+    // };
+
     checkAllergies();
     // console.log(allergenAlert.allergens);
   }, [
@@ -233,8 +318,8 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
-
-        <AiSummary />
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+        <AiSummary reasons={mockWhyThisWorks} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={dish}
