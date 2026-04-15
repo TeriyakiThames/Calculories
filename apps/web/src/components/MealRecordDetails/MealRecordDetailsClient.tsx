@@ -74,11 +74,6 @@ export const MealRecordDetailsClientSkeleton = () => (
         </div>
       </div>
     </div>
-
-    {/* Button */}
-    <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-      <div className="h-16 w-full rounded-2xl bg-gray-400" />
-    </div>
   </div>
 );
 
