@@ -29,18 +29,54 @@ export const GOAL_OPTIONS = [
 export const userSchema = z.object({
   username: z
     .string()
-    .min(1, "Username must be more than 1 character and in English!"),
+    .min(3, "Username must be at least 3 characters.")
+    .max(30, "Username cannot exceed 30 characters.")
+    .regex(
+      /^[a-zA-Z0-9]+$/,
+      "Username can only contain English letters and numbers, with no spaces or special characters.",
+    ),
 
   birthdate: z
     .string()
     .regex(
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
       "Must be in DD/MM/YYYY format!",
+    )
+    .refine(
+      (val) => {
+        const [day, month, year] = val.split("/").map(Number);
+        const date = new Date(year, month - 1, day);
+        return (
+          date.getFullYear() === year &&
+          date.getMonth() === month - 1 &&
+          date.getDate() === day
+        );
+      },
+      { message: "This date does not exist." },
+    )
+    .refine(
+      (val) => {
+        const [day, month, year] = val.split("/").map(Number);
+        const date = new Date(year, month - 1, day);
+        const today = new Date();
+        return date <= today;
+      },
+      { message: "Birthdate cannot be in the future." },
     ),
 
-  weight: z.coerce.number().positive("Weight must be a number greater than 0!"),
+  weight: z.coerce
+    .number({
+      message: "Weight must be a valid number!",
+    })
+    .min(15, "Weight must be at least 15kg!")
+    .max(700, "Weight cannot exceed 700kg!"),
 
-  height: z.coerce.number().positive("Height must be a number greater than 0!"),
+  height: z.coerce
+    .number({
+      message: "Height must be a valid number!",
+    })
+    .min(50, "Height must be at least 50cm!")
+    .max(275, "Height cannot exceed 275cm!"),
 
   sex: z.enum(SEX_OPTIONS, {
     message: "Please select a sex!",
