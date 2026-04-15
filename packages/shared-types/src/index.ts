@@ -253,7 +253,7 @@ export interface GetRestaurantResponse extends Restaurant {
 }
 
 // PATCH and POST /api/meal-history/[mid] on ratios edited
-export interface createOrUpdateMealRecordRatiosRequest {
+export interface setOrUpdateMealRecordRatiosRequest {
   edited_carbs: number;
   edited_protein: number;
   edited_fat: number;

@@ -5,7 +5,7 @@ import Image from "next/image";
 import {
   Dish,
   Locale,
-  createOrUpdateMealRecordRatiosRequest,
+  setOrUpdateMealRecordRatiosRequest,
   ComponentWithNewRatio,
 } from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
@@ -14,12 +14,12 @@ import { Input } from "@/components/Shared/Input";
 interface IngredientsDropdownProps {
   dish: Dish;
   locale: Locale;
-  createOrUpdateMealRecord: ({
+  setOrUpdateMealRecord: ({
     edited_carbs,
     edited_protein,
     edited_fat,
     edited_alcohol,
-  }: createOrUpdateMealRecordRatiosRequest) => void;
+  }: setOrUpdateMealRecordRatiosRequest) => void;
 }
 
 type PortionMode = "display" | "slider" | "input";
@@ -27,7 +27,7 @@ type PortionMode = "display" | "slider" | "input";
 export function IngredientsDropdown({
   dish,
   locale,
-  createOrUpdateMealRecord,
+  setOrUpdateMealRecord,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,7 +115,7 @@ export function IngredientsDropdown({
       (acc, c) => acc + c.alcohol * c.new_ratio,
       0,
     );
-    createOrUpdateMealRecord({
+    setOrUpdateMealRecord({
       edited_carbs,
       edited_protein,
       edited_fat,

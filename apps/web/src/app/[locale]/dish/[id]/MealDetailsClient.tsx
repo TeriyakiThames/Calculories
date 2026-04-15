@@ -1,7 +1,8 @@
 "use client";
 
 import {
-  createOrUpdateMealRecordRatiosRequest,
+  CreateMealHistoryRequest,
+  setOrUpdateMealRecordRatiosRequest,
   Dish,
   Locale,
 } from "@calculories/shared-types";
@@ -84,16 +85,15 @@ export default function MealDetailsClient({
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
 
-  // TODO: setComponent(data)
-  const createMealRecordRatios = async (
-    data: createOrUpdateMealRecordRatiosRequest,
-  ) => {
-    console.log(data);
-    // try {
-    //   await addMealHistory({ dish_id: id, ...data });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+  // Request body for addMealHistory
+  const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
+    dish_id: id,
+  });
+
+  const setMealRecordRatios = (data: setOrUpdateMealRecordRatiosRequest) => {
+    setRequestData((prev) => {
+      return { ...prev, ...data };
+    });
   };
 
   useEffect(() => {
@@ -137,10 +137,9 @@ export default function MealDetailsClient({
         <IngredientsDropdown
           dish={dish}
           locale={locale}
-          createOrUpdateMealRecord={createMealRecordRatios}
+          setOrUpdateMealRecord={setMealRecordRatios}
         />
       </div>
-
       <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
         <Button>Add Meal</Button>
       </div>

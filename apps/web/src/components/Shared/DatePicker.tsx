@@ -1,6 +1,11 @@
 "use client";
 
-import { DayPicker, getDefaultClassNames } from "react-day-picker";
+// TODO: explore yearsdropdown
+import {
+  DayPicker,
+  YearsDropdown,
+  getDefaultClassNames,
+} from "react-day-picker";
 import "react-day-picker/style.css";
 import { th as thDayPicker } from "react-day-picker/locale";
 import { Locale } from "@calculories/shared-types";

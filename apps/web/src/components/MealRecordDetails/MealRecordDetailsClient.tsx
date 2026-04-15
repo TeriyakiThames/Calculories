@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  createOrUpdateMealRecordRatiosRequest,
+  setOrUpdateMealRecordRatiosRequest,
   Dish,
   Locale,
   MealRecord,
@@ -91,7 +91,7 @@ export default function MealRecordDetailsClient({
   const [date, setDate] = useState<Date>(new Date());
 
   const updateMealRecordRatios = async (
-    data: createOrUpdateMealRecordRatiosRequest,
+    data: setOrUpdateMealRecordRatiosRequest,
   ) => {
     try {
       await updateMealRecord(data, id);
@@ -152,7 +152,7 @@ export default function MealRecordDetailsClient({
         <IngredientsDropdown
           dish={record as unknown as Dish}
           locale={locale}
-          createOrUpdateMealRecord={updateMealRecordRatios}
+          setOrUpdateMealRecord={updateMealRecordRatios}
         />
         {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
