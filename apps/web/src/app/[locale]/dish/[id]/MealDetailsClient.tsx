@@ -5,6 +5,7 @@ import {
   setOrUpdateMealRecordRatiosRequest,
   Dish,
   Locale,
+  User,
 } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
@@ -17,6 +18,7 @@ import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import addMealHistory from "@/services/api/addMealHistory";
+import getUser from "@/services/api/getUser";
 
 export const MealDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
@@ -84,6 +86,8 @@ export default function MealDetailsClient({
   id: number;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [showHalalInfo, setShowHalalInfo] = useState(false);
 
   // Request body for addMealHistory
   const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
@@ -110,7 +114,21 @@ export default function MealDetailsClient({
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const tempUser = (await getUser()) as User;
+
+        if (!tempUser) return notFound();
+
+        setUser(tempUser);
+      } catch (error) {
+        console.error(error);
+        return notFound();
+      }
+    };
+
     fetchDish();
+    fetchUser();
   }, [id]);
 
   if (!dish) return <MealDetailsClientSkeleton />;
@@ -132,17 +150,62 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
+        {/* <pre>{JSON.stringify(user, null, 2)}</pre>
+        <pre>{JSON.stringify(dish, null, 2)}</pre> */}
+
         <AiSummary />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={dish}
           locale={locale}
           setOrUpdateMealRecord={setMealRecordRatios}
+          showHalalInfo={showHalalInfo}
+          setShowHalalInfo={setShowHalalInfo}
         />
       </div>
       <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
         <Button>Add Meal</Button>
       </div>
+
+      {/* Halal info */}
+      {showHalalInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50">
+            <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto flex w-full max-w-105 flex-col rounded-t-2xl border-t bg-white px-5 pt-5 pb-6">
+              <div className="flex justify-between">
+                <h2 className="font-bold">Halal Info</h2>
+                {/* Close button */}
+                <button
+                  onClick={() => setShowHalalInfo(false)}
+                  title="Close"
+                  className="hover:text-grey-100 hover:bg-grey-10 -m-1 rounded-full p-2 hover:cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#858585" // text-grey-60
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-x-icon lucide-x text-grey-100"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+              <p>
+                Calculories can only detect whether the ingredients are halal,
+                not the cooking procedure. Please check with the restaurant
+                before ordering.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

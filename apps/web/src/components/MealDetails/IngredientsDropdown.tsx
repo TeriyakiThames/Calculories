@@ -20,6 +20,8 @@ interface IngredientsDropdownProps {
     edited_fat,
     edited_alcohol,
   }: setOrUpdateMealRecordRatiosRequest) => void;
+  showHalalInfo: boolean;
+  setShowHalalInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type PortionMode = "display" | "slider" | "input";
@@ -28,6 +30,8 @@ export function IngredientsDropdown({
   dish,
   locale,
   setOrUpdateMealRecord,
+  showHalalInfo,
+  setShowHalalInfo,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -149,7 +153,14 @@ export function IngredientsDropdown({
           {/* Tags Grid */}
           <div className="flex flex-wrap gap-x-2 gap-y-3">
             {isGlutenFree && <Tag color="green" text="Gluten-free" />}
-            {isHalal && <Tag color="green" text="Halal ingredients" hasIcon />}
+            {isHalal && (
+              <Tag
+                color="green"
+                text="Halal ingredients"
+                hasIcon
+                setShowHalalInfo={setShowHalalInfo}
+              />
+            )}
             {isVegetarian && <Tag color="green" text="Vegetarian" />}
             {hasPeanuts && <Tag color="red" text="Contains peanuts" />}
             {hasLactose && <Tag color="red" text="Contains lactose" />}
@@ -291,22 +302,32 @@ function Tag({
   color,
   text,
   hasIcon,
+  setShowHalalInfo,
 }: {
   color: "green" | "red";
   text: string;
   hasIcon?: boolean;
+  setShowHalalInfo?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const styles = {
     green: "border-green-100 text-green-100 bg-green-1",
     red: "border-red-100 text-red-100 bg-red-1",
   };
+
   return (
     <div
       className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs leading-none ${styles[color]}`}
     >
       <span className="whitespace-nowrap">{text}</span>
       {hasIcon && (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          onClick={() => setShowHalalInfo!(true)}
+          className="hover:cursor-pointer"
+        >
           <circle
             cx="8"
             cy="8"
