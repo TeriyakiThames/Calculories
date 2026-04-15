@@ -29,6 +29,7 @@ export const GOAL_OPTIONS = [
 export const userSchema = z.object({
   username: z
     .string()
+    .trim()
     .min(3, "Username must be at least 3 characters.")
     .max(30, "Username cannot exceed 30 characters.")
     .regex(
@@ -56,18 +57,18 @@ export const userSchema = z.object({
     )
     .refine(
       (val) => {
-        const [day, month, year] = val.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        const today = new Date();
-        return date <= today;
+        const year = Number(val.split("/")[2]);
+        const currentYear = new Date().getFullYear();
+        return year >= currentYear - 100 && year <= currentYear - 5;
       },
-      { message: "Birthdate cannot be in the future." },
+      { message: "Please enter a year in the valid range." },
     ),
 
   weight: z.coerce
     .number({
       message: "Weight must be a valid number!",
     })
+    .multipleOf(0.1, "Weight can only have one decimal place.")
     .min(15, "Weight must be at least 15kg!")
     .max(700, "Weight cannot exceed 700kg!"),
 
@@ -75,6 +76,7 @@ export const userSchema = z.object({
     .number({
       message: "Height must be a valid number!",
     })
+    .multipleOf(0.1, "Height can only have one decimal place.")
     .min(50, "Height must be at least 50cm!")
     .max(275, "Height cannot exceed 275cm!"),
 
