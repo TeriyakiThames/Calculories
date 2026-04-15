@@ -114,7 +114,19 @@ export default function MealDetailsClient({
   const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
     dish_id: id,
   });
+  const [creatingMealRecordStatus, setCreatingMealRecordStatus] =
+    useState("add_meal");
   const router = useRouter();
+
+  const createMealRecord = async () => {
+    try {
+      setCreatingMealRecordStatus("adding_meal");
+      await addMealHistory(requestData);
+      setCreatingMealRecordStatus("meal_added");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const setMealRecordRatios = (data: setOrUpdateMealRecordRatiosRequest) => {
     setRequestData((prev) => {
@@ -221,8 +233,6 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-        <pre>{JSON.stringify(dish, null, 2)}</pre>
 
         <AiSummary />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
@@ -235,7 +245,9 @@ export default function MealDetailsClient({
         />
       </div>
       <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-        <Button>Add Meal</Button>
+        <Button onClick={createMealRecord}>
+          {t(creatingMealRecordStatus, messages)}
+        </Button>
       </div>
 
       {/* Halal Info */}

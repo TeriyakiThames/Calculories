@@ -12,5 +12,8 @@
   "peanuts": "peanuts",
   "shellfish": "shellfish",
   "meat": "meat",
-  "haram ingredients": "haram ingredients"
+  "haram ingredients": "haram ingredients",
+  "add_meal": "Add Meal",
+  "adding_meal": "Adding Meal...",
+  "meal_added": "Meal Added!"
 }

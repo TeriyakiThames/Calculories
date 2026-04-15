@@ -12,5 +12,8 @@
   "peanuts": "ถั่ว",
   "shellfish": "สัตว์น้ำมีเปลือก",
   "meat": "เนื้อสัตว์",
-  "haram ingredients": "อาหารฮาราม"
+  "haram ingredients": "อาหารฮาราม",
+  "add_meal": "บันทึกมื้ออาหาร",
+  "adding_meal": "กำลังบันทึก...",
+  "meal_added": "บันทึกสำเร็จ!"
 }
