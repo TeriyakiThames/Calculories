@@ -38,11 +38,16 @@ export interface User {
   height: number;
   created_at: string; // ISO datetime string
   activity_level: number;
-  vegetarian_default: boolean;
   target_protein: number;
   target_carbs: number;
   target_calories: number;
   target_fats: number;
+  vegetarian_default?: boolean;
+  no_lactose_default?: boolean;
+  no_peanut_default?: boolean;
+  gluten_free_default?: boolean;
+  halal_default?: boolean;
+  no_shellfish_default?: boolean;
 }
 
 export interface UserLocation {

@@ -6,6 +6,7 @@ import {
   Dish,
   Locale,
   User,
+  Messages,
 } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
 import Image from "next/image";
@@ -19,6 +20,9 @@ import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import addMealHistory from "@/services/api/addMealHistory";
 import getUser from "@/services/api/getUser";
+import Popup from "@/components/Shared/Popup";
+import { t } from "@/lib/internationalisation/i18n-helpers";
+import { useRouter } from "next/navigation";
 
 export const MealDetailsClientSkeleton = () => (
   <div className="min-h-screen animate-pulse bg-gray-100">
@@ -78,21 +82,39 @@ export const MealDetailsClientSkeleton = () => (
   </div>
 );
 
+type Allergen =
+  | "gluten"
+  | "lactose"
+  | "peanuts"
+  | "shellfish"
+  | "meat"
+  | "haram ingredients";
+interface allergenAlert {
+  visible: boolean;
+  allergens: Set<Allergen>;
+}
+
 export default function MealDetailsClient({
   locale,
   id,
+  messages,
 }: {
   locale: Locale;
   id: number;
+  messages: Messages;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
   const [user, setUser] = useState<User | undefined>(undefined);
   const [showHalalInfo, setShowHalalInfo] = useState(false);
-
+  const [allergenAlert, setAllergenAlert] = useState<allergenAlert>({
+    visible: false,
+    allergens: new Set<Allergen>(),
+  });
   // Request body for addMealHistory
   const [requestData, setRequestData] = useState<CreateMealHistoryRequest>({
     dish_id: id,
   });
+  const router = useRouter();
 
   const setMealRecordRatios = (data: setOrUpdateMealRecordRatiosRequest) => {
     setRequestData((prev) => {
@@ -127,9 +149,58 @@ export default function MealDetailsClient({
       }
     };
 
+    const addAllergens = (type: string) => {
+      setAllergenAlert((prev) => {
+        const newAllergens = new Set<Allergen>(prev.allergens.keys());
+        newAllergens.add(type as Allergen);
+
+        return {
+          visible: true,
+          allergens: newAllergens,
+        };
+      });
+    };
+
+    const checkAllergies = () => {
+      if (dish?.has_gluten && user?.gluten_free_default) {
+        addAllergens("gluten");
+      }
+      if (dish?.has_lactose && user?.no_lactose_default) {
+        addAllergens("lactose");
+      }
+      if (dish?.has_peanut && user?.no_peanut_default) {
+        addAllergens("peanut");
+      }
+      if (dish?.has_shellfish && user?.no_shellfish_default) {
+        addAllergens("shellfish");
+      }
+      if (!dish?.is_vegetarian && user?.vegetarian_default) {
+        addAllergens("meat");
+      }
+      if (!dish?.is_halal && user?.halal_default) {
+        addAllergens("haram ingredients");
+      }
+    };
+
     fetchDish();
     fetchUser();
-  }, [id]);
+    checkAllergies();
+    // console.log(allergenAlert.allergens);
+  }, [
+    dish?.has_gluten,
+    dish?.has_lactose,
+    dish?.has_peanut,
+    dish?.has_shellfish,
+    dish?.is_halal,
+    dish?.is_vegetarian,
+    id,
+    user?.gluten_free_default,
+    user?.halal_default,
+    user?.no_lactose_default,
+    user?.no_peanut_default,
+    user?.no_shellfish_default,
+    user?.vegetarian_default,
+  ]);
 
   if (!dish) return <MealDetailsClientSkeleton />;
 
@@ -150,8 +221,8 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} />
-        {/* <pre>{JSON.stringify(user, null, 2)}</pre>
-        <pre>{JSON.stringify(dish, null, 2)}</pre> */}
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+        <pre>{JSON.stringify(dish, null, 2)}</pre>
 
         <AiSummary />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
@@ -167,13 +238,15 @@ export default function MealDetailsClient({
         <Button>Add Meal</Button>
       </div>
 
-      {/* Halal info */}
+      {/* Halal Info */}
       {showHalalInfo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/50">
             <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto flex w-full max-w-105 flex-col rounded-t-2xl border-t bg-white px-5 pt-5 pb-6">
               <div className="flex justify-between">
-                <h2 className="font-bold">Halal Info</h2>
+                <h2 className="font-bold">
+                  {t("halal_info_heading", messages)}
+                </h2>
                 {/* Close button */}
                 <button
                   onClick={() => setShowHalalInfo(false)}
@@ -197,14 +270,64 @@ export default function MealDetailsClient({
                   </svg>
                 </button>
               </div>
-              <p>
-                Calculories can only detect whether the ingredients are halal,
-                not the cooking procedure. Please check with the restaurant
-                before ordering.
-              </p>
+              <p>{t("halal_info_description", messages)}</p>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Allergen Alert / Restriction Alert */}
+      {allergenAlert.visible && (
+        <Popup
+          onClickOutside={() =>
+            setAllergenAlert((prev) => ({
+              visible: false,
+              allergens: new Set<Allergen>(prev.allergens.keys()),
+            }))
+          }
+        >
+          <div className="bg-red-20 rounded-full p-2">
+            <Image
+              src="/Icons/Alert.svg"
+              alt="Edit meal record"
+              width={48}
+              height={48}
+            />
+          </div>
+
+          <h1 className="text-2xl font-bold">
+            {t("allergen_alert_heading", messages)}
+          </h1>
+          <p>
+            {t("allergen_alert_front", messages)}
+            <span className="font-bold">
+              {Array.from(allergenAlert.allergens)
+                .map((a) => t(a, messages))
+                .join(", ")
+                .replace(/, ([^,]*)$/, `${t("and", messages)} $1`)}
+            </span>
+            {t("allergen_alert_back", messages)}
+          </p>
+          <div className="flex w-full flex-col gap-2">
+            <button
+              onClick={() => router.back()}
+              className="w-full rounded-2xl bg-green-100 py-3 font-bold text-white hover:cursor-pointer"
+            >
+              {t("go_back", messages)}
+            </button>
+            <button
+              onClick={() =>
+                setAllergenAlert((prev) => ({
+                  visible: false,
+                  allergens: new Set<Allergen>(prev.allergens.keys()),
+                }))
+              }
+              className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
+            >
+              {t("continue_anyway", messages)}
+            </button>
+          </div>
+        </Popup>
       )}
     </main>
   );

@@ -1,0 +1,16 @@
+{
+  "halal_info_heading": "Halal Info",
+  "halal_info_description": "Calculories can only detect whether the ingredients are halal, not the cooking procedure. Please check with the restaurant before ordering.",
+  "allergen_alert_heading": "Restriction Alert",
+  "allergen_alert_front": "This meal contains ",
+  "allergen_alert_back": ", which matches your profile restrictions. Are you sure want to see this meal?",
+  "and": " and",
+  "go_back": "Go Back",
+  "continue_anyway": "Continue Anyway",
+  "gluten": "gluten",
+  "lactose": "lactose",
+  "peanuts": "peanuts",
+  "shellfish": "shellfish",
+  "meat": "meat",
+  "haram ingredients": "haram ingredients"
+}
