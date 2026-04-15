@@ -181,7 +181,7 @@ export async function POST(request: Request) {
         1, 12, 13, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20,
       ];
 
-      let query = supabase
+      const query = supabase
         .from("dish_sum_mat_view")
         .select(
           `
