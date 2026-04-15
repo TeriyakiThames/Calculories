@@ -34,7 +34,7 @@ function NutrientCard({ nutrient, value }: NutrientCardProps) {
         </span>
 
         <span className="text-grey-100 text-center text-xl font-bold">
-          {Number(value.toFixed(0)).toLocaleString()}
+          {value ? Number(value.toFixed(0)).toLocaleString() : "-"}
         </span>
 
         <span className="text-grey-60 text-xs font-bold">
