@@ -3,6 +3,8 @@
 import {
   DishNoComp,
   GetDishesBySearchRequest,
+  GetUserResponse,
+  LocationType,
   Locale,
   Messages,
   SortBy,
@@ -16,6 +18,7 @@ import SubTypes from "@/components/Search/SubTypes";
 import getDishesBySearch from "@/services/api/getDishesBySearch";
 import MealCardList from "@/components/Home/SmartPicks/MealCardList";
 import { useInView } from "react-intersection-observer";
+import getUser from "@/services/api/getUser";
 
 const BATCH_SIZE = 15;
 
@@ -73,9 +76,15 @@ export default function SortFClientrForm({
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const paramsRef = useRef<Partial<GetDishesBySearchRequest>>({});
+  const paramsRef = useRef<Omit<GetDishesBySearchRequest, "from" | "to">>({});
   const [endDivRef, inView] = useInView({
     threshold: 0.5,
+  });
+
+  const [userInfo, setUserInfo] = useState<GetUserResponse>();
+  const [userLocation, setUserLocation] = useState<LocationType>({
+    latitude: null,
+    longitude: null,
   });
 
   const loadMore = async (
@@ -96,11 +105,39 @@ export default function SortFClientrForm({
     const from = reset ? 0 : dishes.length;
     const to = from + BATCH_SIZE - 1;
 
-    const newDishes = await getDishesBySearch({
-      ...params,
-      from: from,
-      to: to,
-    });
+    let searchObj;
+    if (!userInfo) {
+      const newUserInfo: GetUserResponse = await getUser();
+      setUserInfo(newUserInfo);
+      setIsVegetarian(newUserInfo.vegetarian_default);
+      setDishIsHalal(newUserInfo.halal_default);
+      setNoGluten(newUserInfo.gluten_free_default);
+      setNoLactose(newUserInfo.no_lactose_default);
+      setNoPeanut(newUserInfo.no_peanut_default);
+      setNoShellfish(newUserInfo.no_shellfish_default);
+      searchObj = {
+        ...params,
+        is_vegetarian: newUserInfo.vegetarian_default,
+        dish_is_halal: newUserInfo.halal_default,
+        no_gluten: newUserInfo.gluten_free_default,
+        no_lactose: newUserInfo.no_lactose_default,
+        no_peanut: newUserInfo.no_peanut_default,
+        no_shellfish: newUserInfo.no_shellfish_default,
+        from: from,
+        to: to,
+        user: newUserInfo,
+      };
+    } else {
+      searchObj = {
+        ...params,
+        from: from,
+        to: to,
+        user: userInfo,
+      };
+    }
+
+    const newDishes = await getDishesBySearch(searchObj);
+    console.log(newDishes);
 
     if (newDishes.length < BATCH_SIZE) {
       setHasMore(false);
@@ -137,6 +174,9 @@ export default function SortFClientrForm({
       no_lactose: noLactose,
       no_peanut: noPeanut,
       no_shellfish: noShellfish,
+      user: userInfo,
+      location: userLocation,
+      language: locale,
     };
   }, [
     searchString,
@@ -153,11 +193,23 @@ export default function SortFClientrForm({
     noLactose,
     noPeanut,
     noShellfish,
+    userInfo,
+    userLocation,
+    locale,
   ]);
 
   useEffect(() => {
     if (inView) loadMoreRef.current({ ...paramsRef.current });
   }, [inView]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+  }, []);
 
   return (
     <div className="flex h-full flex-1 flex-col gap-4">

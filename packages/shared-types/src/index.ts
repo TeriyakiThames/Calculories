@@ -28,7 +28,7 @@ export interface DietProfile {
   streak: number;
 }
 
-export interface User {
+export interface User extends DietaryPreferences {
   id: string; // uuid
   username: string;
   email: string;
@@ -38,7 +38,6 @@ export interface User {
   height: number;
   created_at: string; // ISO datetime string
   activity_level: number;
-  vegetarian_default: boolean;
   target_protein: number;
   target_carbs: number;
   target_calories: number;
@@ -51,23 +50,12 @@ export interface UserLocation {
 }
 
 export interface DietaryPreferences {
-  vegetarian_default?: boolean;
-  no_lactose_default?: boolean;
-  no_peanut_default?: boolean;
-  gluten_free_default?: boolean;
-  halal_default?: boolean;
-  no_shellfish_default?: boolean;
-}
-
-export interface UpdateUserDto extends DietaryPreferences {
-  username?: string;
-  dob?: string;
-  sex?: Sex;
-  weight?: number;
-  height?: number;
-  activity_level?: number;
-  goal?: Goal;
-  is_setup_finished?: boolean;
+  vegetarian_default: boolean;
+  no_lactose_default: boolean;
+  no_peanut_default: boolean;
+  gluten_free_default: boolean;
+  halal_default: boolean;
+  no_shellfish_default: boolean;
 }
 
 export interface Component {
@@ -184,6 +172,11 @@ export interface MealRecord {
   total_protein: number;
 }
 
+export interface LocationType {
+  latitude: number | null;
+  longitude: number | null;
+}
+
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
@@ -194,7 +187,17 @@ export interface GetUserResponse extends User {
 }
 
 // PATCH /api/user/:uid
-export type UpdateUserRequest = Partial<Omit<User, "id">>;
+// export type UpdateUserRequest = Partial<Omit<User, "id">>;
+export interface UpdateUserDto extends Partial<DietaryPreferences> {
+  username?: string;
+  dob?: string;
+  sex?: Sex;
+  weight?: number;
+  height?: number;
+  activity_level?: number;
+  goal?: Goal;
+  is_setup_finished?: boolean;
+}
 
 // PATCH /api/user/:uid/diet-profile
 export type UpdateDietProfileRequest = Partial<DietProfile>;
@@ -244,6 +247,9 @@ export interface GetDishesBySearchRequest {
   no_shellfish?: boolean;
   from: number;
   to: number;
+  user?: GetUserResponse;
+  location?: LocationType;
+  language?: Locale;
 }
 
 // GET /api/restaurants/:id
