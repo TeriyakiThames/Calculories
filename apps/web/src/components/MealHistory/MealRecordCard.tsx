@@ -85,7 +85,7 @@ export default function MealRecordCard({
   const time = formatter.format(new Date(record.at));
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] transition-all hover:cursor-pointer">
+    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] transition-all">
       <div className="flex w-full items-center gap-4">
         <div
           className={`transition-all duration-300 ease-in-out ${
