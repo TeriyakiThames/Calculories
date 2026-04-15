@@ -27,7 +27,7 @@ export default function ProfileClient({ messages }: { messages: Messages }) {
 
   return (
     <main className="bg-background-10 flex min-h-screen flex-col px-5">
-      <PageTitle messages={messages} titleOnly={true} />
+      <PageTitle text="profile-title" messages={messages} titleOnly={true} />
       <ProfileForm initialData={appUser} messages={messages} />
       <PageBottom />
     </main>

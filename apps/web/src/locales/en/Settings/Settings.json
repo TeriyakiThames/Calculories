@@ -4,5 +4,10 @@
   "Settings": "Settings",
   "Edit Dietary Restrictions": "Edit Dietary Restirctions",
   "Edit Goal": "Edit Goal",
-  "Edit Language": "Edit Language"
+  "Edit Language": "Edit Language",
+
+  "profile-title": "Profile",
+  "dietary-restriction-title": "Dietary Restrictions",
+  "goal-title": "Goal",
+  "language-title": "Language"
 }

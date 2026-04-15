@@ -38,7 +38,7 @@ export default function NavBar({ messages }: NavBarProps) {
   ];
 
   return (
-    <nav className="border-grey-40 fixed right-0 bottom-0 left-0 z-50 mx-auto flex w-full max-w-105 items-center justify-between gap-10 border-t-[0.5px] bg-white px-7.5 py-2.5">
+    <nav className="border-grey-40 fixed right-0 bottom-0 left-0 z-40 mx-auto flex w-full max-w-105 items-center justify-between gap-10 border-t-[0.5px] bg-white px-7.5 py-2.5">
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
 
