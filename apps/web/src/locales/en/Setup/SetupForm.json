@@ -34,6 +34,7 @@
   "High Protein": "High Protein",
   "Ketogenic": "Ketogenic",
 
+  "Saving": "Saving...",
   "Save and Continue": "Save and Continue",
   "Skip for now": "Skip for now",
 
@@ -42,5 +43,7 @@
   "Lactose Intolerance": "Lactose Intolerance",
   "Gluten Intolerance": "Gluten Intolerance",
   "Peanut Allergy": "Peanut Allergy",
-  "Shellfish Allergy": "Shellfish Allergy"
+  "Shellfish Allergy": "Shellfish Allergy",
+
+  "error_fill_out_all_fields": "Please correctly fill out all fields."
 }

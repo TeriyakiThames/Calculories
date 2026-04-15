@@ -12,7 +12,7 @@ interface PageTitleProps {
 }
 
 export default function PageTitle({
-  text = "Title",
+  text = "Heading",
   messages,
   titleOnly,
   backHref,
