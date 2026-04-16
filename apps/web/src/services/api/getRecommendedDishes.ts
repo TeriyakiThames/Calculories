@@ -7,19 +7,16 @@ export default async function getRecommendedDishes(
   data: GetRecommendedDishesRequest,
 ) {
   try {
-    const response = await fetch(
-      "https://calculories-ai-recommender.onrender.com/recommend/home",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const response = await fetch("/api/recommend", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+    });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch recommended dishes from AI");
+      throw new Error("Failed to fetch recommended dishes from proxy API");
     }
 
     const responseData =
