@@ -1,10 +1,10 @@
 import {
-  getRecommendByRestaurantsRequest,
-  getRecommendByRestaurantsResponse,
+  getRecommendByRestaurantRequest,
+  getRecommendByRestaurantResponse,
 } from "@calculories/shared-types";
 
 export default async function getRecommendByRestaurant(
-  data: getRecommendByRestaurantsRequest,
+  data: getRecommendByRestaurantRequest,
 ) {
   try {
     const response = await fetch(
@@ -25,7 +25,7 @@ export default async function getRecommendByRestaurant(
     }
 
     const responseData =
-      (await response.json()) as getRecommendByRestaurantsResponse;
+      (await response.json()) as getRecommendByRestaurantResponse;
     return responseData;
   } catch (error) {
     console.error("Error adding meal history:", error);

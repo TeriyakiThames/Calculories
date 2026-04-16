@@ -1,4 +1,4 @@
-import { Locale, Dish } from "@calculories/shared-types";
+import { Locale } from "@calculories/shared-types";
 import { notFound } from "next/navigation";
 import getRestaurantById from "@/services/api/getRestaurantById";
 import RestaurantHeader from "@/components/RestaurantDetails/RestaurantHeader";
@@ -39,10 +39,12 @@ export default async function RestaurantDetailPage(
         messages={messages}
       />
       <DishRecommendation
-        restaurantId={restaurantId}
+        restaurant={restaurant}
         locale={locale}
         messages={messages}
+        id={id}
       />
+
       <AllDishes restaurant={restaurant} locale={locale} messages={messages} />
     </main>
   );

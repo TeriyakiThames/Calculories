@@ -325,7 +325,7 @@ export interface getWhyThisWorksForYouResponse {
 }
 
 // POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
-export interface getRecommendByRestaurantsRequest {
+export interface getRecommendByRestaurantRequest {
   user: {
     goal: Goal;
     target_calorie: number;
@@ -354,11 +354,11 @@ export interface getRecommendByRestaurantsRequest {
   };
   screen: string;
   restaurant_id: string;
-  top_n: 3;
+  top_n: number;
 }
 
 // POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
-export interface getRecommendByRestaurantsResponse {
+export interface getRecommendByRestaurantResponse {
   dish_ids: string[];
   screen: string;
   restaurant_id: string;
