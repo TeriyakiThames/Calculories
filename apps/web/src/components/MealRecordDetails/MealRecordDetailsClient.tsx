@@ -117,14 +117,21 @@ export default function MealRecordDetailsClient({
   useEffect(() => {
     const updateHadAt = async () => {
       try {
-        await updateMealRecord({ at: date.toISOString() }, id);
+        if (
+          date &&
+          record &&
+          date.getTime() !== new Date(record.at).getTime()
+        ) {
+          await updateMealRecord({ at: date.toISOString() }, id);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
     updateHadAt();
-  }, [date, id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date]);
 
   if (!record) return <MealRecordDetailsClientSkeleton />;
 
