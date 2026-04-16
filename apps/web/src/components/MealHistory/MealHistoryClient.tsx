@@ -64,103 +64,106 @@ export default function MealHistoryClient({
   const mealRecords: MealRecord[] = data?.data;
 
   return (
-    <div className="flex flex-col gap-5 px-7 py-5">
-      {/* Header */}
-      <div className="text-grey-100 flex items-center justify-between">
-        {isEditing ? (
-          <button
-            className="hover:bg-grey-10 rounded-xl p-2 transition-all hover:cursor-pointer"
-            onClick={() => {
-              setIsEditing(false);
-              setCheckedList({}); // reset checkboxes
-            }}
-          >
-            {t("cancel", messages)}
-          </button>
-        ) : (
-          <BackButton />
-        )}
-        <h1 className="pb-1 text-xl font-bold">
-          {t("meal_history", messages)}
-        </h1>
-        {isEditing ? (
-          <button
-            className={`hover:bg-grey-10 disabled:text-grey-40 rounded-xl p-2 text-red-100 transition-all ${Object.keys(checkedList).every((r) => !checkedList[+r]) ?? "hover:cursor-pointer"}`}
-            onClick={() => setShowPopup(true)}
-            disabled={Object.keys(checkedList).every((r) => !checkedList[+r])}
-          >
-            {t("delete", messages)}
-          </button>
-        ) : (
-          <button
-            className="hover:bg-grey-10 rounded-xl p-2 transition-all"
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            {t("edit", messages)}
-          </button>
-        )}
-      </div>
-
-      {/* View */}
-      <div className="flex items-center justify-between gap-5 align-middle">
-        <p className="w-14 font-bold">{t("view", messages)}</p>
-        <div className="w-full">
-          <Input
-            placeholder={t("calories", messages)}
-            type="dropdown"
-            options={{
-              Calories: t("calories", messages),
-              Protein: t("protein", messages),
-              Carbohydrate: t("carbohydrate", messages),
-              Fat: t("fat", messages),
-            }}
-            value={view}
-            onChange={(val) => {
-              setView(val);
-            }}
-            onDropDownNameChange={(name) => setViewDisplay(name)}
-            dropDownName={viewDisplay}
-          />
-        </div>
-      </div>
-
-      <MealRecordList
-        mealRecords={mealRecords}
-        messages={messages}
-        locale={locale}
-        isLoading={isLoadingMealRecords || isDeleting}
-        view={view as ViewBy}
-        isEditing={isEditing}
-        checkedList={checkedList}
-        setCheckedList={setCheckedList}
-      />
-
-      {/* Popup */}
-      {showPopup && (
-        <Popup onClickOutside={() => setShowPopup(false)}>
-          <p className="text-grey-80 mb-2 leading-tight font-bold">
-            {t("delete_confirm", messages)}
-          </p>
-
-          <div className="flex w-full gap-2">
+    <div>
+      <h1 className="absolute top-6 w-full text-center text-xl font-bold">
+        {t("meal_history", messages)}
+      </h1>
+      <div className="flex flex-col gap-5 px-7 py-5">
+        {/* Header */}
+        <div className="text-grey-100 flex items-center justify-between">
+          {isEditing ? (
             <button
-              onClick={() => setShowPopup(false)}
-              className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
+              className="hover:bg-grey-10 z-2 rounded-xl p-2 transition-all hover:cursor-pointer"
+              onClick={() => {
+                setIsEditing(false);
+                setCheckedList({}); // reset checkboxes
+              }}
             >
               {t("cancel", messages)}
             </button>
+          ) : (
+            <BackButton />
+          )}
+
+          {isEditing ? (
             <button
-              onClick={() => handleDelete()}
-              className="w-full rounded-2xl bg-red-100 py-3 font-bold text-white hover:cursor-pointer"
+              className={`hover:bg-grey-10 disabled:text-grey-40 z-2 rounded-xl p-2 text-red-100 transition-all ${Object.keys(checkedList).every((r) => !checkedList[+r]) ?? "hover:cursor-pointer"}`}
+              onClick={() => setShowPopup(true)}
+              disabled={Object.keys(checkedList).every((r) => !checkedList[+r])}
             >
               {t("delete", messages)}
             </button>
+          ) : (
+            <button
+              className="hover:bg-grey-10 z-2 rounded-xl p-2 transition-all"
+              onClick={() => {
+                setIsEditing(true);
+              }}
+            >
+              {t("edit", messages)}
+            </button>
+          )}
+        </div>
+
+        {/* View */}
+        <div className="flex items-center justify-between gap-5 align-middle">
+          <p className="w-14 font-bold">{t("view", messages)}</p>
+          <div className="w-full">
+            <Input
+              placeholder={t("calories", messages)}
+              type="dropdown"
+              options={{
+                Calories: t("calories", messages),
+                Protein: t("protein", messages),
+                Carbohydrate: t("carbohydrate", messages),
+                Fat: t("fat", messages),
+              }}
+              value={view}
+              onChange={(val) => {
+                setView(val);
+              }}
+              onDropDownNameChange={(name) => setViewDisplay(name)}
+              dropDownName={viewDisplay}
+            />
           </div>
-        </Popup>
-      )}
-      <NavBar messages={messages} />
+        </div>
+
+        <MealRecordList
+          mealRecords={mealRecords}
+          messages={messages}
+          locale={locale}
+          isLoading={isLoadingMealRecords || isDeleting}
+          view={view as ViewBy}
+          isEditing={isEditing}
+          checkedList={checkedList}
+          setCheckedList={setCheckedList}
+        />
+
+        {/* Popup */}
+        {showPopup && (
+          <Popup onClickOutside={() => setShowPopup(false)}>
+            <p className="text-grey-80 mb-2 leading-tight font-bold">
+              {t("delete_confirm", messages)}
+            </p>
+
+            <div className="flex w-full gap-2">
+              <button
+                onClick={() => setShowPopup(false)}
+                className="w-full rounded-2xl border border-red-100 py-3 font-bold text-red-100 hover:cursor-pointer"
+              >
+                {t("cancel", messages)}
+              </button>
+              <button
+                onClick={() => handleDelete()}
+                className="w-full rounded-2xl bg-red-100 py-3 font-bold text-white hover:cursor-pointer"
+              >
+                {t("delete", messages)}
+              </button>
+            </div>
+          </Popup>
+        )}
+        <NavBar messages={messages} />
+      </div>
     </div>
   );
 }
