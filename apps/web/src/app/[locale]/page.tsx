@@ -11,7 +11,7 @@ export default async function Page({
 
   const homeMessages = await loadMessages(
     locale,
-    ["TopBar", "Streak", "CalorieGoals", "SmartPicks"],
+    ["TopBar", "Streak", "CalorieGoals", "SmartPicks", "PreferenceModal"],
     "Home",
   );
 
