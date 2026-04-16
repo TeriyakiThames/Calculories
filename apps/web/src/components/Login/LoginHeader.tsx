@@ -4,13 +4,13 @@ import { t, Messages } from "@/lib/internationalisation/i18n-helpers";
 export default function LoginHeader({ messages }: { messages: Messages }) {
   return (
     <>
-      {/* TODO: Replace with Calculories logo when we get one ... */}
       <Image
-        src="/Hedgehog.png"
+        src="/CalculoriesLogo.svg"
         width={120}
         height={120}
         alt={"Calculories Logo"}
         className="mx-auto mt-20 mb-9.25 block rounded-full"
+        unoptimized
       />
 
       <div className="flex flex-col gap-4.5 text-center font-bold">

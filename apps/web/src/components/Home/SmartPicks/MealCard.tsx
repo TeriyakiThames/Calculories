@@ -62,7 +62,7 @@ export default function MealCard({
 
   const calories = parseFloat(dish.total_calorie?.toFixed(2)) || "-";
   const price = dish.price || 0;
-  const imageUrl = "/Home/UnknownMeal.svg";
+  const imageUrl = "/Home/UnknownMeal.png";
 
   function callCalculateDistance() {
     if (
@@ -94,6 +94,7 @@ export default function MealCard({
           width={80}
           height={80}
           className="h-20 w-20 self-center"
+          unoptimized
         />
 
         {/* Restaurant information */}
