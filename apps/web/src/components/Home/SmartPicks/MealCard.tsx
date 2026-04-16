@@ -4,6 +4,7 @@ import Image from "next/image";
 import { DishNoComp, Locale, UserLocation } from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
+import { useRouter } from "next/navigation";
 
 interface MealCardProps {
   dish: DishNoComp;
@@ -37,6 +38,8 @@ export default function MealCard({
   isRefreshing,
   userLocation,
 }: MealCardProps) {
+  const router = useRouter();
+
   if (isRefreshing) {
     return <MealCardSkeleton />;
   }
@@ -85,7 +88,10 @@ export default function MealCard({
   const distance: number | "-" = callCalculateDistance();
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+    <div
+      onClick={() => router.push(`${locale}/dish/${dish.id}`)}
+      className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer"
+    >
       <div className="flex gap-4">
         {/* Image */}
         <Image
