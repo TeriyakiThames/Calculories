@@ -17,13 +17,18 @@ export default async function MealRecordDetailPage(
   const mealId = parseInt(id, 10);
 
   const messages = await loadMessages(locale, ["MealRecord"], "MealRecord");
-
+  const mealDetailMessages = await loadMessages(
+    locale,
+    ["MealDetail"],
+    "MealDetail",
+  );
+  const allMessages = { ...messages, ...mealDetailMessages };
   return (
     <main className="relative pb-28">
       <MealRecordDetailsClient
         locale={locale}
         id={mealId}
-        messages={messages}
+        messages={allMessages}
       />
     </main>
   );

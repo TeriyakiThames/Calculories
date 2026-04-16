@@ -52,8 +52,8 @@ export async function POST(request: Request) {
       .from("meal_history")
       .insert({ ...data, user_id: user!.id });
 
-    console.log({ error });
     if (error) {
+      console.log("Error adding meal history:", error);
       return new Response(
         JSON.stringify({ error: "Failed to insert meal history" }),
         {

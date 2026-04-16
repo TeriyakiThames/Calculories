@@ -28,7 +28,7 @@ export interface DietProfile {
   streak: number;
 }
 
-export interface User {
+export interface User extends DietaryPreferences {
   id: string; // uuid
   username: string;
   email: string;
@@ -36,13 +36,13 @@ export interface User {
   sex: string;
   weight: number;
   height: number;
+  goal: Goal;
   created_at: string; // ISO datetime string
   activity_level: number;
-  vegetarian_default: boolean;
   target_protein: number;
   target_carbs: number;
-  target_calories: number;
-  target_fats: number;
+  target_calorie: number;
+  target_fat: number;
 }
 
 export interface UserLocation {
@@ -51,23 +51,12 @@ export interface UserLocation {
 }
 
 export interface DietaryPreferences {
-  vegetarian_default?: boolean;
-  no_lactose_default?: boolean;
-  no_peanut_default?: boolean;
-  gluten_free_default?: boolean;
-  halal_default?: boolean;
-  no_shellfish_default?: boolean;
-}
-
-export interface UpdateUserDto extends DietaryPreferences {
-  username?: string;
-  dob?: string;
-  sex?: Sex;
-  weight?: number;
-  height?: number;
-  activity_level?: number;
-  goal?: Goal;
-  is_setup_finished?: boolean;
+  vegetarian_default: boolean;
+  no_lactose_default: boolean;
+  no_peanut_default: boolean;
+  gluten_free_default: boolean;
+  halal_default: boolean;
+  no_shellfish_default: boolean;
 }
 
 export interface Component {
@@ -184,17 +173,38 @@ export interface MealRecord {
   total_protein: number;
 }
 
+export interface Reason {
+  type: string;
+  emoji: string;
+  explanation: string;
+}
+
+export interface LocationType {
+  latitude: number | null;
+  longitude: number | null;
+}
+
 // ------------------------------------------------------------------
 // API Request / Response Payload Types
 // ------------------------------------------------------------------
 
 // GET /api/user/:uid
 export interface GetUserResponse extends User {
-  dietProfile: DietProfile;
+  diet_profile: DietProfile;
 }
 
 // PATCH /api/user/:uid
-export type UpdateUserRequest = Partial<Omit<User, "id">>;
+// export type UpdateUserRequest = Partial<Omit<User, "id">>;
+export interface UpdateUserDto extends Partial<DietaryPreferences> {
+  username?: string;
+  dob?: string;
+  sex?: Sex;
+  weight?: number;
+  height?: number;
+  activity_level?: number;
+  goal?: Goal;
+  is_setup_finished?: boolean;
+}
 
 // PATCH /api/user/:uid/diet-profile
 export type UpdateDietProfileRequest = Partial<DietProfile>;
@@ -244,6 +254,9 @@ export interface GetDishesBySearchRequest {
   no_shellfish?: boolean;
   from: number;
   to: number;
+  user?: GetUserResponse;
+  location?: LocationType;
+  language?: Locale;
 }
 
 // GET /api/restaurants/:id
@@ -260,6 +273,56 @@ export interface setOrUpdateMealRecordRatiosRequest {
   edited_alcohol: number;
 }
 
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface GetWhyThisWorksForYouRequest {
+  user: {
+    goal: Goal;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      gluten_free: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale;
+  };
+  dish: {
+    id: string;
+    name_en: string;
+    name_th: string;
+    restaurant_name_en: string;
+    restaurant_name_th: string;
+    restaurant_type: string[];
+    price_thb: number;
+    nutrition: {
+      calories: number;
+      protein_g: number;
+      fat_g: number;
+      carbs_g: number;
+      fiber_g: number;
+    };
+  };
+}
+
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface getWhyThisWorksForYouResponse {
+  reasons: Reason[];
+}
 // ------------------------------------------------------------------
 // Database Raw Response Types
 // ------------------------------------------------------------------

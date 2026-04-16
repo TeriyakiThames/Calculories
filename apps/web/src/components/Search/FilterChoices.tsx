@@ -35,7 +35,7 @@ export default function FilterChoices({
             type="button"
             key={option.id}
             onClick={() => toggleOption(option.id)}
-            className={`rounded-[40px] border px-4 py-3 text-center text-xs leading-none text-nowrap transition-colors ${
+            className={`rounded-[40px] border px-3.5 py-2.5 text-center text-[13px] leading-none text-nowrap transition-colors ${
               isActive
                 ? "bg-green-10 border-green-100 text-green-100"
                 : "bg-background-1 text-grey-60 border-grey-60"

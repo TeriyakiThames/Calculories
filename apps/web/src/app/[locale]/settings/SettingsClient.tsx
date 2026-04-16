@@ -64,7 +64,7 @@ export default function SettingsClient({
           height={120}
           className="rounded-full object-cover"
         />
-        <span className="text-grey-100 text-center text-3xl font-bold">
+        <span className="text-grey-100 text-center text-2xl font-bold">
           {name}
         </span>
       </div>
@@ -100,6 +100,7 @@ export default function SettingsClient({
             messages={messages}
           />
           <AuthButton messages={messages} />
+          <div className="h-6" />
           <DeleteAccountButton messages={messages} />
         </div>
       </nav>
