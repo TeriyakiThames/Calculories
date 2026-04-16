@@ -2,13 +2,28 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Dish, Component, Locale } from "@calculories/shared-types";
+import {
+  Dish,
+  Locale,
+  setOrUpdateMealRecordRatiosRequest,
+  ComponentWithNewRatio,
+  Messages,
+} from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
 import { Input } from "@/components/Shared/Input";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 interface IngredientsDropdownProps {
   dish: Dish;
   locale: Locale;
+  messages: Messages;
+  setOrUpdateMealRecord: ({
+    edited_carbs,
+    edited_protein,
+    edited_fat,
+    edited_alcohol,
+  }: setOrUpdateMealRecordRatiosRequest) => void;
+  setShowHalalInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type PortionMode = "display" | "slider" | "input";
@@ -16,21 +31,29 @@ type PortionMode = "display" | "slider" | "input";
 export function IngredientsDropdown({
   dish,
   locale,
+  messages,
+  setOrUpdateMealRecord,
+  setShowHalalInfo,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const [components, setComponents] = useState<Component[]>(
-    dish?.components || [],
+  const [portionMode, setPortionMode] = useState<PortionMode>("display");
+  const [components, setComponents] = useState<ComponentWithNewRatio[]>(
+    dish?.components.map((c) => {
+      return { ...c, new_ratio: c.ratio };
+    }) || [],
   );
 
   const [prevDish, setPrevDish] = useState<Dish | undefined>(dish);
 
   if (dish !== prevDish) {
     setPrevDish(dish);
-    setComponents(dish?.components || []);
+    setComponents(
+      dish?.components.map((c) => {
+        return { ...c, new_ratio: c.ratio };
+      }) || [],
+    );
   }
 
   useEffect(() => {
@@ -72,7 +95,8 @@ export function IngredientsDropdown({
         if (c.id === componentId) {
           const baseWeight = c.protein + c.fat + c.carbs;
           const newRatio = baseWeight > 0 ? newWeight / baseWeight : 0;
-          return { ...c, ratio: newRatio };
+
+          return { ...c, new_ratio: newRatio };
         }
         return c;
       }),
@@ -81,22 +105,28 @@ export function IngredientsDropdown({
 
   const handleDoneEditing = async () => {
     setPortionMode("display");
-
-    // TODO: Send the updated `components` data to your API.
-    // console.log("Sending to API:", components);
-
-    // Example of what this might look like once your API is ready:
-    /*
-    try {
-      await fetch('/api/update-dish-components', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dishId: dish.id, components })
-      });
-    } catch (error) {
-      console.error("Failed to update components", error);
-    }
-    */
+    const edited_carbs = components.reduce(
+      (acc, c) => acc + c.carbs * c.new_ratio,
+      0,
+    );
+    const edited_protein = components.reduce(
+      (acc, c) => acc + c.protein * c.new_ratio,
+      0,
+    );
+    const edited_fat = components.reduce(
+      (acc, c) => acc + c.fat * c.new_ratio,
+      0,
+    );
+    const edited_alcohol = components.reduce(
+      (acc, c) => acc + c.alcohol * c.new_ratio,
+      0,
+    );
+    setOrUpdateMealRecord({
+      edited_carbs,
+      edited_protein,
+      edited_fat,
+      edited_alcohol,
+    });
   };
 
   return (
@@ -106,7 +136,9 @@ export function IngredientsDropdown({
         className="flex cursor-pointer items-center justify-between"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h2 className="text-grey-100 text-xl font-bold">Ingredients</h2>
+        <h2 className="text-grey-100 text-xl font-bold">
+          {t("ingredients", messages)}
+        </h2>
         <div
           className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         >
@@ -124,30 +156,45 @@ export function IngredientsDropdown({
         <div className="flex flex-col gap-6">
           {/* Tags Grid */}
           <div className="flex flex-wrap gap-x-2 gap-y-3">
-            {isGlutenFree && <Tag color="green" text="Gluten-free" />}
-            {isHalal && <Tag color="green" text="Halal ingredients" hasIcon />}
-            {isVegetarian && <Tag color="green" text="Vegetarian" />}
-            {hasPeanuts && <Tag color="red" text="Contains peanuts" />}
-            {hasLactose && <Tag color="red" text="Contains lactose" />}
-            {hasShellfish && <Tag color="red" text="Contains shellfish" />}
+            {isGlutenFree && (
+              <Tag color="green" text={t("gluten_free", messages)} />
+            )}
+            {isHalal && (
+              <Tag
+                color="green"
+                text={t("halal_ingredients", messages)}
+                hasIcon
+                setShowHalalInfo={setShowHalalInfo}
+              />
+            )}
+            {isVegetarian && (
+              <Tag color="green" text={t("vegetarian", messages)} />
+            )}
+            {hasPeanuts && (
+              <Tag color="red" text={t("contains_peanuts", messages)} />
+            )}
+            {hasLactose && (
+              <Tag color="red" text={t("contains_lactose", messages)} />
+            )}
+            {hasShellfish && (
+              <Tag color="red" text={t("contains_shellfish", messages)} />
+            )}
           </div>
 
           {/* Adjust Portions Section */}
-          <div className="flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <div className="flex items-center justify-between">
-              <span className="text-grey-100 text-lg font-bold">Portions</span>
+              <span className="text-grey-100 text-lg font-bold">
+                {t("portions", messages)}
+              </span>
 
-              {/* Action Dropdown */}
-              <div className="relative" ref={menuRef}>
+              {/* Toggle portionMode */}
+              {portionMode === "display" ? (
                 <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  onClick={() => setPortionMode("input")}
                   className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:opacity-80"
                 >
-                  <span>
-                    {portionMode === "display"
-                      ? "Adjust Portion"
-                      : "Editing..."}
-                  </span>
+                  <span>{t("adjust_portion", messages)}</span>
                   <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
                     <path
                       fillRule="evenodd"
@@ -157,40 +204,34 @@ export function IngredientsDropdown({
                     />
                   </svg>
                 </button>
-
-                {/* Dropdown Menu Overlay */}
-                {isMenuOpen && (
-                  <div className="border-grey-10 absolute top-full right-0 z-30 mt-2 w-40 overflow-hidden rounded-lg border bg-white shadow-lg">
-                    <button
-                      onClick={() => selectMode("slider")}
-                      className="hover:bg-green-10 text-grey-80 w-full px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      Edit by Slider
-                    </button>
-                    <button
-                      onClick={() => selectMode("input")}
-                      className="hover:bg-green-10 text-grey-80 border-grey-10 w-full border-t px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      Edit by Grams
-                    </button>
-                    {portionMode !== "display" && (
-                      <button
-                        onClick={() => selectMode("display")}
-                        className="hover:bg-red-1 border-grey-10 w-full border-t px-4 py-2 text-left text-sm text-red-100 transition-colors"
-                      >
-                        Cancel Editing
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
+              ) : (
+                <div className="bg-grey-10 flex gap-1 rounded-md p-1 text-xs">
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("input")}
+                  >
+                    {t("GRAM", messages)}
+                  </button>
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("slider")}
+                  >
+                    {t("PERCENT", messages)}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Display Components */}
             <div className="flex flex-col gap-4">
               {portionMode === "display" &&
                 components.map((c) => (
-                  <IngredientRow key={c.id} component={c} locale={locale} />
+                  <IngredientRow
+                    key={c.id}
+                    component={c}
+                    locale={locale}
+                    messages={messages}
+                  />
                 ))}
               {portionMode === "slider" &&
                 components.map((c) => (
@@ -199,21 +240,22 @@ export function IngredientsDropdown({
                     component={c}
                     handleWeightChange={handleWeightChange}
                     locale={locale}
+                    messages={messages}
                   />
                 ))}
               {portionMode === "input" && (
                 <div className="flex flex-col gap-4">
                   {components.map((c, index) => {
                     const baseWeight = c.protein + c.fat + c.carbs;
-                    const currentWeight = (baseWeight * c.ratio).toFixed(0);
+                    const currentWeight = (baseWeight * c.new_ratio).toFixed(0);
 
                     return (
                       <Input
                         key={c.id || index}
-                        header={c.name_en}
+                        header={locale === "en" ? c.name_en : c.name_th}
                         type="text"
                         value={currentWeight}
-                        unit="grams"
+                        unit={t("grams", messages)}
                         onChange={(val) => {
                           handleWeightChange(c.id, val);
                         }}
@@ -226,27 +268,35 @@ export function IngredientsDropdown({
 
             {/* Submit Button */}
             {portionMode !== "display" && (
-              <button
-                onClick={handleDoneEditing}
-                className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-17 py-2 text-white transition-transform"
-              >
-                <svg
-                  width="23"
-                  height="23"
-                  viewBox="0 0 23 23"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div className="flex w-full gap-4">
+                <button
+                  onClick={() => selectMode("display")}
+                  className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform"
                 >
-                  <circle cx="11.5" cy="11.5" r="11.5" fill="#FDFDFD" />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M16.1693 8.01244C16.6265 8.38525 16.6728 9.03287 16.2727 9.45894L12.0636 13.9419C11.1591 14.9052 9.60113 15.0342 8.52859 14.2346L5.9578 12.318C5.48341 11.9643 5.4065 11.3192 5.78601 10.8771C6.16551 10.435 6.85773 10.3634 7.33212 10.717L9.90291 12.6337C10.0561 12.7479 10.2787 12.7295 10.4079 12.5918L14.6171 8.10887C15.0171 7.6828 15.7121 7.63963 16.1693 8.01244Z"
-                    fill="#333333"
-                  />
-                </svg>
-                Done Editing
-              </button>
+                  {t("cancel", messages)}
+                </button>
+                <button
+                  onClick={handleDoneEditing}
+                  className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-4 py-2 text-white transition-transform"
+                >
+                  <svg
+                    width="23"
+                    height="23"
+                    viewBox="0 0 23 23"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="11.5" cy="11.5" r="11.5" fill="#FDFDFD" />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M16.1693 8.01244C16.6265 8.38525 16.6728 9.03287 16.2727 9.45894L12.0636 13.9419C11.1591 14.9052 9.60113 15.0342 8.52859 14.2346L5.9578 12.318C5.48341 11.9643 5.4065 11.3192 5.78601 10.8771C6.16551 10.435 6.85773 10.3634 7.33212 10.717L9.90291 12.6337C10.0561 12.7479 10.2787 12.7295 10.4079 12.5918L14.6171 8.10887C15.0171 7.6828 15.7121 7.63963 16.1693 8.01244Z"
+                      fill="#333333"
+                    />
+                  </svg>
+                  {t("done_editing", messages)}
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -259,22 +309,32 @@ function Tag({
   color,
   text,
   hasIcon,
+  setShowHalalInfo,
 }: {
   color: "green" | "red";
   text: string;
   hasIcon?: boolean;
+  setShowHalalInfo?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const styles = {
     green: "border-green-100 text-green-100 bg-green-1",
     red: "border-red-100 text-red-100 bg-red-1",
   };
+
   return (
     <div
       className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs leading-none ${styles[color]}`}
     >
       <span className="whitespace-nowrap">{text}</span>
       {hasIcon && (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          onClick={() => setShowHalalInfo!(true)}
+          className="hover:cursor-pointer"
+        >
           <circle
             cx="8"
             cy="8"
@@ -298,21 +358,23 @@ function Tag({
 export function IngredientRow({
   component,
   locale,
+  messages,
 }: {
-  component: Component;
+  component: ComponentWithNewRatio;
   locale: Locale;
+  messages: Messages;
 }) {
   const componentName =
     locale === "en"
       ? component.name_en || component.name_th || "Unknown Menu"
       : component.name_th || component.name_en || "Unknown Menu";
   const baseWeight = component.protein + component.fat + component.carbs;
-  const currentWeight = (baseWeight * component.ratio).toFixed(0);
+  const currentWeight = (baseWeight * component.new_ratio).toFixed(0);
   return (
     <div className="flex items-center justify-between">
       <span className="text-grey-100 leading-5">{componentName}</span>
-      <span className="text-grey-60 text-xs leading-5">
-        {currentWeight} grams
+      <span className="text-grey-60 min-w-15 text-right text-xs leading-5">
+        {currentWeight} {t("grams", messages)}
       </span>
     </div>
   );

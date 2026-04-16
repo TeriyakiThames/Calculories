@@ -35,7 +35,7 @@ export default async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
-  const locale = path.split("/")[1];
+  const locale = path.split("/")[1] == "th" ? "th" : "en";
   const loginPath = LOGIN_PATH(locale);
 
   // Redirect unauthenticated users to login

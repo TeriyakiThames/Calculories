@@ -18,10 +18,10 @@ export default function CalorieGoals({
   const carbs = dietProfile?.carbs_intake || 0;
   const fats = dietProfile?.fat_intake || 0;
 
-  const caloriesMax = user?.target_calories || 2200;
+  const caloriesMax = user?.target_calorie || 2200;
   const proteinMax = user?.target_protein || 150;
   const carbsMax = user?.target_carbs || 220;
-  const fatsMax = user?.target_fats || 75;
+  const fatsMax = user?.target_fat || 75;
 
   return (
     <div className="mx-4.5 my-6">

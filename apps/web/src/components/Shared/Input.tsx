@@ -100,7 +100,7 @@ export function Input({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="placeholder:text-grey-40 text-grey-100 w-full bg-transparent py-4 leading-4 font-bold outline-none"
+                className="placeholder:text-grey-40 text-grey-100 w-full bg-transparent py-4 leading-4 outline-none"
               />
               {/* Unit label logic */}
               {unit && (

@@ -16,7 +16,6 @@ export default function Checkbox({
   isVisible,
   onChange,
 }: CheckboxProps) {
-  // TODO: animate with isVisible, tailwind's transform & animate
   return (
     <div className="inline-flex items-center">
       <label className="relative flex cursor-pointer items-center">

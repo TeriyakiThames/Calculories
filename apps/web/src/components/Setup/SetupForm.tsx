@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/Shared/Button";
 import { userSchema } from "@/constants/SetupSchema";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import {
+  GetUserResponse,
   Goal,
   Locale,
   Messages,
@@ -19,6 +20,13 @@ import GoalSelection from "@/components/Setup/GoalSelection";
 import updateUser from "@/services/api/updateUser";
 import { mutate } from "swr";
 import useUser from "@/hooks/useUser";
+import getUser from "@/services/api/getUser";
+import {
+  formatDateForUI,
+  getSexLabel,
+  getActivityLevelLabel,
+  getLevelFromMultiplier,
+} from "@/services/formatHelpers";
 
 interface SetupFormProps {
   locale: Locale;
@@ -27,6 +35,7 @@ interface SetupFormProps {
 
 export default function SetupForm({ locale, messages }: SetupFormProps) {
   const { user: authUser } = useUser();
+
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
@@ -152,6 +161,45 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
     }
   };
 
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const initialData: GetUserResponse = await getUser();
+      setFormData({
+        username: initialData?.username || "",
+        birthdate: formatDateForUI(initialData?.dob),
+        weight:
+          initialData?.weight !== undefined && initialData?.weight !== null
+            ? String(initialData.weight)
+            : "",
+        height:
+          initialData?.height !== undefined && initialData?.height !== null
+            ? String(initialData.height)
+            : "",
+        sex: initialData?.sex || "",
+        sexDisplay: getSexLabel(initialData?.sex, messages),
+        activityLevel: getLevelFromMultiplier(initialData?.activity_level),
+        activityLevelDisplay: getActivityLevelLabel(
+          getLevelFromMultiplier(initialData?.activity_level),
+          messages,
+        ),
+      });
+      if (initialData.vegetarian_default)
+        setDietary((prev) => [...prev, "Vegetarian"]);
+      if (initialData.halal_default)
+        setDietary((prev) => [...prev, "Halal Diet"]);
+      if (initialData.no_lactose_default)
+        setDietary((prev) => [...prev, "Lactose Intolerance"]);
+      if (initialData.gluten_free_default)
+        setDietary((prev) => [...prev, "Gluten Intolerance"]);
+      if (initialData.no_peanut_default)
+        setDietary((prev) => [...prev, "Peanut Allergy"]);
+      if (initialData.no_shellfish_default)
+        setDietary((prev) => [...prev, "Shellfish Allergy"]);
+      setGoal(initialData.goal);
+    };
+    getUserInfo();
+  }, []);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -183,6 +231,11 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         messages={messages}
       />
 
+      {Object.entries(errors).length !== 0 && (
+        <div className="text-red-100">
+          Please correctly fill out all the fields
+        </div>
+      )}
       <div className="pb-5" />
 
       <div className="border-grey-40 bg-background-10 fixed bottom-0 left-1/2 z-10 flex w-full max-w-105 -translate-x-1/2 flex-col items-center gap-3 border-t px-9 py-5">

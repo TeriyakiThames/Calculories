@@ -69,7 +69,7 @@ export default function MealCard({
     else return type.type_th;
   });
 
-  const calories = dish.total_calorie || "-";
+  const calories = parseFloat(dish.total_calorie?.toFixed(2)) || "-";
   const price = dish.price || 0;
   const imageUrl = "/Home/UnknownMeal.svg";
 

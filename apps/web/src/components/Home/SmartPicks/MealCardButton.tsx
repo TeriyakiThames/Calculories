@@ -57,7 +57,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
         </svg>
       </button>
       {popup.show && (
-        <Popup>
+        <Popup onClickOutside={closePopup}>
           {popup.type === "success" ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
