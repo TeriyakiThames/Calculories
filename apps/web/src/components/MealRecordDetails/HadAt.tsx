@@ -22,7 +22,7 @@ interface HadAtProps {
 }
 
 export default function HadAt({ date, setDate, messages, locale }: HadAtProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>(date);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(date);
   const [showMainPopup, setShowMainPopup] = useState(false);
   const [showTimePopup, setShowTimePopup] = useState(false);
   const setOnlyDate = (date: Date) => {
