@@ -132,7 +132,7 @@ export default function MealCard({
         </div>
       </div>
 
-      <MealCardButton dishId={dish.id} />
+      <MealCardButton dishId={dish.id} messages={messages} />
     </div>
   );
 }
