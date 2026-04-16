@@ -45,7 +45,6 @@ export default function PortionSlider({
             background: `linear-gradient(to right, var(--color-green-100) ${fillPercentage}%, var(--color-grey-40) ${fillPercentage}%)`,
           }}
         />
-        <p>{percent}</p>
         {/* Labels below the track */}
         <div className="text-grey-40 mt-4 flex w-full justify-between text-center text-xs font-bold">
           <span className={`w-8 ${percent >= 0 ? "text-green-100" : ""}`}>
