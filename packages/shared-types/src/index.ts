@@ -38,6 +38,7 @@ export interface User {
   height: number;
   created_at: string; // ISO datetime string
   activity_level: number;
+  goal: Goal;
   target_protein: number;
   target_carbs: number;
   target_calories: number;

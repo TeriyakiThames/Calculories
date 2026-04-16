@@ -221,83 +221,72 @@ export default function MealDetailsClient({
 
     fetchDish();
     fetchUser();
+    if (user && dish) {
+      const fetchWhyThisWorksForYou = async () => {
+        try {
+          const requestBody = {
+            user: {
+              goal: user!.goal,
+              target_calorie: user!.target_calories,
+              target_protein: user!.target_protein,
+              target_fat: user!.target_fats,
+              target_carbs: user!.target_carbs,
+              dietary_restrictions: {
+                vegetarian: user!.vegetarian_default!,
+                no_shellfish: user!.no_shellfish_default!,
+                no_lactose: user!.no_lactose_default!,
+                no_peanut: user!.no_peanut_default!,
+                gluten_free: user!.gluten_free_default!,
+                halal: user!.halal_default!,
+              },
+              diet_profile: {
+                calorie_intake: user!.diet_profile.calorie_intake,
+                protein_intake: user!.diet_profile.protein_intake,
+                fat_intake: user!.diet_profile.fat_intake,
+                carbs_intake: user!.diet_profile.carbs_intake,
+              },
+              location: {
+                latitude: dish!.restaurant.lat,
+                longitude: dish!.restaurant.lon,
+              },
+              language: locale,
+            },
+            dish: {
+              id: String(dish!.id),
+              name_en: dish!.name_en,
+              name_th: dish!.name_th,
+              restaurant_name: dish!.restaurant.name_en,
+              restaurant_type: dish!.restaurant.restaurant_types[0].type_en,
+              price_thb: dish!.price,
+              nutrition: {
+                calories: dish!.total_calorie,
+                protein_g: dish!.total_protein,
+                fat_g: dish!.total_fat,
+                carbs_g: dish!.total_carbs,
+                fiber_g: 0,
+              },
+            },
+          };
 
-    // const fetchWhyThisWorksForYou = async () => {
-    //   try {
-    //     const requestBody = {
-    //       user: {
-    //         goal: Goal,
-    //         target_calorie: user?.target_calories,
-    //         target_protein: user?.target_protein,
-    //         target_fat: user?.target_fats,
-    //         target_carbs: user?.target_carbs,
-    //         dietary_restrictions: {
-    //           vegetarian: user?.vegetarian_default,
-    //           no_shellfish: user?.no_shellfish_default,
-    //           no_lactose: user?.no_lactose_default,
-    //           no_peanut: user?.no_peanut_default,
-    //           gluten_free: user?.gluten_free_default,
-    //           halal: user?.halal_default,
-    //         },
-    //         diet_profile: {
-    //           calorie_intake: user?.diet_profile.calorie_intake,
-    //           protein_intake: user?.diet_profile.protein_intake,
-    //           fat_intake: user?.diet_profile.fat_intake,
-    //           carbs_intake: user?.diet_profile.carbs_intake,
-    //         },
-    //         location: {
-    //           latitude: dish?.restaurant.lat,
-    //           longitude: dish?.restaurant.lon,
-    //         },
-    //         language: locale,
-    //       },
-    //       dish: {
-    //         id: dish?.id,
-    //         name_en: dish?.name_en,
-    //         name_th: dish?.name_th,
-    //         restaurant_name: dish?.restaurant.name_en,
-    //         restaurant_type: dish?.restaurant.restaurant_types,
-    //         price_thb: dish?.price,
-    //         nutrition: {
-    //           calories: dish?.total_calorie,
-    //           protein_g: dish?.total_protein,
-    //           fat_g: dish?.total_fat,
-    //           carbs_g: dish?.total_carbs,
-    //           fiber_g: dish.,
-    //         },
-    //       },
-    //     };
+          const tempResponse = (await getWhyThisWorksForYou(
+            requestBody,
+          )) as getWhyThisWorksForYouResponse;
 
-    //     const tempResponse =
-    //       (await getWhyThisWorksForYou()) as getWhyThisWorksForYouResponse;
-
-    //     if (!tempResponse) return notFound();
-
-    //     const { reasons } = tempResponse;
-    //     setWhyThisWorks(reasons);
-    //   } catch (error) {
-    //     console.error(error);
-    //     return notFound();
-    //   }
-    // };
-
+          if (!tempResponse) return notFound();
+          console.log(tempResponse);
+          const { reasons } = tempResponse;
+          console.log(reasons);
+          setWhyThisWorks(reasons);
+        } catch (error) {
+          console.error(error);
+          return notFound();
+        }
+      };
+      fetchWhyThisWorksForYou();
+    }
     checkAllergies();
     // console.log(allergenAlert.allergens);
-  }, [
-    dish?.has_gluten,
-    dish?.has_lactose,
-    dish?.has_peanut,
-    dish?.has_shellfish,
-    dish?.is_halal,
-    dish?.is_vegetarian,
-    id,
-    user?.gluten_free_default,
-    user?.halal_default,
-    user?.no_lactose_default,
-    user?.no_peanut_default,
-    user?.no_shellfish_default,
-    user?.vegetarian_default,
-  ]);
+  }, [dish, id, locale, user]);
 
   if (!dish) return <MealDetailsClientSkeleton />;
 
