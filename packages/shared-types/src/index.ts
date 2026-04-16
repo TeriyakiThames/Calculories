@@ -248,6 +248,105 @@ export interface GetRestaurantResponse extends Restaurant {
   dishes: Dish[];
 }
 
+// PATCH and POST /api/meal-history/[mid] on ratios edited
+export interface setOrUpdateMealRecordRatiosRequest {
+  edited_carbs: number;
+  edited_protein: number;
+  edited_fat: number;
+  edited_alcohol: number;
+}
+
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface GetWhyThisWorksForYouRequest {
+  user: {
+    goal: Goal;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      gluten_free: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale;
+  };
+  dish: {
+    id: string;
+    name_en: string;
+    name_th: string;
+    restaurant_name_en: string;
+    restaurant_name_th: string;
+    restaurant_type: string[];
+    price_thb: number;
+    nutrition: {
+      calories: number;
+      protein_g: number;
+      fat_g: number;
+      carbs_g: number;
+      fiber_g: number;
+    };
+  };
+}
+
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface getWhyThisWorksForYouResponse {
+  reasons: Reason[];
+}
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
+export interface getRecommendByRestaurantsRequest {
+  user: {
+    goal: Goal;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      gluten_free: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale;
+  };
+  screen: string;
+  restaurant_id: string;
+  top_n: 3;
+}
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
+export interface getRecommendByRestaurantsResponse {
+  dish_ids: string[];
+  screen: string;
+  restaurant_id: string;
+  total: number;
+}
 // ------------------------------------------------------------------
 // Database Raw Response Types
 // ------------------------------------------------------------------
