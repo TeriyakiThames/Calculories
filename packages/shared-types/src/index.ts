@@ -10,7 +10,8 @@ export type SortBy =
   | "total_calorie"
   | "total_protein"
   | "total_fat"
-  | "total_carbs";
+  | "total_carbs"
+  | "distance";
 export type ViewBy = "Calories" | "Protein" | "Carbohydrate" | "Fat";
 
 // ------------------------------------------------------------------

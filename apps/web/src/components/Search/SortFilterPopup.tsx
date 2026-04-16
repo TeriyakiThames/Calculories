@@ -1,6 +1,11 @@
 import { DISH_TYPES } from "@/constants/DishTypes";
 import { t } from "@/lib/internationalisation/i18n-helpers";
-import { Locale, Messages, SortBy } from "@calculories/shared-types";
+import {
+  Locale,
+  LocationType,
+  Messages,
+  SortBy,
+} from "@calculories/shared-types";
 import Image from "next/image";
 import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import SubTypes from "@/components/Search/SubTypes";
@@ -9,6 +14,7 @@ import { RESTAURANT_TYPES } from "@/constants/RestaurantTypes";
 interface OptionStateType {
   sortBy: SortBy | undefined;
   setSortBy: Dispatch<SetStateAction<SortBy | undefined>>;
+  setAscending: Dispatch<SetStateAction<boolean>>;
   hasDineIn: boolean;
   setHasDineIn: Dispatch<SetStateAction<boolean>>;
   hasDelivery: boolean;
@@ -27,6 +33,7 @@ interface OptionStateType {
   setNoPeanut: Dispatch<SetStateAction<boolean>>;
   noShellfish: boolean;
   setNoShellfish: Dispatch<SetStateAction<boolean>>;
+  userLocation: LocationType;
 }
 
 interface SortFilterPopupProps {
@@ -83,6 +90,7 @@ export default function SortFilterPopup({
   const {
     sortBy,
     setSortBy,
+    setAscending,
     hasDineIn,
     setHasDineIn,
     hasDelivery,
@@ -101,7 +109,11 @@ export default function SortFilterPopup({
     setNoPeanut,
     noShellfish,
     setNoShellfish,
+    userLocation,
   } = optionState;
+
+  const userHasLocation: boolean =
+    userLocation.latitude !== null && userLocation.longitude !== null;
 
   return (
     <div
@@ -163,6 +175,42 @@ export default function SortFilterPopup({
                   </div>
                 </div>
               ))}
+              <div
+                key={"distance"}
+                onClick={() => {
+                  if (userHasLocation) {
+                    setSortBy("distance");
+                    setAscending(true);
+                  }
+                }}
+                className="flex items-center justify-between"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Image
+                    src={"/Icons/Location.svg"}
+                    alt={t("Distance", messages)}
+                    width={24}
+                    height={24}
+                  />
+                  <p
+                    className={`leading-none ${!userHasLocation && "text-grey-40"}`}
+                  >
+                    {t("Distance", messages)}{" "}
+                    {!userHasLocation && (
+                      <span className="text-red-100">
+                        {t("no_distance_message", messages)}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <div
+                  className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all duration-200 ${"distance" == sortBy ? "border-green-100" : "border-grey-60"}`}
+                >
+                  <div
+                    className={`h-3 w-3 rounded-full transition-all duration-200 ${"distance" == sortBy && "bg-green-100"}`}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

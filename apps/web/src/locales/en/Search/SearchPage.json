@@ -10,6 +10,8 @@
   "Protein": "Protein",
   "Carbohydrate": "Carbohydrate",
   "Fat": "Fat",
+  "Distance": "Distance",
+  "no_distance_message": "Location access required",
   "Dish Types": "Dish Types",
   "Cuisine": "Cuisine",
   "Main Dishes": "Main Dishes",
