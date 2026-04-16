@@ -9,6 +9,7 @@ import {
 } from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
+import { useRouter } from "next/navigation";
 
 interface MealCardProps {
   dish: DishNoComp;
@@ -44,6 +45,8 @@ export default function MealCard({
   userLocation,
   restaurant,
 }: MealCardProps) {
+  const router = useRouter();
+
   if (isRefreshing) {
     return <MealCardSkeleton />;
   }
@@ -71,7 +74,7 @@ export default function MealCard({
 
   const calories = parseFloat(dish.total_calorie?.toFixed(2)) || "-";
   const price = dish.price || 0;
-  const imageUrl = "/Home/UnknownMeal.svg";
+  const imageUrl = "/Home/UnknownMeal.png";
 
   function callCalculateDistance() {
     if (
@@ -94,7 +97,10 @@ export default function MealCard({
   const distance: number | "-" = callCalculateDistance();
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+    <div
+      onClick={() => router.push(`/${locale}/dish/${dish.id}`)}
+      className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer"
+    >
       <div className="flex gap-4">
         {/* Image */}
         <Image
@@ -103,6 +109,7 @@ export default function MealCard({
           width={80}
           height={80}
           className="h-20 w-20 self-center"
+          unoptimized
         />
 
         {/* Restaurant information */}
