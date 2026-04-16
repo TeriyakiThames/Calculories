@@ -34,7 +34,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
     setPopup({ show: false, type: "", message: "" });
   };
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <button
         title="Add meal"
         onClick={onAddMeal}
