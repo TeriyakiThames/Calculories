@@ -1,10 +1,13 @@
 "use client";
 
 import Popup from "@/components/Shared/Popup";
+import useUser from "@/hooks/useUser";
 import addMealHistory from "@/services/api/addMealHistory";
 import { useState } from "react";
+import { mutate } from "swr";
 
 export default function MealCardButton({ dishId }: { dishId: number }) {
+  const { user: authUser } = useUser();
   const [popup, setPopup] = useState({
     show: false,
     type: "", // "success" | "error"
@@ -21,6 +24,9 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
         message:
           "Your daily intake values has been updated. You can check the record in Meal History.",
       });
+      if (authUser?.id) {
+        await mutate(`user-profile-${authUser.id}`);
+      }
     } catch {
       setPopup({
         show: true,
