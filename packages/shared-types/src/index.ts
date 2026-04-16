@@ -41,8 +41,8 @@ export interface User {
   goal: Goal;
   target_protein: number;
   target_carbs: number;
-  target_calories: number;
-  target_fats: number;
+  target_calorie: number;
+  target_fat: number;
   vegetarian_default?: boolean;
   no_lactose_default?: boolean;
   no_peanut_default?: boolean;

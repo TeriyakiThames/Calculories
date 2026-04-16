@@ -7,13 +7,41 @@
   "and": " และ",
   "go_back": "กลับไปหน้าก่อน",
   "continue_anyway": "ดูจานอาหาร",
+
   "gluten": "กลูเตน",
   "lactose": "แลคโตส",
   "peanuts": "ถั่ว",
   "shellfish": "สัตว์น้ำมีเปลือก",
   "meat": "เนื้อสัตว์",
   "haram ingredients": "อาหารฮาราม",
+
   "add_meal": "บันทึกมื้ออาหาร",
   "adding_meal": "กำลังบันทึก...",
-  "meal_added": "บันทึกสำเร็จ!"
+  "meal_added": "บันทึกสำเร็จ!",
+
+  "why_this_works_for_you": "จานนี้เหมาะสำหรับคุณเพราะ...",
+  "ENERGY": "พลังงาน",
+  "PROTEIN": "โปรตีน",
+  "CARBS": "คาร์บ",
+  "FAT": "ไขมัน",
+  "kcal": "กิโลแคลอรี",
+  "g": "กรัม",
+
+  "ingredients": "ส่วนประกอบ",
+  "portions": "ส่วนแบ่ง",
+  "adjust_portion": "แก้ไขส่วนแบ่ง",
+  "editing": "กำลังแก้ไข...",
+  "grams": "กรัม",
+  "cancel": "ยกเลิก",
+  "done_editing": "บันทึก",
+  "edit_by_slider": "แก้ไขโดย %",
+  "edit_by_grams": "แก้ไขโดยกรัม",
+  "cancel_editing": "ยกเลิกการแก้ไข",
+
+  "gluten_free": "ปราศจากกลูเตน",
+  "halal_ingredients": "อาหารฮาลาล",
+  "vegetarian": "มังสวิรัติ",
+  "contains_peanuts": "มีถั่วลิสง",
+  "contains_lactose": "มีแลคโตส",
+  "contains_shellfish": "มีสัตว์น้ำมีเปลือก"
 }

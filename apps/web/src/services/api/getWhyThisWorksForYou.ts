@@ -17,6 +17,7 @@ export default async function getWhyThisWorksForYou(
         },
       },
     );
+
     if (!response.ok) {
       throw new Error(
         `Failed to get Why This Works For You for dish ID ${data.dish.id}`,

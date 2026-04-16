@@ -141,24 +141,6 @@ export default function MealDetailsClient({
     });
   };
 
-  const mockWhyThisWorks = [
-    {
-      type: "High Protein",
-      emoji: "💪",
-      explanation: "Supports your muscle recovery goal.",
-    },
-    {
-      type: "Low Glycemic",
-      emoji: "💪",
-      explanation: "Quinoa base prevents blood sugar spikes.",
-    },
-    {
-      type: "High Satiety",
-      emoji: "💪",
-      explanation: "Fiber-rich avocado keeps you full longer.",
-    },
-  ];
-
   useEffect(() => {
     const fetchDish = async () => {
       try {
@@ -227,9 +209,9 @@ export default function MealDetailsClient({
           const requestBody = {
             user: {
               goal: user!.goal,
-              target_calorie: user!.target_calories,
+              target_calorie: user!.target_calorie,
               target_protein: user!.target_protein,
-              target_fat: user!.target_fats,
+              target_fat: user!.target_fat,
               target_carbs: user!.target_carbs,
               dietary_restrictions: {
                 vegetarian: user!.vegetarian_default!,
@@ -273,10 +255,10 @@ export default function MealDetailsClient({
           )) as getWhyThisWorksForYouResponse;
 
           if (!tempResponse) return notFound();
-          console.log(tempResponse);
           const { reasons } = tempResponse;
-          console.log(reasons);
-          setWhyThisWorks(reasons);
+
+          // setWhyThisWorks(reasons);
+          setWhyThisWorks(reasons.map((r) => ({ ...r, emoji: "✅" })));
         } catch (error) {
           console.error(error);
           return notFound();
@@ -285,8 +267,23 @@ export default function MealDetailsClient({
       fetchWhyThisWorksForYou();
     }
     checkAllergies();
-    // console.log(allergenAlert.allergens);
-  }, [dish, id, locale, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dish?.has_gluten,
+    dish?.has_lactose,
+    dish?.has_peanut,
+    dish?.has_shellfish,
+    dish?.is_halal,
+    dish?.is_vegetarian,
+    id,
+    locale,
+    user?.gluten_free_default,
+    user?.halal_default,
+    user?.no_lactose_default,
+    user?.no_peanut_default,
+    user?.no_shellfish_default,
+    user?.vegetarian_default,
+  ]);
 
   if (!dish) return <MealDetailsClientSkeleton />;
 
@@ -306,15 +303,14 @@ export default function MealDetailsClient({
       />
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
-        <NutritionalInfo dish={dish} />
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-        <AiSummary reasons={mockWhyThisWorks} />
+        <NutritionalInfo dish={dish} messages={messages} />
+        <AiSummary reasons={whyThisWorks} messages={messages} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={dish}
           locale={locale}
+          messages={messages}
           setOrUpdateMealRecord={setMealRecordRatios}
-          showHalalInfo={showHalalInfo}
           setShowHalalInfo={setShowHalalInfo}
         />
       </div>

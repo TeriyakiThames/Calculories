@@ -7,13 +7,41 @@
   "and": " and",
   "go_back": "Go Back",
   "continue_anyway": "Continue Anyway",
+
   "gluten": "gluten",
   "lactose": "lactose",
   "peanuts": "peanuts",
   "shellfish": "shellfish",
   "meat": "meat",
   "haram ingredients": "haram ingredients",
+
   "add_meal": "Add Meal",
   "adding_meal": "Adding Meal...",
-  "meal_added": "Meal Added!"
+  "meal_added": "Meal Added!",
+
+  "why_this_works_for_you": "Why this works for you",
+  "ENERGY": "ENERGY",
+  "PROTEIN": "PROTEIN",
+  "CARBS": "CARBS",
+  "FAT": "FAT",
+  "kcal": "kcal",
+  "g": "g",
+
+  "ingredients": "Ingredients",
+  "portions": "Portions",
+  "adjust_portion": "Adjust Portion",
+  "editing": "Editing...",
+  "grams": "grams",
+  "cancel": "Cancel",
+  "done_editing": "Done Editing",
+  "edit_by_slider": "Edit by Slider",
+  "edit_by_grams": "Edit by Grams",
+  "cancel_editing": "Cancel Editing",
+
+  "gluten_free": "Gluten-free",
+  "halal_ingredients": "Halal ingredients",
+  "vegetarian": "Vegetarian",
+  "contains_peanuts": "Contains peanuts",
+  "contains_lactose": "Contains lactose",
+  "contains_shellfish": "Contains shellfish"
 }
