@@ -1,16 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { DishNoComp, Locale, UserLocation } from "@calculories/shared-types";
+import {
+  DishNoComp,
+  Locale,
+  Messages,
+  UserLocation,
+} from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
 import { useRouter } from "next/navigation";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 interface MealCardProps {
   dish: DishNoComp;
   locale: Locale;
   isRefreshing?: boolean;
   userLocation: UserLocation;
+  message: Messages;
 }
 
 export const MealCardSkeleton = () => (
@@ -37,6 +44,7 @@ export default function MealCard({
   locale,
   isRefreshing,
   userLocation,
+  messages,
 }: MealCardProps) {
   const router = useRouter();
 
@@ -115,10 +123,10 @@ export default function MealCard({
           <h1 className="leading-tight font-bold text-green-100">฿{price}</h1>
           <span className="mt-1 flex gap-1">
             <p className="bg-green-80 rounded-sm py-0.5 pr-1.5 pl-1 text-xs text-white">
-              {calories} kcal
+              {calories} {t("kcal", messages)}
             </p>
             <p className="text-grey-60 rounded-sm bg-gray-200 px-1 py-0.5 text-xs">
-              {distance} km
+              {distance} {t("km", messages)}
             </p>
           </span>
         </div>
