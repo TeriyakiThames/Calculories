@@ -89,7 +89,7 @@ export default function MealCard({
 
   return (
     <div
-      onClick={() => router.push(`${locale}/dish/${dish.id}`)}
+      onClick={() => router.push(`/${locale}/dish/${dish.id}`)}
       className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer"
     >
       <div className="flex gap-4">
