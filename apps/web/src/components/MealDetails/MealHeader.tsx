@@ -1,4 +1,5 @@
 import { Dish, Locale } from "@calculories/shared-types";
+import Link from "next/link";
 
 interface MealHeaderProps {
   dish: Dish;
@@ -38,10 +39,11 @@ export function MealHeader({ dish, locale }: MealHeaderProps) {
       </div>
 
       <div className="mt-2.5 flex flex-col gap-1">
-        {/* TODO: Link to restaurant page when its done */}
-        <span className="font-bold text-green-100 underline">
-          {restaurantName}
-        </span>
+        <Link href={`/${locale}/restaurant/${dish.restaurant.id}`}>
+          <span className="font-bold text-green-100 underline">
+            {restaurantName}
+          </span>
+        </Link>
         <span className="text-grey-60 text-xs font-bold">
           {restaurantTypes.join(" • ")}
         </span>

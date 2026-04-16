@@ -1,6 +1,11 @@
 "use client";
 
-import { DishNoComp, Locale, Messages } from "@calculories/shared-types";
+import {
+  DishNoComp,
+  Locale,
+  Messages,
+  Restaurant,
+} from "@calculories/shared-types";
 import MealCard from "@/components/Home/SmartPicks/MealCard";
 import { useEffect, useState } from "react";
 
@@ -9,6 +14,7 @@ interface MealCardListProps {
   locale: Locale;
   isRefreshing?: boolean;
   messages: Messages;
+  restaurant?: Restaurant;
 }
 
 export default function MealCardList({
@@ -16,6 +22,7 @@ export default function MealCardList({
   locale,
   isRefreshing,
   messages,
+  restaurant,
 }: MealCardListProps) {
   const [userLat, setUserLat] = useState<number | undefined>(undefined);
   const [userLon, setUserLon] = useState<number | undefined>(undefined);
@@ -37,6 +44,7 @@ export default function MealCardList({
           isRefreshing={isRefreshing}
           userLocation={{ userLat: userLat, userLon: userLon }}
           messages={messages}
+          restaurant={restaurant}
         />
       ))}
     </>
