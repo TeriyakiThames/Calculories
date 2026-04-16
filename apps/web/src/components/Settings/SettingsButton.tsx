@@ -21,7 +21,7 @@ export function SettingsButton({
     <Link href={`/${locale}${link}`} className="block w-full">
       <Button className="text-grey-100! hover:bg-grey-10! bg-white! px-5! shadow-[0_0_2px_0_#00000040] active:bg-white! active:shadow-[0_0_2px_0_#4aae9b]">
         <div className="flex w-full items-center justify-between">
-          <span>{t(label, messages)}</span>
+          <span className="text-base">{t(label, messages)}</span>
           <Image
             src="/Icons/Dropdown.svg"
             alt="Dropdown Icon"

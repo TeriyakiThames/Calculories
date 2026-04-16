@@ -274,7 +274,7 @@ export default function SortFilterClientForm({
           )}
           <button
             title="sort and filter"
-            className="flex items-center justify-center gap-1"
+            className="flex items-center justify-center gap-1 text-sm leading-none"
             onClick={() => setShowPopup(true)}
           >
             <svg

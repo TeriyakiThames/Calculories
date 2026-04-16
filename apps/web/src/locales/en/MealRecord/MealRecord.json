@@ -1,5 +1,7 @@
 {
   "had_at": "Had at",
   "cancel": "Cancel",
-  "save_changes": "Save Changes"
+  "save_changes": "Save Changes",
+  "halal_info_heading": "Halal Info",
+  "halal_info_description": "Calculories can only detect whether the ingredients are halal, not the cooking procedure. Please check with the restaurant before ordering."
 }

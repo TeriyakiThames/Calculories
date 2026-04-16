@@ -1,15 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { DishNoComp, Locale, UserLocation } from "@calculories/shared-types";
+import {
+  DishNoComp,
+  Locale,
+  UserLocation,
+  Restaurant,
+} from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
+import { useRouter } from "next/navigation";
 
 interface MealCardProps {
   dish: DishNoComp;
   locale: Locale;
   isRefreshing?: boolean;
   userLocation: UserLocation;
+  restaurant?: Restaurant;
 }
 
 export const MealCardSkeleton = () => (
@@ -36,18 +43,23 @@ export default function MealCard({
   locale,
   isRefreshing,
   userLocation,
+  restaurant,
 }: MealCardProps) {
+  const router = useRouter();
+
   if (isRefreshing) {
     return <MealCardSkeleton />;
   }
 
+  const RestaurantofDish = dish.restaurant || restaurant;
+
   const restaurantName =
     locale === "en"
-      ? dish.restaurant?.name_en ||
-        dish.restaurant?.name_th ||
+      ? RestaurantofDish?.name_en ||
+        RestaurantofDish?.name_th ||
         "Unknown Restaurant"
-      : dish.restaurant?.name_th ||
-        dish.restaurant?.name_en ||
+      : RestaurantofDish?.name_th ||
+        RestaurantofDish?.name_en ||
         "Unknown Restaurant";
 
   const menuName =
@@ -62,18 +74,18 @@ export default function MealCard({
 
   const calories = parseFloat(dish.total_calorie?.toFixed(2)) || "-";
   const price = dish.price || 0;
-  const imageUrl = "/Home/UnknownMeal.svg";
+  const imageUrl = "/Home/UnknownMeal.png";
 
   function callCalculateDistance() {
     if (
       userLocation.userLat &&
       userLocation.userLon &&
-      dish.restaurant.lat &&
-      dish.restaurant.lon
+      RestaurantofDish.lat &&
+      RestaurantofDish.lon
     ) {
       return calculateDistance(
-        dish.restaurant.lat,
-        dish.restaurant.lon,
+        RestaurantofDish.lat,
+        RestaurantofDish.lon,
         userLocation.userLat,
         userLocation.userLon,
       );
@@ -85,7 +97,10 @@ export default function MealCard({
   const distance: number | "-" = callCalculateDistance();
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD]">
+    <div
+      onClick={() => router.push(`/${locale}/dish/${dish.id}`)}
+      className="flex items-center justify-between gap-4 rounded-xl border-[0.5px] border-gray-200 bg-white px-4 py-2 shadow-[0_2.38px_2.38px_0_#CAE1DD] hover:cursor-pointer"
+    >
       <div className="flex gap-4">
         {/* Image */}
         <Image
@@ -94,6 +109,7 @@ export default function MealCard({
           width={80}
           height={80}
           className="h-20 w-20 self-center"
+          unoptimized
         />
 
         {/* Restaurant information */}
