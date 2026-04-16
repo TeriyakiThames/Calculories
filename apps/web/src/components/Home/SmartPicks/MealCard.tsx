@@ -10,6 +10,7 @@ import {
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface MealCardProps {
   dish: DishNoComp;
@@ -114,9 +115,12 @@ export default function MealCard({
 
         {/* Restaurant information */}
         <div className="flex max-w-50 flex-col gap-0.5">
-          <h3 className="text-grey-60 truncate text-xs font-bold">
+          <Link
+            href={`/${locale}/restaurant/${dish.res_id}`}
+            className="text-grey-60 cursor-pointer truncate text-xs font-bold"
+          >
             {restaurantName}
-          </h3>
+          </Link>
           <h2 className="leading-tight font-bold">{menuName}</h2>
           <h3 className="text-grey-60 max-w-45 truncate text-xs leading-tight font-bold">
             {dishTypes?.join(" • ")}
