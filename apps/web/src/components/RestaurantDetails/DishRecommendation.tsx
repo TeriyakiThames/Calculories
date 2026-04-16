@@ -114,7 +114,8 @@ export default function DishRecommendation({
         const response = await getDishesByIds({ ids: dishrecIds!.map(Number) });
         setRecommendDishes(response);
       } catch (error) {
-        return new Response(JSON.stringify({ error }), { status: 500 });
+        console.error("Failed to fetch recommended dishes:", error);
+        setRecommendDishes(undefined);
       }
     };
 
