@@ -15,8 +15,8 @@ import { th } from "date-fns/locale";
 import { PickersInputComponentLocaleText } from "@mui/x-date-pickers/locales";
 
 interface HadAtProps {
-  date: Date;
-  setDate: Dispatch<SetStateAction<Date>>;
+  date: Date | undefined;
+  setDate: Dispatch<SetStateAction<Date | undefined>>;
   messages: Messages;
   locale: Locale;
 }
@@ -50,6 +50,10 @@ export default function HadAt({ date, setDate, messages, locale }: HadAtProps) {
     minute: "2-digit",
     hour12: false,
   });
+
+  if (!date) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>

@@ -84,7 +84,7 @@ export default function MealRecordDetailsClient({
   messages,
 }: MealRecordDetailsClientProps) {
   const [record, setRecord] = useState<MealRecord | undefined>(undefined);
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [showHalalInfo, setShowHalalInfo] = useState(false);
 
   const updateMealRecordRatios = async (
