@@ -36,6 +36,7 @@ export interface User extends DietaryPreferences {
   sex: string;
   weight: number;
   height: number;
+  goal: Goal;
   created_at: string; // ISO datetime string
   activity_level: number;
   target_protein: number;
@@ -74,6 +75,10 @@ export interface Component {
   has_lactose: boolean;
   has_peanut: boolean;
   has_gluten: boolean;
+}
+
+export interface ComponentWithNewRatio extends Component {
+  new_ratio: number;
 }
 
 export interface TypeItem {
@@ -252,6 +257,14 @@ export interface GetDishesBySearchRequest {
 export interface GetRestaurantResponse extends Restaurant {
   id: number; // Guaranteed to be present in this response
   dishes: Dish[];
+}
+
+// PATCH and POST /api/meal-history/[mid] on ratios edited
+export interface setOrUpdateMealRecordRatiosRequest {
+  edited_carbs: number;
+  edited_protein: number;
+  edited_fat: number;
+  edited_alcohol: number;
 }
 
 // ------------------------------------------------------------------
