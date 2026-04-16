@@ -51,6 +51,7 @@ export default function SettingsClient({
   return (
     <main className="bg-background-10 px-5 pb-10">
       <PageTitle
+        text="Title"
         messages={messages}
         titleOnly={true}
         backHref={`/${locale}/`}
