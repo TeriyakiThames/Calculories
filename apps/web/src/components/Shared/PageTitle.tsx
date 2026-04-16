@@ -24,7 +24,7 @@ export default function PageTitle({
         containerClassName={`w-14.5 ${!titleOnly ? "invisible" : ""}`}
       />
 
-      <h1 className="text-grey-100 text-center text-2xl font-bold">
+      <h1 className="text-grey-100 text-center text-xl font-bold">
         {t(text, messages)}
       </h1>
 
