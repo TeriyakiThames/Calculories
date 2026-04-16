@@ -50,7 +50,9 @@ export default function AuthButton({ messages }: { messages: Messages }) {
             height={24}
           />
         )}
-        <span>{t(isLogin ? "login" : "logout", messages)}</span>
+        <span className="text-base">
+          {t(isLogin ? "login" : "logout", messages)}
+        </span>
       </span>
     </Button>
   );

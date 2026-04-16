@@ -60,7 +60,7 @@ export default function MealRecordCard({
       ? record.name_en || record.name_th || "Unknown Menu"
       : record.name_th || record.name_en || "Unknown Menu";
 
-  const imageUrl = "/Home/UnknownMeal.svg";
+  const imageUrl = "/Home/UnknownMeal.png";
 
   const value =
     view === "Calories"
@@ -107,6 +107,7 @@ export default function MealRecordCard({
           width={80}
           height={80}
           className="h-20 w-20 self-center"
+          unoptimized
         />
 
         {/* Record information */}
