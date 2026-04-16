@@ -144,14 +144,14 @@ export default function MealRecordDetailsClient({
       />
       <div className="relative -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={record as unknown as Dish} locale={locale} />
-        <NutritionalInfo dish={record as unknown as Dish} />
+        <NutritionalInfo dish={record as unknown as Dish} messages={messages} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={record as unknown as Dish}
           locale={locale}
           setOrUpdateMealRecord={updateMealRecordRatios}
-          showHalalInfo={showHalalInfo}
           setShowHalalInfo={setShowHalalInfo}
+          messages={messages}
         />
         {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
