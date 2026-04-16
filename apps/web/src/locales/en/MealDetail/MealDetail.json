@@ -34,9 +34,8 @@
   "grams": "grams",
   "cancel": "Cancel",
   "done_editing": "Done Editing",
-  "edit_by_slider": "Edit by Slider",
-  "edit_by_grams": "Edit by Grams",
-  "cancel_editing": "Cancel Editing",
+  "GRAM": "GRAM",
+  "PERCENT": "PERCENT",
 
   "gluten_free": "Gluten-free",
   "halal_ingredients": "Halal ingredients",

@@ -182,23 +182,19 @@ export function IngredientsDropdown({
           </div>
 
           {/* Adjust Portions Section */}
-          <div className="flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <div className="flex items-center justify-between">
               <span className="text-grey-100 text-lg font-bold">
                 {t("portions", messages)}
               </span>
 
-              {/* Action Dropdown */}
-              <div className="relative" ref={menuRef}>
+              {/* Toggle portionMode */}
+              {portionMode === "display" ? (
                 <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  onClick={() => setPortionMode("input")}
                   className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:opacity-80"
                 >
-                  <span>
-                    {portionMode === "display"
-                      ? t("adjust_portion", messages)
-                      : t("editing", messages)}
-                  </span>
+                  <span>{t("adjust_portion", messages)}</span>
                   <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
                     <path
                       fillRule="evenodd"
@@ -208,33 +204,22 @@ export function IngredientsDropdown({
                     />
                   </svg>
                 </button>
-
-                {/* Dropdown Menu Overlay */}
-                {isMenuOpen && (
-                  <div className="border-grey-10 absolute top-full right-0 z-30 mt-2 w-40 overflow-hidden rounded-lg border bg-white shadow-lg">
-                    <button
-                      onClick={() => selectMode("slider")}
-                      className="hover:bg-green-10 text-grey-80 w-full px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      {t("edit_by_slider", messages)}
-                    </button>
-                    <button
-                      onClick={() => selectMode("input")}
-                      className="hover:bg-green-10 text-grey-80 border-grey-10 w-full border-t px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      {t("edit_by_grams", messages)}
-                    </button>
-                    {portionMode !== "display" && (
-                      <button
-                        onClick={() => selectMode("display")}
-                        className="hover:bg-red-1 border-grey-10 w-full border-t px-4 py-2 text-left text-sm text-red-100 transition-colors"
-                      >
-                        {t("cancel_editing", messages)}
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
+              ) : (
+                <div className="bg-grey-10 flex gap-1 rounded-md p-1 text-xs">
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("input")}
+                  >
+                    {t("GRAM", messages)}
+                  </button>
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("slider")}
+                  >
+                    {t("PERCENT", messages)}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Display Components */}
