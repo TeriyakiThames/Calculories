@@ -13,6 +13,7 @@ import PreferenceModal, {
 import { Goal, Locale, Messages } from "@calculories/shared-types";
 import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
+import getRecommendedDishes from "@/services/api/getRecommendedDishes"; // <-- Import the new service
 import NavBar from "@/components/Shared/NavBar";
 
 export default function HomeClient({
@@ -103,29 +104,15 @@ export default function HomeClient({
           ...(activePreferences && {
             preference: {
               selected_pills: activePreferences.selected_pills,
-              custom_text: activePreferences.custom_text,
+              custom_text: activePreferences.custom_text ?? "",
             },
           }),
         };
 
         console.log("Request body for AI recommender:", requestBody);
 
-        const aiResponse = await fetch(
-          "https://calculories-ai-recommender.onrender.com/recommend/home",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-          },
-        );
-
-        if (!aiResponse.ok) {
-          throw new Error("Failed to fetch recommended dishes from AI");
-        }
-
-        const aiData = await aiResponse.json();
+        // Abstracted call using the new service function
+        const aiData = await getRecommendedDishes(requestBody);
         const dishIds = aiData.dish_ids.map(Number);
 
         if (dishIds.length === 0) {

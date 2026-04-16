@@ -323,6 +323,48 @@ export interface GetWhyThisWorksForYouRequest {
 export interface getWhyThisWorksForYouResponse {
   reasons: Reason[];
 }
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/home
+export interface GetRecommendedDishesRequest {
+  user: {
+    goal: Goal | string;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      has_gluten: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale | string;
+  };
+  screen: string;
+  top_n: number;
+  sort_by_distance: boolean;
+  preference?: {
+    selected_pills: string[];
+    custom_text: string;
+  };
+}
+
+export interface GetRecommendedDishesResponse {
+  dish_ids: string[] | number[];
+}
+
 // ------------------------------------------------------------------
 // Database Raw Response Types
 // ------------------------------------------------------------------
