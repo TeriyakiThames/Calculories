@@ -1,13 +1,6 @@
+import { t } from "@/lib/internationalisation/i18n-helpers";
+import { Messages } from "@calculories/shared-types";
 import { useState } from "react";
-
-const DEFAULT_PREFERENCES = [
-  "High Protein",
-  "Healthy",
-  "Comfort Food",
-  "Cheap Meals",
-  "Spicy",
-  "Dessert",
-];
 
 export interface PreferencePayload {
   selected_pills: string[];
@@ -16,6 +9,7 @@ export interface PreferencePayload {
 
 interface PreferenceModalProps {
   isOpen: boolean;
+  messages: Messages;
   onClose: () => void;
   onApply: (preferences: PreferencePayload) => void;
 }
@@ -24,6 +18,7 @@ export default function PreferenceModal({
   isOpen,
   onClose,
   onApply,
+  messages,
 }: PreferenceModalProps) {
   const [showAddMoreView, setShowAddMoreView] = useState(false);
   const [selectedPills, setSelectedPills] = useState<string[]>([]);
@@ -75,6 +70,7 @@ export default function PreferenceModal({
               setShowAddMoreView(true);
             }}
             onApply={handleApply}
+            messages={messages}
           />
         ) : (
           <AddCustomPreferenceView
@@ -83,6 +79,7 @@ export default function PreferenceModal({
             setTempCustomText={setTempCustomText}
             onReset={handleResetCustomText}
             onAdd={handleAddCustomPreference}
+            messages={messages}
           />
         )}
       </div>
@@ -98,6 +95,7 @@ interface MainPreferenceViewProps {
   setCustomText: (text: string) => void;
   onAddMoreClick: () => void;
   onApply: () => void;
+  messages: Messages;
 }
 
 function MainPreferenceView({
@@ -108,14 +106,26 @@ function MainPreferenceView({
   setCustomText,
   onAddMoreClick,
   onApply,
+  messages,
 }: MainPreferenceViewProps) {
+  const DEFAULT_PREFERENCES = [
+    t("high-protein", messages),
+    t("healthy", messages),
+    t("comfort-food", messages),
+    t("cheap-meals", messages),
+    t("spicy", messages),
+    t("dessert", messages),
+  ];
+
   return (
     <>
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-grey-100 text-2xl font-bold">Not quite right?</h2>
+          <h2 className="text-grey-100 text-2xl font-bold">
+            {t("not-quite-right", messages)}
+          </h2>
           <p className="text-grey-60 mt-1 text-sm">
-            Help us improve your picks!
+            {t("help-us-improve", messages)}
           </p>
         </div>
         <button onClick={onClose} className="text-grey-40 hover:text-grey-100">
@@ -157,14 +167,14 @@ function MainPreferenceView({
         className="mt-6 flex w-full items-center justify-center space-x-2 text-sm font-semibold text-green-100"
       >
         <span className="text-lg">+</span>
-        <span>Add more preference</span>
+        <span>{t("add-more-preferences", messages)}</span>
       </button>
 
       <button
         onClick={onApply}
         className="bg-grey-100 hover:bg-grey-80 mt-6 w-full rounded-2xl px-17 py-2 font-semibold text-white transition-transform active:scale-95"
       >
-        Refresh Recommendation
+        {t("refresh-recommendations", messages)}
       </button>
     </>
   );
@@ -176,6 +186,7 @@ interface AddCustomPreferenceViewProps {
   setTempCustomText: (text: string) => void;
   onReset: () => void;
   onAdd: () => void;
+  messages: Messages;
 }
 
 function AddCustomPreferenceView({
@@ -184,6 +195,7 @@ function AddCustomPreferenceView({
   setTempCustomText,
   onReset,
   onAdd,
+  messages,
 }: AddCustomPreferenceViewProps) {
   return (
     <>
@@ -191,23 +203,25 @@ function AddCustomPreferenceView({
         <button onClick={onClose} className="text-grey-40 hover:text-grey-100">
           ✕
         </button>
-        <h3 className="text-grey-100 font-semibold">Add More Preference</h3>
+        <h3 className="text-grey-100 font-semibold">
+          {t("add-more-preferences", messages)}
+        </h3>
         <button
           onClick={onReset}
           className="hover:text-green-60 text-sm font-medium text-green-100"
         >
-          Reset
+          {t("reset", messages)}
         </button>
       </div>
 
       <div className="mt-6">
         <label className="text-grey-100 text-sm font-semibold">
-          Input your preference
+          {t("input-your-preference", messages)}
         </label>
         <textarea
           value={tempCustomText}
           onChange={(e) => setTempCustomText(e.target.value)}
-          placeholder="E.g. low carb, vegan snacks, no sea food"
+          placeholder={t("example-input", messages)}
           className="border-grey-20 bg-background-1 mt-2 w-full rounded-xl border p-4 text-sm focus:border-green-100 focus:ring-1 focus:ring-green-100 focus:outline-none"
           rows={4}
           maxLength={50}
@@ -222,7 +236,7 @@ function AddCustomPreferenceView({
         className="hover:bg-green-60 mt-6 flex w-full items-center justify-center space-x-2 rounded-2xl bg-green-100 py-4 font-semibold text-white transition-transform active:scale-95"
       >
         <span className="text-lg">+</span>
-        <span>Add preference</span>
+        <span>{t("add-preference", messages)}</span>
       </button>
     </>
   );

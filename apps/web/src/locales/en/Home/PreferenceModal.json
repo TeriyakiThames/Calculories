@@ -1,0 +1,18 @@
+{
+  "high-protein": "High Protein",
+  "healthy": "Healthy",
+  "comfort-food": "Comfort Food",
+  "cheap-meals": "Cheap Meals",
+  "spicy": "Spicy",
+  "dessert": "Dessert",
+
+  "not-quite-right": "Not quite right?",
+  "help-us-improve": "Help us improve your picks!",
+  "add-more-preferences": "Add More Preferences",
+  "refresh-recommendations": "Refresh Recommendations",
+
+  "input-your-preference": "Input your preference",
+  "example-input": "E.g. low carb, vegan snacks, no sea food, etc.",
+  "add-preference": "Add preference",
+  "reset": "Reset"
+}

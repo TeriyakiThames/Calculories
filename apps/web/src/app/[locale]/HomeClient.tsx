@@ -149,6 +149,7 @@ export default function HomeClient({
 
   const handleRefresh = async () => {
     setIsRevealing(true);
+    // Artifical delay cause without it, the loading feels too abrupt
     await new Promise((resolve) => setTimeout(resolve, 600));
     const nextIndex = currentIndex + 3;
 
@@ -221,6 +222,7 @@ export default function HomeClient({
         isOpen={showPreferenceModal}
         onClose={() => setShowPreferenceModal(false)}
         onApply={handleApplyPreferences}
+        messages={messages}
       />
     </main>
   );

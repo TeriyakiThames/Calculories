@@ -1,0 +1,18 @@
+{
+  "high-protein": "โปรตีนสูง",
+  "healthy": "เพื่อสุขภาพ",
+  "comfort-food": "อาหารเยียวยาใจ",
+  "cheap-meals": "ราคาประหยัด",
+  "spicy": "เผ็ดจัดจ้าน",
+  "dessert": "ของหวาน",
+
+  "not-quite-right": "ยังไม่ถูกใจใช่ไหม?",
+  "help-us-improve": "ช่วยเราปรับปรุงการแนะนำให้ดีขึ้น!",
+  "add-more-preferences": "เพิ่มความชอบอื่นๆ",
+  "refresh-recommendations": "รีเฟรชคำแนะนำ",
+
+  "input-your-preference": "ระบุความชอบของคุณ",
+  "example-input": "เช่น โลว์คาร์บ ขนมวีแกน ไม่กินอาหารทะเล ฯลฯ",
+  "add-preference": "เพิ่มความชอบ",
+  "reset": "รีเซ็ต"
+}
