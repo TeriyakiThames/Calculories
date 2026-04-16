@@ -1,18 +1,24 @@
 "use client";
 
 import { IngredientRow } from "@/components/MealDetails/IngredientsDropdown";
-import { ComponentWithNewRatio, Locale } from "@calculories/shared-types";
+import {
+  ComponentWithNewRatio,
+  Locale,
+  Messages,
+} from "@calculories/shared-types";
 
 interface PortionSliderProps {
   component: ComponentWithNewRatio;
   handleWeightChange: (componentId: number, newRatio: number) => void;
   locale: Locale;
+  messages: Messages;
 }
 
 export default function PortionSlider({
   component,
   handleWeightChange,
   locale,
+  messages,
 }: PortionSliderProps) {
   const percent = (component.new_ratio / component.ratio) * 100;
   const fillPercentage = (percent / 200) * 100;
@@ -29,7 +35,11 @@ export default function PortionSlider({
   return (
     <div className="flex w-full max-w-sm flex-col gap-2 py-4">
       {/* Ingredient Row uses the component directly since the parent state updates immediately */}
-      <IngredientRow component={component} locale={locale} />
+      <IngredientRow
+        component={component}
+        locale={locale}
+        messages={messages}
+      />
 
       {/* Slider Area */}
       <div className="relative mt-2 w-full">
@@ -45,7 +55,6 @@ export default function PortionSlider({
             background: `linear-gradient(to right, var(--color-green-100) ${fillPercentage}%, var(--color-grey-40) ${fillPercentage}%)`,
           }}
         />
-        <p>{percent}</p>
         {/* Labels below the track */}
         <div className="text-grey-40 mt-4 flex w-full justify-between text-center text-xs font-bold">
           <span className={`w-8 ${percent >= 0 ? "text-green-100" : ""}`}>

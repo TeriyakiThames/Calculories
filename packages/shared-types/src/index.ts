@@ -41,8 +41,8 @@ export interface User extends DietaryPreferences {
   activity_level: number;
   target_protein: number;
   target_carbs: number;
-  target_calories: number;
-  target_fats: number;
+  target_calorie: number;
+  target_fat: number;
 }
 
 export interface UserLocation {
@@ -173,6 +173,12 @@ export interface MealRecord {
   total_protein: number;
 }
 
+export interface Reason {
+  type: string;
+  emoji: string;
+  explanation: string;
+}
+
 export interface LocationType {
   latitude: number | null;
   longitude: number | null;
@@ -184,7 +190,7 @@ export interface LocationType {
 
 // GET /api/user/:uid
 export interface GetUserResponse extends User {
-  dietProfile: DietProfile;
+  diet_profile: DietProfile;
 }
 
 // PATCH /api/user/:uid
@@ -267,6 +273,56 @@ export interface setOrUpdateMealRecordRatiosRequest {
   edited_alcohol: number;
 }
 
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface GetWhyThisWorksForYouRequest {
+  user: {
+    goal: Goal;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      gluten_free: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale;
+  };
+  dish: {
+    id: string;
+    name_en: string;
+    name_th: string;
+    restaurant_name_en: string;
+    restaurant_name_th: string;
+    restaurant_type: string[];
+    price_thb: number;
+    nutrition: {
+      calories: number;
+      protein_g: number;
+      fat_g: number;
+      carbs_g: number;
+      fiber_g: number;
+    };
+  };
+}
+
+// POST https://calculories-ai-recommender.onrender.com/explain/meal
+export interface getWhyThisWorksForYouResponse {
+  reasons: Reason[];
+}
 // ------------------------------------------------------------------
 // Database Raw Response Types
 // ------------------------------------------------------------------

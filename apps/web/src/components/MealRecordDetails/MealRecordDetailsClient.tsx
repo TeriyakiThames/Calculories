@@ -17,6 +17,7 @@ import { notFound } from "next/navigation";
 import getMealRecord from "@/services/api/getMealRecord";
 import HadAt from "./HadAt";
 import updateMealRecord from "@/services/api/updateMealRecord";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 interface MealRecordDetailsClientProps {
   locale: Locale;
@@ -84,6 +85,7 @@ export default function MealRecordDetailsClient({
 }: MealRecordDetailsClientProps) {
   const [record, setRecord] = useState<MealRecord | undefined>(undefined);
   const [date, setDate] = useState<Date>(new Date());
+  const [showHalalInfo, setShowHalalInfo] = useState(false);
 
   const updateMealRecordRatios = async (
     data: setOrUpdateMealRecordRatiosRequest,
@@ -142,12 +144,14 @@ export default function MealRecordDetailsClient({
       />
       <div className="relative -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={record as unknown as Dish} locale={locale} />
-        <NutritionalInfo dish={record as unknown as Dish} />
+        <NutritionalInfo dish={record as unknown as Dish} messages={messages} />
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={record as unknown as Dish}
           locale={locale}
           setOrUpdateMealRecord={updateMealRecordRatios}
+          setShowHalalInfo={setShowHalalInfo}
+          messages={messages}
         />
         {/* <pre>{JSON.stringify(record, null, 2)}</pre> */}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
@@ -158,6 +162,43 @@ export default function MealRecordDetailsClient({
           locale={locale}
         />
       </div>
+      {/* Halal Info */}
+      {showHalalInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/50">
+            <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto flex w-full max-w-105 flex-col rounded-t-2xl border-t bg-white px-5 pt-5 pb-6">
+              <div className="flex justify-between">
+                <h2 className="font-bold">
+                  {t("halal_info_heading", messages)}
+                </h2>
+                {/* Close button */}
+                <button
+                  onClick={() => setShowHalalInfo(false)}
+                  title="Close"
+                  className="hover:text-grey-100 hover:bg-grey-10 -m-1 rounded-full p-2 hover:cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#858585" // text-grey-60
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-x-icon lucide-x text-grey-100"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+              <p>{t("halal_info_description", messages)}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

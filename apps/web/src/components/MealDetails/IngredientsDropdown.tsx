@@ -7,19 +7,23 @@ import {
   Locale,
   setOrUpdateMealRecordRatiosRequest,
   ComponentWithNewRatio,
+  Messages,
 } from "@calculories/shared-types";
 import PortionSlider from "@/components/MealDetails/PortionSlider";
 import { Input } from "@/components/Shared/Input";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 
 interface IngredientsDropdownProps {
   dish: Dish;
   locale: Locale;
+  messages: Messages;
   setOrUpdateMealRecord: ({
     edited_carbs,
     edited_protein,
     edited_fat,
     edited_alcohol,
   }: setOrUpdateMealRecordRatiosRequest) => void;
+  setShowHalalInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type PortionMode = "display" | "slider" | "input";
@@ -27,7 +31,9 @@ type PortionMode = "display" | "slider" | "input";
 export function IngredientsDropdown({
   dish,
   locale,
+  messages,
   setOrUpdateMealRecord,
+  setShowHalalInfo,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -130,7 +136,9 @@ export function IngredientsDropdown({
         className="flex cursor-pointer items-center justify-between"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h2 className="text-grey-100 text-xl font-bold">Ingredients</h2>
+        <h2 className="text-grey-100 text-xl font-bold">
+          {t("ingredients", messages)}
+        </h2>
         <div
           className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         >
@@ -148,30 +156,45 @@ export function IngredientsDropdown({
         <div className="flex flex-col gap-6">
           {/* Tags Grid */}
           <div className="flex flex-wrap gap-x-2 gap-y-3">
-            {isGlutenFree && <Tag color="green" text="Gluten-free" />}
-            {isHalal && <Tag color="green" text="Halal ingredients" hasIcon />}
-            {isVegetarian && <Tag color="green" text="Vegetarian" />}
-            {hasPeanuts && <Tag color="red" text="Contains peanuts" />}
-            {hasLactose && <Tag color="red" text="Contains lactose" />}
-            {hasShellfish && <Tag color="red" text="Contains shellfish" />}
+            {isGlutenFree && (
+              <Tag color="green" text={t("gluten_free", messages)} />
+            )}
+            {isHalal && (
+              <Tag
+                color="green"
+                text={t("halal_ingredients", messages)}
+                hasIcon
+                setShowHalalInfo={setShowHalalInfo}
+              />
+            )}
+            {isVegetarian && (
+              <Tag color="green" text={t("vegetarian", messages)} />
+            )}
+            {hasPeanuts && (
+              <Tag color="red" text={t("contains_peanuts", messages)} />
+            )}
+            {hasLactose && (
+              <Tag color="red" text={t("contains_lactose", messages)} />
+            )}
+            {hasShellfish && (
+              <Tag color="red" text={t("contains_shellfish", messages)} />
+            )}
           </div>
 
           {/* Adjust Portions Section */}
-          <div className="flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <div className="flex items-center justify-between">
-              <span className="text-grey-100 text-lg font-bold">Portions</span>
+              <span className="text-grey-100 text-lg font-bold">
+                {t("portions", messages)}
+              </span>
 
-              {/* Action Dropdown */}
-              <div className="relative" ref={menuRef}>
+              {/* Toggle portionMode */}
+              {portionMode === "display" ? (
                 <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  onClick={() => setPortionMode("input")}
                   className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:opacity-80"
                 >
-                  <span>
-                    {portionMode === "display"
-                      ? "Adjust Portion"
-                      : "Editing..."}
-                  </span>
+                  <span>{t("adjust_portion", messages)}</span>
                   <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
                     <path
                       fillRule="evenodd"
@@ -181,40 +204,34 @@ export function IngredientsDropdown({
                     />
                   </svg>
                 </button>
-
-                {/* Dropdown Menu Overlay */}
-                {isMenuOpen && (
-                  <div className="border-grey-10 absolute top-full right-0 z-30 mt-2 w-40 overflow-hidden rounded-lg border bg-white shadow-lg">
-                    <button
-                      onClick={() => selectMode("slider")}
-                      className="hover:bg-green-10 text-grey-80 w-full px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      Edit by Slider
-                    </button>
-                    <button
-                      onClick={() => selectMode("input")}
-                      className="hover:bg-green-10 text-grey-80 border-grey-10 w-full border-t px-4 py-2 text-left text-sm transition-colors"
-                    >
-                      Edit by Grams
-                    </button>
-                    {portionMode !== "display" && (
-                      <button
-                        onClick={() => selectMode("display")}
-                        className="hover:bg-red-1 border-grey-10 w-full border-t px-4 py-2 text-left text-sm text-red-100 transition-colors"
-                      >
-                        Cancel Editing
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
+              ) : (
+                <div className="bg-grey-10 flex gap-1 rounded-md p-1 text-xs">
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("input")}
+                  >
+                    {t("GRAM", messages)}
+                  </button>
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("slider")}
+                  >
+                    {t("PERCENT", messages)}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Display Components */}
             <div className="flex flex-col gap-4">
               {portionMode === "display" &&
                 components.map((c) => (
-                  <IngredientRow key={c.id} component={c} locale={locale} />
+                  <IngredientRow
+                    key={c.id}
+                    component={c}
+                    locale={locale}
+                    messages={messages}
+                  />
                 ))}
               {portionMode === "slider" &&
                 components.map((c) => (
@@ -223,6 +240,7 @@ export function IngredientsDropdown({
                     component={c}
                     handleWeightChange={handleWeightChange}
                     locale={locale}
+                    messages={messages}
                   />
                 ))}
               {portionMode === "input" && (
@@ -234,10 +252,10 @@ export function IngredientsDropdown({
                     return (
                       <Input
                         key={c.id || index}
-                        header={c.name_en}
+                        header={locale === "en" ? c.name_en : c.name_th}
                         type="text"
                         value={currentWeight}
-                        unit="grams"
+                        unit={t("grams", messages)}
                         onChange={(val) => {
                           handleWeightChange(c.id, val);
                         }}
@@ -255,7 +273,7 @@ export function IngredientsDropdown({
                   onClick={() => selectMode("display")}
                   className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform"
                 >
-                  Cancel
+                  {t("cancel", messages)}
                 </button>
                 <button
                   onClick={handleDoneEditing}
@@ -276,7 +294,7 @@ export function IngredientsDropdown({
                       fill="#333333"
                     />
                   </svg>
-                  Done Editing
+                  {t("done_editing", messages)}
                 </button>
               </div>
             )}
@@ -291,22 +309,32 @@ function Tag({
   color,
   text,
   hasIcon,
+  setShowHalalInfo,
 }: {
   color: "green" | "red";
   text: string;
   hasIcon?: boolean;
+  setShowHalalInfo?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const styles = {
     green: "border-green-100 text-green-100 bg-green-1",
     red: "border-red-100 text-red-100 bg-red-1",
   };
+
   return (
     <div
       className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs leading-none ${styles[color]}`}
     >
       <span className="whitespace-nowrap">{text}</span>
       {hasIcon && (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          onClick={() => setShowHalalInfo!(true)}
+          className="hover:cursor-pointer"
+        >
           <circle
             cx="8"
             cy="8"
@@ -330,9 +358,11 @@ function Tag({
 export function IngredientRow({
   component,
   locale,
+  messages,
 }: {
   component: ComponentWithNewRatio;
   locale: Locale;
+  messages: Messages;
 }) {
   const componentName =
     locale === "en"
@@ -344,7 +374,7 @@ export function IngredientRow({
     <div className="flex items-center justify-between">
       <span className="text-grey-100 leading-5">{componentName}</span>
       <span className="text-grey-60 min-w-15 text-right text-xs leading-5">
-        {currentWeight} grams
+        {currentWeight} {t("grams", messages)}
       </span>
     </div>
   );
