@@ -36,7 +36,6 @@ export function IngredientsDropdown({
   setShowHalalInfo,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [components, setComponents] = useState<ComponentWithNewRatio[]>(
@@ -56,16 +55,6 @@ export function IngredientsDropdown({
     );
   }
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   if (!dish) return null;
 
   // Logic: Green tags
@@ -80,7 +69,6 @@ export function IngredientsDropdown({
 
   const selectMode = (mode: PortionMode) => {
     setPortionMode(mode);
-    setIsMenuOpen(false);
   };
 
   const handleWeightChange = (
