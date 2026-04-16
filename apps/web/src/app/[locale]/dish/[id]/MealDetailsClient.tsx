@@ -237,8 +237,11 @@ export default function MealDetailsClient({
               id: String(dish!.id),
               name_en: dish!.name_en,
               name_th: dish!.name_th,
-              restaurant_name: dish!.restaurant.name_en,
-              restaurant_type: dish!.restaurant.restaurant_types[0].type_en,
+              restaurant_name_en: dish!.restaurant.name_en,
+              restaurant_name_th: dish!.restaurant.name_th,
+              restaurant_type: dish!.restaurant.restaurant_types.map(
+                (t) => t.type_en,
+              ),
               price_thb: dish!.price,
               nutrition: {
                 calories: dish!.total_calorie,
@@ -257,8 +260,8 @@ export default function MealDetailsClient({
           if (!tempResponse) return notFound();
           const { reasons } = tempResponse;
 
-          // setWhyThisWorks(reasons);
-          setWhyThisWorks(reasons.map((r) => ({ ...r, emoji: "✅" })));
+          setWhyThisWorks(reasons);
+          // setWhyThisWorks(reasons.map((r) => ({ ...r, emoji: "✅" })));
         } catch (error) {
           console.error(error);
           return notFound();

@@ -304,8 +304,9 @@ export interface GetWhyThisWorksForYouRequest {
     id: string;
     name_en: string;
     name_th: string;
-    restaurant_name: string;
-    restaurant_type: string;
+    restaurant_name_en: string;
+    restaurant_name_th: string;
+    restaurant_type: string[];
     price_thb: number;
     nutrition: {
       calories: number;
