@@ -1,12 +1,20 @@
 "use client";
 
 import Popup from "@/components/Shared/Popup";
+import { t } from "@/lib/internationalisation/i18n-helpers";
 import useUser from "@/hooks/useUser";
 import addMealHistory from "@/services/api/addMealHistory";
+import { Messages } from "@calculories/shared-types";
 import { useState } from "react";
 import { mutate } from "swr";
 
-export default function MealCardButton({ dishId }: { dishId: number }) {
+export default function MealCardButton({
+  dishId,
+  messages,
+}: {
+  dishId: number;
+  messages: Messages;
+}) {
   const { user: authUser } = useUser();
   const [popup, setPopup] = useState({
     show: false,
@@ -21,8 +29,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
       setPopup({
         show: true,
         type: "success",
-        message:
-          "Your daily intake values has been updated. You can check the record in Meal History.",
+        message: t("success_message", messages),
       });
       if (authUser?.id) {
         await mutate(`user-profile-${authUser.id}`);
@@ -31,7 +38,7 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
       setPopup({
         show: true,
         type: "error",
-        message: "Failed to add meal. Please try again.",
+        message: t("error_message", messages),
       });
     }
   };
@@ -103,7 +110,9 @@ export default function MealCardButton({ dishId }: { dishId: number }) {
               popup.type === "success" ? "text-grey-80" : "text-red-100"
             }`}
           >
-            {popup.type === "success" ? "Meal Added!" : "Error"}
+            {popup.type === "success"
+              ? t("meal_added", messages)
+              : t("error", messages)}
           </h2>
 
           <p className="text-grey-80 mb-6 leading-tight">{popup.message}</p>

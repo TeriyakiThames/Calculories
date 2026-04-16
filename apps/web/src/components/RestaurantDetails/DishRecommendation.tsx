@@ -133,6 +133,7 @@ export default function DishRecommendation({
             dishes={recommendDishes}
             locale={locale}
             restaurant={restaurant}
+            messages={messages}
           />
         ) : (
           <MealCardSkeleton />

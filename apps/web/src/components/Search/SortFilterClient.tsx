@@ -314,7 +314,7 @@ export default function SortFilterClientForm({
         locale={locale}
       />
       <div className="border-grey-10 mb-38 flex min-h-0 flex-1 flex-col gap-3 overflow-y-scroll border-t px-4.5 py-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1">
-        <MealCardList dishes={dishes} locale={locale} />
+        <MealCardList dishes={dishes} locale={locale} messages={messages} />
         <div
           onClick={() => loadMore({ ...paramsRef.current })}
           className="my-3 flex justify-center"

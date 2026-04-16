@@ -34,6 +34,7 @@
   "High Protein": "High Protein",
   "Ketogenic": "Ketogenic",
 
+  "Saving": "Saving...",
   "Balanced_detail": "Balanced routine of eating to support energy, satiety, and general health balanced on a sustained basis from carbohydrates, protein, and fats.",
   "Moderate_detail": "More performance-focused approach to promote steadier blood sugar, controlled hunger, and consistent energy levels.",
   "High Protein_detail": "Considers protein a key player in muscle growth and recovery, fullness and body composition while keeping carbs and fats at moderate levels.",
@@ -47,5 +48,7 @@
   "Lactose Intolerance": "Lactose Intolerance",
   "Gluten Intolerance": "Gluten Intolerance",
   "Peanut Allergy": "Peanut Allergy",
-  "Shellfish Allergy": "Shellfish Allergy"
+  "Shellfish Allergy": "Shellfish Allergy",
+
+  "error_fill_out_all_fields": "Please correctly fill out all fields."
 }

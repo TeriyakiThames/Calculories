@@ -19,7 +19,7 @@ export default async function SearchPage({
 
   const sharedMessages = await loadMessages(
     locale,
-    ["AuthButton", "DeleteAccountButton", "NavBar"],
+    ["AuthButton", "DeleteAccountButton", "NavBar", "MealCard"],
     "Shared",
   );
 

@@ -30,10 +30,9 @@ export default function ProgressBar({
         </h1>
         <p className={`text-[#bfbfbf] ${isMain ? "text-sm" : "text-xs"}`}>
           <span className="font-bold">
-            {current}
-            {!isMain && unit}
+            {current} {unit}
           </span>
-          {isMain ? ` / ${max} ${unit}` : ` / ${max}${unit}`}
+          {isMain ? ` / ${max} ${unit}` : ` / ${max} ${unit}`}
         </p>
       </span>
 
