@@ -323,6 +323,47 @@ export interface GetWhyThisWorksForYouRequest {
 export interface getWhyThisWorksForYouResponse {
   reasons: Reason[];
 }
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
+export interface getRecommendByRestaurantRequest {
+  user: {
+    goal: Goal;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      gluten_free: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale;
+  };
+  screen: string;
+  restaurant_id: string;
+  top_n: number;
+}
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/restaurant
+export interface getRecommendByRestaurantResponse {
+  dish_ids: string[];
+  screen: string;
+  restaurant_id: string;
+  total: number;
+}
 // ------------------------------------------------------------------
 // Database Raw Response Types
 // ------------------------------------------------------------------

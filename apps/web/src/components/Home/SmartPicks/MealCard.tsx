@@ -1,7 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { DishNoComp, Locale, UserLocation } from "@calculories/shared-types";
+import {
+  DishNoComp,
+  Locale,
+  UserLocation,
+  Restaurant,
+} from "@calculories/shared-types";
 import calculateDistance from "@/services/calculateDistance";
 import MealCardButton from "@/components/Home/SmartPicks/MealCardButton";
 import { useRouter } from "next/navigation";
@@ -11,6 +16,7 @@ interface MealCardProps {
   locale: Locale;
   isRefreshing?: boolean;
   userLocation: UserLocation;
+  restaurant?: Restaurant;
 }
 
 export const MealCardSkeleton = () => (
@@ -37,6 +43,7 @@ export default function MealCard({
   locale,
   isRefreshing,
   userLocation,
+  restaurant,
 }: MealCardProps) {
   const router = useRouter();
 
@@ -44,13 +51,15 @@ export default function MealCard({
     return <MealCardSkeleton />;
   }
 
+  const RestaurantofDish = dish.restaurant || restaurant;
+
   const restaurantName =
     locale === "en"
-      ? dish.restaurant?.name_en ||
-        dish.restaurant?.name_th ||
+      ? RestaurantofDish?.name_en ||
+        RestaurantofDish?.name_th ||
         "Unknown Restaurant"
-      : dish.restaurant?.name_th ||
-        dish.restaurant?.name_en ||
+      : RestaurantofDish?.name_th ||
+        RestaurantofDish?.name_en ||
         "Unknown Restaurant";
 
   const menuName =
@@ -71,12 +80,12 @@ export default function MealCard({
     if (
       userLocation.userLat &&
       userLocation.userLon &&
-      dish.restaurant.lat &&
-      dish.restaurant.lon
+      RestaurantofDish.lat &&
+      RestaurantofDish.lon
     ) {
       return calculateDistance(
-        dish.restaurant.lat,
-        dish.restaurant.lon,
+        RestaurantofDish.lat,
+        RestaurantofDish.lon,
         userLocation.userLat,
         userLocation.userLon,
       );
