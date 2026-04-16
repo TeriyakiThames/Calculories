@@ -10,6 +10,8 @@
   "Protein": "โปรตีน",
   "Carbohydrate": "คาร์โบไฮเดรต",
   "Fat": "ไขมัน",
+  "Distance": "ระยะทาง",
+  "no_distance_message": "จำเป็นต้องเข้าถึงตำแหน่ง",
   "Dish Types": "ประเภทอาหาร",
   "Cuisine": "ตามสัญชาติ",
   "Main Dishes": "อาหารจานหลัก",
