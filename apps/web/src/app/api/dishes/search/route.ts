@@ -8,6 +8,15 @@ import {
 import { DISH_TYPES } from "@/constants/DishTypes";
 import { RESTAURANT_TYPES } from "@/constants/RestaurantTypes";
 
+const sortByMap = {
+  price: "price",
+  total_calorie: "calories",
+  total_protein: "protein",
+  total_fat: "fat",
+  total_carbs: "carbs",
+  distance: "distance",
+};
+
 const GetDishesByIdsSchema = z.object({
   search_string: z.string().optional(),
   sort_by: z
@@ -17,6 +26,7 @@ const GetDishesByIdsSchema = z.object({
       "total_protein",
       "total_fat",
       "total_carbs",
+      "distance",
     ])
     .optional(),
   ascending: z.boolean().optional(),
@@ -117,7 +127,7 @@ export async function POST(request: Request) {
 
     if (userInfo) {
       // Switch to ai
-      /*const aiRequestbody = {
+      const aiRequestbody = {
         user: {
           goal: userInfo.goal,
           target_calorie: userInfo.target_calorie,
@@ -129,7 +139,7 @@ export async function POST(request: Request) {
             no_shellfish: userInfo.no_shellfish_default,
             no_lactose: userInfo.no_lactose_default,
             no_peanut: userInfo.no_peanut_default,
-            gluten_free: userInfo.gluten_free_default,
+            has_gluten: !userInfo.gluten_free_default,
             halal: userInfo.halal_default,
           },
           diet_profile: {
@@ -138,12 +148,12 @@ export async function POST(request: Request) {
             fat_intake: userInfo.diet_profile.fat_intake,
             carbs_intake: userInfo.diet_profile.carbs_intake,
           },
-          location: location,
+          location: location?.latitude && location.longitude ? location : null,
           language: language,
         },
         screen: "search",
-        search_query: search_string,
-        top_n: 60,
+        search_query: search_string ?? null,
+        top_n: 100,
         filters: {
           dish_type: dish_type_ids?.map(
             (id) => DISH_TYPES.filter((type) => type.id == id)[0].type_en,
@@ -159,9 +169,11 @@ export async function POST(request: Request) {
             no_shellfish: no_shellfish,
             no_lactose: no_lactose,
             no_peanut: no_peanut,
-            gluten_free: no_gluten,
+            has_gluten: !no_gluten,
             halal: dish_is_halal,
           },
+          sort_by: sort_by ? sortByMap[sort_by] : null,
+          order: ascending ? "asc" : "desc",
         },
       };
 
@@ -173,13 +185,12 @@ export async function POST(request: Request) {
           body: JSON.stringify(aiRequestbody),
         },
       );
+
       const aiResultData = await aiResult.json();
-      console.log(aiRequestbody);
-      console.log(aiResultData);
-      */
-      const aiResultIds = [
-        1, 12, 13, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20,
-      ];
+
+      const aiResultIds = aiResultData.dish_ids;
+      const lastIndex = Math.min(aiResultData.total, to);
+      const slicedAiResultIds = aiResultIds.slice(from, lastIndex + 1);
 
       const query = supabase
         .from("dish_sum_mat_view")
@@ -197,8 +208,7 @@ export async function POST(request: Request) {
         )
         `,
         )
-        .in("id", aiResultIds)
-        .range(from, to);
+        .in("id", slicedAiResultIds);
 
       const { data, error } = await query;
 
@@ -225,9 +235,9 @@ export async function POST(request: Request) {
         dish_type_map: undefined,
       }));
 
-      const formattedData2 = aiResultIds
-        .slice(from, to + 1)
-        .map((id) => formattedData.filter((record) => record.id == id)[0]);
+      const formattedData2 = slicedAiResultIds.map(
+        (id: number) => formattedData.filter((record) => record.id == id)[0],
+      );
 
       return new Response(JSON.stringify(formattedData2), {
         status: 200,

@@ -233,7 +233,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
 
       {Object.entries(errors).length !== 0 && (
         <div className="text-red-100">
-          Please correctly fill out all the fields
+          {t("error_fill_out_all_fields", messages)}
         </div>
       )}
       <div className="pb-5" />
@@ -245,7 +245,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
 
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
-            ? t("saving", messages)
+            ? t("Saving", messages)
             : t("Save and Continue", messages)}
         </Button>
 

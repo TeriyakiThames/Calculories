@@ -19,6 +19,7 @@ import getDishesBySearch from "@/services/api/getDishesBySearch";
 import MealCardList from "@/components/Home/SmartPicks/MealCardList";
 import { useInView } from "react-intersection-observer";
 import getUser from "@/services/api/getUser";
+import Loading from "@/components/Shared/Loading";
 
 const BATCH_SIZE = 15;
 
@@ -27,7 +28,7 @@ interface SortFilterClientProps {
   messages: Messages;
 }
 
-export default function SortFClientrForm({
+export default function SortFilterClientForm({
   locale,
   messages,
 }: SortFilterClientProps) {
@@ -47,9 +48,27 @@ export default function SortFClientrForm({
   const [noPeanut, setNoPeanut] = useState<boolean>(false);
   const [noShellfish, setNoShellfish] = useState<boolean>(false);
 
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+
+  const [dishes, setDishes] = useState<DishNoComp[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const paramsRef = useRef<Omit<GetDishesBySearchRequest, "from" | "to">>({});
+  const [endDivRef, inView] = useInView({
+    threshold: 0.5,
+  });
+
+  const [userInfo, setUserInfo] = useState<GetUserResponse>();
+  const [userLocation, setUserLocation] = useState<LocationType>({
+    latitude: null,
+    longitude: null,
+  });
+
   const optionState = {
     sortBy,
     setSortBy,
+    setAscending,
     hasDineIn,
     setHasDineIn,
     hasDelivery,
@@ -68,24 +87,8 @@ export default function SortFClientrForm({
     setNoPeanut,
     noShellfish,
     setNoShellfish,
+    userLocation,
   };
-
-  const [showPopup, setShowPopup] = useState<boolean>(false);
-
-  const [dishes, setDishes] = useState<DishNoComp[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
-  const paramsRef = useRef<Omit<GetDishesBySearchRequest, "from" | "to">>({});
-  const [endDivRef, inView] = useInView({
-    threshold: 0.5,
-  });
-
-  const [userInfo, setUserInfo] = useState<GetUserResponse>();
-  const [userLocation, setUserLocation] = useState<LocationType>({
-    latitude: null,
-    longitude: null,
-  });
 
   const loadMore = async (
     params: Partial<GetDishesBySearchRequest>,
@@ -137,7 +140,6 @@ export default function SortFClientrForm({
     }
 
     const newDishes = await getDishesBySearch(searchObj);
-    console.log(newDishes);
 
     if (newDishes.length < BATCH_SIZE) {
       setHasMore(false);
@@ -235,39 +237,41 @@ export default function SortFClientrForm({
           {hasMore && "+"} {t("result(s) found", messages)}
         </p>
         <div className="flex items-center gap-3.5">
-          <button
-            title="ascending/decending"
-            onClick={() => {
-              if (!loading) {
-                const newAscending = !ascending;
-                setAscending(newAscending);
-                loadMore(
-                  { ...paramsRef.current, ascending: newAscending },
-                  true,
-                );
-              }
-            }}
-            className={`transition-transform duration-300 ${!ascending && "rotate-x-180"}`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-arrow-up-narrow-wide-icon lucide-arrow-up-narrow-wide"
+          {sortBy !== "distance" && (
+            <button
+              title="ascending/decending"
+              onClick={() => {
+                if (!loading) {
+                  const newAscending = !ascending;
+                  setAscending(newAscending);
+                  loadMore(
+                    { ...paramsRef.current, ascending: newAscending },
+                    true,
+                  );
+                }
+              }}
+              className={`transition-transform duration-300 ${!ascending && "rotate-x-180"}`}
             >
-              <path d="m3 8 4-4 4 4" />
-              <path d="M7 4v16" />
-              <path d="M11 12h4" />
-              <path d="M11 16h7" />
-              <path d="M11 20h10" />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-arrow-up-narrow-wide-icon lucide-arrow-up-narrow-wide"
+              >
+                <path d="m3 8 4-4 4 4" />
+                <path d="M7 4v16" />
+                <path d="M11 12h4" />
+                <path d="M11 16h7" />
+                <path d="M11 20h10" />
+              </svg>
+            </button>
+          )}
           <button
             title="sort and filter"
             className="flex items-center justify-center gap-1 text-sm leading-none"
@@ -310,27 +314,14 @@ export default function SortFClientrForm({
         locale={locale}
       />
       <div className="border-grey-10 mb-38 flex min-h-0 flex-1 flex-col gap-3 overflow-y-scroll border-t px-4.5 py-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1">
-        <MealCardList dishes={dishes} locale={locale} />
+        <MealCardList dishes={dishes} locale={locale} messages={messages} />
         <div
           onClick={() => loadMore({ ...paramsRef.current })}
           className="my-3 flex justify-center"
           ref={endDivRef}
         >
           {hasMore ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={`lucide lucide-loader-circle-icon lucide-loader-circle animate-spin ${loading ? "text-grey-40" : "text-transparent"}`}
-            >
-              <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-            </svg>
+            <Loading size={10} />
           ) : (
             <p className="text-grey-40 text-sm">
               {t("No more items", messages)}

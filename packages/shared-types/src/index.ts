@@ -1,5 +1,3 @@
-// V 1.0.0
-
 // ------------------------------------------------------------------
 // Translation Types
 // ------------------------------------------------------------------
@@ -12,7 +10,8 @@ export type SortBy =
   | "total_calorie"
   | "total_protein"
   | "total_fat"
-  | "total_carbs";
+  | "total_carbs"
+  | "distance";
 export type ViewBy = "Calories" | "Protein" | "Carbohydrate" | "Fat";
 
 // ------------------------------------------------------------------
@@ -322,6 +321,48 @@ export interface GetWhyThisWorksForYouRequest {
 // POST https://calculories-ai-recommender.onrender.com/explain/meal
 export interface getWhyThisWorksForYouResponse {
   reasons: Reason[];
+}
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/home
+export interface GetRecommendedDishesRequest {
+  user: {
+    goal: Goal | string;
+    target_calorie: number;
+    target_protein: number;
+    target_fat: number;
+    target_carbs: number;
+    dietary_restrictions: {
+      vegetarian: boolean;
+      no_shellfish: boolean;
+      no_lactose: boolean;
+      no_peanut: boolean;
+      has_gluten: boolean;
+      halal: boolean;
+    };
+    diet_profile: {
+      calorie_intake: number;
+      protein_intake: number;
+      fat_intake: number;
+      carbs_intake: number;
+    };
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    language: Locale | string;
+  };
+  screen: string;
+  top_n: number;
+  sort_by_distance: boolean;
+  preference?: {
+    selected_pills: string[];
+    custom_text: string;
+  };
+}
+
+// POST https://calculories-ai-recommender.onrender.com/recommend/home
+export interface GetRecommendedDishesResponse {
+  dish_ids: string[] | number[];
 }
 
 // POST https://calculories-ai-recommender.onrender.com/recommend/restaurant

@@ -1,0 +1,8 @@
+{
+  "kcal": "kcal",
+  "km": "km",
+  "meal_added": "Meal Added!",
+  "error": "Error",
+  "success_message": "Your daily intake values has been updated. You can check the record in Meal History.",
+  "error_message": "Failed to add meal. Please try again."
+}
