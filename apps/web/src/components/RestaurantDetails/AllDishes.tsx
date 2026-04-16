@@ -23,6 +23,7 @@ export default function AllDishes({
           dishes={restaurant.dishes}
           locale={locale}
           restaurant={restaurant}
+          messages={messages}
         />
       </div>
     </main>

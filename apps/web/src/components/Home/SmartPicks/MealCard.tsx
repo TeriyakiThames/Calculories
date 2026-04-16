@@ -18,7 +18,7 @@ interface MealCardProps {
   locale: Locale;
   isRefreshing?: boolean;
   userLocation: UserLocation;
-  message: Messages;
+  messages: Messages;
   restaurant?: Restaurant;
 }
 
