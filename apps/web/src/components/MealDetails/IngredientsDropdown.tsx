@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import {
   Dish,
@@ -36,7 +36,6 @@ export function IngredientsDropdown({
   setShowHalalInfo,
 }: IngredientsDropdownProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const menuRef = useRef<HTMLDivElement>(null);
   const [portionMode, setPortionMode] = useState<PortionMode>("display");
   const [components, setComponents] = useState<ComponentWithNewRatio[]>(
     dish?.components.map((c) => {
