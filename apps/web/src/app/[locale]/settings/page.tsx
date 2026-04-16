@@ -11,7 +11,7 @@ export default async function Settings({
   const settingsMessages = await loadMessages(locale, ["Settings"], "Settings");
   const sharedMessages = await loadMessages(
     locale,
-    ["AuthButton", "DeleteAccountButton"],
+    ["AuthButton", "DeleteAccountButton", "NavBar"],
     "Shared",
   );
   const allMessages = { ...settingsMessages, ...sharedMessages };

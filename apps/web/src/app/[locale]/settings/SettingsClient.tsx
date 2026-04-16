@@ -10,6 +10,7 @@ import getUser from "@/services/api/getUser";
 import { SettingsButton } from "@/components/Settings/SettingsButton";
 import DeleteAccountButton from "@/components/Shared/DeleteAccountButton";
 import { t } from "@/lib/internationalisation/i18n-helpers";
+import NavBar from "@/components/Shared/NavBar";
 
 export default function SettingsClient({
   locale,
@@ -104,6 +105,7 @@ export default function SettingsClient({
           <DeleteAccountButton messages={messages} />
         </div>
       </nav>
+      <NavBar messages={messages} />
     </main>
   );
 }
