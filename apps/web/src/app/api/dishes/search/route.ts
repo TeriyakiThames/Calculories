@@ -139,7 +139,7 @@ export async function POST(request: Request) {
             no_shellfish: userInfo.no_shellfish_default,
             no_lactose: userInfo.no_lactose_default,
             no_peanut: userInfo.no_peanut_default,
-            has_gluten: !userInfo.gluten_free_default,
+            no_gluten: userInfo.gluten_free_default,
             halal: userInfo.halal_default,
           },
           diet_profile: {
@@ -169,7 +169,7 @@ export async function POST(request: Request) {
             no_shellfish: no_shellfish,
             no_lactose: no_lactose,
             no_peanut: no_peanut,
-            has_gluten: !no_gluten,
+            no_gluten: no_gluten,
             halal: dish_is_halal,
           },
           sort_by: sort_by ? sortByMap[sort_by] : null,

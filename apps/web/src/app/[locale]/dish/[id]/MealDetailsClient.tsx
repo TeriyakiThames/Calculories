@@ -262,7 +262,6 @@ export default function MealDetailsClient({
           const { reasons } = tempResponse;
 
           setWhyThisWorks(reasons);
-          // setWhyThisWorks(reasons.map((r) => ({ ...r, emoji: "✅" })));
         } catch (error) {
           console.error(error);
           return notFound();

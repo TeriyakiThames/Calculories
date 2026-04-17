@@ -10,7 +10,7 @@ import SmartPicks from "@/components/Home/SmartPicks/SmartPicks";
 import PreferenceModal, {
   PreferencePayload,
 } from "@/components/Home/SmartPicks/PreferenceModal";
-import { Goal, Locale, Messages } from "@calculories/shared-types";
+import { Locale, Messages } from "@calculories/shared-types";
 import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
 import getRecommendedDishes from "@/services/api/getRecommendedDishes"; // <-- Import the new service
@@ -54,12 +54,6 @@ export default function HomeClient({
     () => getUser(),
   );
 
-  // AI Recommender expects "High Protein" instead of "HighProtein"
-  const formatGoalForAI = (goal?: Goal | string) => {
-    if (goal === "HighProtein") return "High Protein";
-    return goal || "Balanced";
-  };
-
   const { data: recommendedDishesPool = [], isValidating: isFetchingPicks } =
     useSWR(
       appUser
@@ -68,7 +62,7 @@ export default function HomeClient({
       async () => {
         const requestBody = {
           user: {
-            goal: formatGoalForAI(appUser.goal),
+            goal: appUser.goal,
 
             target_calorie: appUser.target_calorie || 0,
             target_protein: appUser.target_protein || 0,
