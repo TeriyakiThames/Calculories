@@ -10,7 +10,7 @@ import SmartPicks from "@/components/Home/SmartPicks/SmartPicks";
 import PreferenceModal, {
   PreferencePayload,
 } from "@/components/Home/SmartPicks/PreferenceModal";
-import { Goal, Locale, Messages } from "@calculories/shared-types";
+import { Locale, Messages } from "@calculories/shared-types";
 import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
 import getRecommendedDishes from "@/services/api/getRecommendedDishes"; // <-- Import the new service
