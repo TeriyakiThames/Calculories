@@ -1,31 +1,36 @@
 import {
   GetWhyThisWorksForYouRequest,
-  getWhyThisWorksForYouResponse,
+  GetWhyThisWorksForYouResponse,
 } from "@calculories/shared-types";
 
 export default async function getWhyThisWorksForYou(
   data: GetWhyThisWorksForYouRequest,
 ) {
   try {
-    const response = await fetch(
-      "https://calculories-ai-recommender.onrender.com/explain/meal",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const baseUrl =
+      typeof window === "undefined"
+        ? process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000"
+        : "";
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to get Why This Works For You for dish ID ${data.dish.id}`,
-      );
-    }
+    const response = await fetch(`${baseUrl}/api/explain-meal`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(response);
+
+    // if (!response.ok) {
+    //   throw new Error(
+    //     `Failed to get Why This Works For You for dish ID ${data.dish.id}`,
+    //   );
+    // }
 
     const responseData =
-      (await response.json()) as getWhyThisWorksForYouResponse;
+      (await response.json()) as GetWhyThisWorksForYouResponse;
+    console.log(responseData);
     return responseData;
   } catch (error) {
     console.error("Error adding meal history:", error);

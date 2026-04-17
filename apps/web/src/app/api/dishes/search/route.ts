@@ -178,7 +178,8 @@ export async function POST(request: Request) {
       };
 
       const aiResult = await fetch(
-        `${process.env.AI_RECOMMENDER_URL}/recommend/search`,
+        // TODO: use env variable
+        "https://calculories-ai-recommender.onrender.com/recommend/search",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

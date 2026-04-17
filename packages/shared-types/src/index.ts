@@ -319,7 +319,7 @@ export interface GetWhyThisWorksForYouRequest {
 }
 
 // POST https://calculories-ai-recommender.onrender.com/explain/meal
-export interface getWhyThisWorksForYouResponse {
+export interface GetWhyThisWorksForYouResponse {
   reasons: Reason[];
 }
 

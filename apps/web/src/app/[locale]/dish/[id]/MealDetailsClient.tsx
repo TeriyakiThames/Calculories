@@ -7,7 +7,7 @@ import {
   Locale,
   Messages,
   Reason,
-  getWhyThisWorksForYouResponse,
+  GetWhyThisWorksForYouResponse,
   GetUserResponse,
 } from "@calculories/shared-types";
 import BackButton from "@/components/Shared/BackButton";
@@ -206,6 +206,7 @@ export default function MealDetailsClient({
     if (user && dish) {
       const fetchWhyThisWorksForYou = async () => {
         try {
+          // TODO: refactor to be in route.ts
           const requestBody = {
             user: {
               goal: user!.goal,
@@ -255,7 +256,7 @@ export default function MealDetailsClient({
 
           const tempResponse = (await getWhyThisWorksForYou(
             requestBody,
-          )) as getWhyThisWorksForYouResponse;
+          )) as GetWhyThisWorksForYouResponse;
 
           if (!tempResponse) return notFound();
           const { reasons } = tempResponse;
