@@ -18,16 +18,15 @@ export default async function RestaurantDetailPage(
 ) {
   const { locale, id } = await props.params;
   const restaurantId = parseInt(id, 10);
-  let restaurant;
   const messages = await loadMessages(
     locale,
     ["RestaurantHeader", "DishRecommendation", "AllDishes"],
     "RestaurantDetails",
   );
 
-  try {
-    restaurant = await getRestaurantById(restaurantId);
-  } catch {
+  const restaurant = await getRestaurantById(restaurantId);
+
+  if (!restaurant) {
     notFound();
   }
 
