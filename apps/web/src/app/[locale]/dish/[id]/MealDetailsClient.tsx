@@ -339,10 +339,12 @@ export default function MealDetailsClient({
               {t("halal_info_heading", messages)}
             </h1>
             <div className="ml-auto">
-              <img
+              <Image
                 src="/Icons/X.svg"
                 alt="Close button"
-                className="h-4 w-4 cursor-pointer"
+                width={16}
+                height={16}
+                className="cursor-pointer"
                 onClick={() => setShowHalalInfo(false)}
               />
             </div>
