@@ -109,8 +109,6 @@ export default function HomeClient({
           }),
         };
 
-        console.log("Request body for AI recommender:", requestBody);
-
         // Abstracted call using the new service function
         const aiData = await getRecommendedDishes(requestBody);
         const dishIds = aiData.dish_ids.map(Number);
