@@ -30,7 +30,7 @@ export default async function getWhyThisWorksForYou(
       (await response.json()) as GetWhyThisWorksForYouResponse;
     return responseData;
   } catch (error) {
-    console.error("Error adding meal history:", error);
+    console.error("Error fetching Why This Works For You:", error);
     throw error;
   }
 }

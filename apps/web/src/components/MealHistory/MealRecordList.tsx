@@ -10,6 +10,7 @@ import Checkbox from "../Shared/Checkbox";
 import { Dispatch, SetStateAction } from "react";
 import Loading from "../Shared/Loading";
 import Image from "next/image";
+import calculateNutritionalInfo from "@/services/calculateNutritionalInfo";
 
 interface MealRecordListProps {
   locale: Locale;
@@ -57,9 +58,16 @@ function sumValuesWithUnit(
   let unit_back = "g";
   switch (view) {
     case "Calories":
-      sum = records
-        .entries()
-        .reduce((acc, [_, { total_calorie, ...r }]) => acc + total_calorie, 0);
+      sum = records.entries().reduce((acc, [_, record]) => {
+        const calorie = calculateNutritionalInfo({
+          edited_carbs: record.edited_carbs,
+          edited_protein: record.edited_protein,
+          edited_fat: record.edited_fat,
+          edited_alcohol: record.edited_alcohol,
+          record: record,
+        })[0];
+        return acc + calorie;
+      }, 0);
       unit_front = "";
       unit_back = "kcal";
       break;
@@ -67,7 +75,11 @@ function sumValuesWithUnit(
     case "Protein":
       sum = records
         .entries()
-        .reduce((acc, [_, { total_protein, ...r }]) => acc + total_protein, 0);
+        .reduce(
+          (acc, [_, { total_protein, edited_protein, ...r }]) =>
+            acc + (edited_protein === 0 ? total_protein : edited_protein),
+          0,
+        );
       unit_front += "_protein_front";
       unit_back += "_protein_back";
       break;
@@ -75,7 +87,11 @@ function sumValuesWithUnit(
     case "Carbohydrate":
       sum = records
         .entries()
-        .reduce((acc, [_, { total_carbs, ...r }]) => acc + total_carbs, 0);
+        .reduce(
+          (acc, [_, { total_carbs, edited_carbs, ...r }]) =>
+            acc + (edited_carbs === 0 ? total_carbs : edited_carbs),
+          0,
+        );
       unit_front += "_carb_front";
       unit_back += "_carb_back";
       break;
@@ -83,7 +99,11 @@ function sumValuesWithUnit(
     case "Fat":
       sum = records
         .entries()
-        .reduce((acc, [_, { total_fat, ...r }]) => acc + total_fat, 0);
+        .reduce(
+          (acc, [_, { total_fat, edited_fat, ...r }]) =>
+            acc + (edited_fat === 0 ? total_fat : edited_fat),
+          0,
+        );
       unit_front += "_fat_front";
       unit_back += "_fat_back";
       break;
