@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Checkbox from "../Shared/Checkbox";
+import calculateNutritionalInfo from "@/services/calculateNutritionalInfo";
 
 interface MealRecordCardProps {
   locale: Locale;
@@ -62,14 +63,22 @@ export default function MealRecordCard({
 
   const imageUrl = "/Home/UnknownMeal.png";
 
+  const [calorie, protein, carbs, fat] = calculateNutritionalInfo({
+    edited_carbs: record.edited_carbs,
+    edited_protein: record.edited_protein,
+    edited_fat: record.edited_fat,
+    edited_alcohol: record.edited_alcohol,
+    record,
+  });
+
   const value =
     view === "Calories"
-      ? record.total_calorie
+      ? calorie
       : view === "Protein"
-        ? record.total_protein
+        ? protein
         : view === "Carbohydrate"
-          ? record.total_carbs
-          : record.total_fat;
+          ? carbs
+          : fat;
   const formattedValue = value.toLocaleString("en-US");
   const unit = view == "Calories" ? t("kcal", messages) : t("g", messages);
 
