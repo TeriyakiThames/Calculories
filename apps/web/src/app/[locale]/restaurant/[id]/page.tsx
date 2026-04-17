@@ -1,10 +1,6 @@
 import { Locale } from "@calculories/shared-types";
-import { notFound } from "next/navigation";
-import getRestaurantById from "@/services/api/getRestaurantById";
-import RestaurantHeader from "@/components/RestaurantDetails/RestaurantHeader";
-import DishRecommendation from "@/components/RestaurantDetails/DishRecommendation";
-import AllDishes from "@/components/RestaurantDetails/AllDishes";
 import { loadMessages } from "@/lib/internationalisation/i18n";
+import RestaurantDetailClient from "./RestaurantDetailClient";
 
 interface RestaurantDetailPageProps {
   params: Promise<{
@@ -24,27 +20,11 @@ export default async function RestaurantDetailPage(
     "RestaurantDetails",
   );
 
-  const restaurant = await getRestaurantById(restaurantId);
-
-  if (!restaurant) {
-    notFound();
-  }
-
   return (
-    <main className="relative px-5">
-      <RestaurantHeader
-        restaurant={restaurant}
-        locale={locale}
-        messages={messages}
-      />
-      <DishRecommendation
-        restaurant={restaurant}
-        locale={locale}
-        messages={messages}
-        id={id}
-      />
-
-      <AllDishes restaurant={restaurant} locale={locale} messages={messages} />
-    </main>
+    <RestaurantDetailClient
+      messages={messages}
+      locale={locale}
+      id={restaurantId}
+    />
   );
 }

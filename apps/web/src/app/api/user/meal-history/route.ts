@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       .insert({ ...data, user_id: user!.id });
 
     if (error) {
-      console.log("Error adding meal history:", error);
+      console.error("Error adding meal history:", error);
       return new Response(
         JSON.stringify({ error: "Failed to insert meal history" }),
         {
@@ -104,7 +104,7 @@ export async function GET() {
     }));
 
     if (error) {
-      console.log("Error fetching meal history from database:", error);
+      console.error("Error fetching meal history from database:", error);
       return new Response(
         JSON.stringify({ error: "Failed to fetch meal history" }),
         {
