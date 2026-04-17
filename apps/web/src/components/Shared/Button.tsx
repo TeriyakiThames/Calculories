@@ -9,7 +9,7 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const baseClasses =
-    "hover:bg-green-80 h-16 w-full rounded-2xl bg-green-100 px-16 py-2 text-center text-lg font-bold text-white";
+    "hover:bg-green-80 h-16 w-full rounded-2xl bg-green-100 px-4 py-2 text-center text-nowrap text-lg font-bold text-white";
 
   return (
     <button
