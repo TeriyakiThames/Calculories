@@ -324,42 +324,36 @@ export default function MealDetailsClient({
       </div>
 
       {/* Halal Info */}
-      {showHalalInfo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="fixed inset-0 bg-black/50">
-            <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto flex w-full max-w-105 flex-col rounded-t-2xl border-t bg-white px-5 pt-5 pb-6">
-              <div className="flex justify-between">
-                <h2 className="font-bold">
-                  {t("halal_info_heading", messages)}
-                </h2>
-                {/* Close button */}
-                <button
-                  onClick={() => setShowHalalInfo(false)}
-                  title="Close"
-                  className="hover:text-grey-100 hover:bg-grey-10 -m-1 rounded-full p-2 hover:cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#858585" // text-grey-60
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-x-icon lucide-x text-grey-100"
-                  >
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
-                  </svg>
-                </button>
-              </div>
-              <p>{t("halal_info_description", messages)}</p>
+      <div>
+        {showHalalInfo && (
+          <div
+            className="fixed inset-0 z-40 bg-black/50"
+            onClick={() => setShowHalalInfo(false)}
+          />
+        )}
+        <div
+          className={`fixed right-0 bottom-0 left-0 z-50 mx-auto max-w-105 rounded-t-xl bg-white px-5 pt-5 pb-10 shadow-[0_-1px_2px_rgba(0,0,0,0.1)] transition-transform duration-100 ease-out ${showHalalInfo ? "translate-y-0" : "translate-y-full"}`}
+        >
+          <span className="flex flex-row">
+            <h1 className="text-grey-100 text-sm font-bold">
+              {t("halal_info_heading", messages)}
+            </h1>
+            <div className="ml-auto">
+              <Image
+                src="/Icons/X.svg"
+                alt="Close button"
+                width={16}
+                height={16}
+                className="cursor-pointer"
+                onClick={() => setShowHalalInfo(false)}
+              />
             </div>
-          </div>
+          </span>
+          <p className="text-grey-60 mt-1 text-sm">
+            {t("halal_info_description", messages)}
+          </p>
         </div>
-      )}
+      </div>
 
       {/* Allergen Alert / Restriction Alert */}
       {allergenAlert.visible && (
