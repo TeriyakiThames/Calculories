@@ -103,6 +103,9 @@ export default function BirthdatePicker({
                 "& .Mui-selected": {
                   background: "#4aae9b",
                 },
+                "& .MuiTouchRipple": {
+                  background: "#4aae9b",
+                },
               }}
             />
           </LocalizationProvider>
