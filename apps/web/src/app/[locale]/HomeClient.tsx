@@ -54,12 +54,6 @@ export default function HomeClient({
     () => getUser(),
   );
 
-  // AI Recommender expects "High Protein" instead of "HighProtein"
-  const formatGoalForAI = (goal?: Goal | string) => {
-    if (goal === "HighProtein") return "High Protein";
-    return goal || "Balanced";
-  };
-
   const { data: recommendedDishesPool = [], isValidating: isFetchingPicks } =
     useSWR(
       appUser
@@ -68,7 +62,7 @@ export default function HomeClient({
       async () => {
         const requestBody = {
           user: {
-            goal: formatGoalForAI(appUser.goal),
+            goal: appUser.goal,
 
             target_calorie: appUser.target_calorie || 0,
             target_protein: appUser.target_protein || 0,
