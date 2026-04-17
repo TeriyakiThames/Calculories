@@ -65,10 +65,10 @@ export default function MealHistoryClient({
 
   return (
     <div>
-      <h1 className="absolute top-6 w-full text-center text-xl font-bold">
+      <h1 className="absolute top-7.5 w-full text-center text-xl font-bold">
         {t("meal_history", messages)}
       </h1>
-      <div className="flex flex-col gap-5 px-7 py-5">
+      <div className="flex flex-col gap-5 px-7 py-5.5">
         {/* Header */}
         <div className="text-grey-100 flex items-center justify-between">
           {isEditing ? (
