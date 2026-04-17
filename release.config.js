@@ -25,6 +25,12 @@ module.exports = {
       },
     ],
     [
+      "@semantic-release/exec",
+      {
+        prepareCmd: "pnpm install --no-frozen-lockfile",
+      },
+    ],
+    [
       "@semantic-release/git",
       {
         assets: ["CHANGELOG.md", "package.json", "pnpm-lock.yaml"],
