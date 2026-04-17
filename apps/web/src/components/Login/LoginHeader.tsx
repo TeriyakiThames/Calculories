@@ -16,7 +16,7 @@ export default function LoginHeader({ messages }: { messages: Messages }) {
       <div className="flex flex-col gap-4.5 text-center font-bold">
         <header>
           <p className="text-green-100">CALCULORIES</p>
-          <h1 className="text-text text-[36px] leading-10">
+          <h1 className="text-text mt-2 text-[36px] leading-10">
             {t("tagline1", messages)}
             <br />
             <span className="text-green-100">{t("tagline2", messages)}</span>
