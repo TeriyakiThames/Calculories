@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@calculories/shared-types": "1.0.0",
+    "@calculories/shared-types": "workspace:*",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^9.0.0",
