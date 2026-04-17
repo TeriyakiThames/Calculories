@@ -178,7 +178,7 @@ export function IngredientsDropdown({
               {/* Toggle portionMode */}
               {portionMode === "display" ? (
                 <button
-                  onClick={() => setPortionMode("input")}
+                  onClick={() => setPortionMode("slider")}
                   className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:opacity-80"
                 >
                   <span>{t("adjust_portion", messages)}</span>
@@ -194,16 +194,16 @@ export function IngredientsDropdown({
               ) : (
                 <div className="bg-grey-10 flex gap-1 rounded-md p-1 text-xs">
                   <button
-                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
-                    onClick={() => setPortionMode("input")}
-                  >
-                    {t("GRAM", messages)}
-                  </button>
-                  <button
                     className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
                     onClick={() => setPortionMode("slider")}
                   >
                     {t("PERCENT", messages)}
+                  </button>
+                  <button
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    onClick={() => setPortionMode("input")}
+                  >
+                    {t("GRAM", messages)}
                   </button>
                 </div>
               )}
