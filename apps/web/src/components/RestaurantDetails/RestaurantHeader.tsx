@@ -7,7 +7,7 @@ import { Button } from "../Shared/Button";
 import { useState } from "react";
 import { Tag } from "../MealDetails/IngredientsDropdown/Tag";
 import { t } from "@/lib/internationalisation/i18n-helpers";
-
+import Image from "next/image";
 interface RestaurantHeaderProps {
   restaurant: Restaurant;
   locale: Locale;
@@ -40,8 +40,10 @@ export default function RestaurantHeader({
 
       {/* Restaurant info */}
       <span className="flex gap-5">
-        <img
+        <Image
           src={"/Restaurant/MockRestaurant.png"}
+          width={16}
+          height={16}
           alt="Restaurant picture"
           className="h-22 w-22 rounded-md object-cover"
         />
@@ -68,7 +70,7 @@ export default function RestaurantHeader({
       {/* Map button */}
       <Link href={restaurant.url} className="w-full">
         <Button className="text-1xl mt-3 flex items-center justify-center gap-1 py-5 font-semibold">
-          <img src="/Icons/Map.svg" alt="Map button" className="h-5 w-5" />
+          <Image src="/Icons/Map.svg" alt="Map button" width={20} height={20} />
           <span>{t("map_label", messages)}</span>
         </Button>
       </Link>
@@ -89,10 +91,12 @@ export default function RestaurantHeader({
               {t("halal_tag", messages)}
             </h1>
             <div className="ml-auto">
-              <img
+              <Image
                 src="/Icons/X.svg"
                 alt="Close button"
-                className="h-4 w-4 cursor-pointer"
+                width={16}
+                height={16}
+                className="cursor-pointer"
                 onClick={() => setPopupOpen(false)}
               />
             </div>

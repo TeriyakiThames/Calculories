@@ -21,7 +21,7 @@ export default function PageTitle({
     <div className="mb-12.5 flex w-full items-center justify-between pt-7.5">
       <BackButton
         href={backHref}
-        containerClassName={`w-14.5 ${!titleOnly ? "invisible" : ""}`}
+        containerClassName={`w-14 ${!titleOnly ? "invisible" : ""}`}
       />
 
       <h1 className="text-grey-100 text-center text-xl font-bold">

@@ -27,7 +27,7 @@ export default async function SearchPage({
   return (
     <div className="fixed z-0 flex h-dvh w-full max-w-105 flex-col">
       <div className="mb-6 flex w-full items-center justify-center pt-7.5">
-        <h1 className="text-grey-100 text-2xl font-bold">
+        <h1 className="text-grey-100 text-xl font-bold">
           {t("Search Food", messages)}
         </h1>
       </div>
