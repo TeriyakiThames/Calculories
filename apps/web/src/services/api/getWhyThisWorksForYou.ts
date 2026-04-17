@@ -20,17 +20,14 @@ export default async function getWhyThisWorksForYou(
       },
     });
 
-    console.log(response);
-
-    // if (!response.ok) {
-    //   throw new Error(
-    //     `Failed to get Why This Works For You for dish ID ${data.dish.id}`,
-    //   );
-    // }
+    if (!response.ok) {
+      throw new Error(
+        `Failed to get Why This Works For You for dish ID ${data.dish.id}`,
+      );
+    }
 
     const responseData =
       (await response.json()) as GetWhyThisWorksForYouResponse;
-    console.log(responseData);
     return responseData;
   } catch (error) {
     console.error("Error adding meal history:", error);

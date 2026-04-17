@@ -9,7 +9,10 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const id = parseInt((await params).id);
+  // const id = parseInt((await params).id);
+  const idString = (await params).id;
+  const id = Number(idString);
+
   if (Number.isNaN(id)) {
     return new Response(JSON.stringify({ error: "Invalid restaurant ID" }), {
       status: 400,
