@@ -32,7 +32,7 @@ jobs:
           corepack prepare pnpm@latest --activate
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run Semantic Release
         env:
