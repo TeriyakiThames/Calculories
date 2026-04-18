@@ -231,19 +231,23 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         messages={messages}
       />
 
-      {Object.entries(errors).length !== 0 && (
-        <div className="text-red-100">
-          {t("error_fill_out_all_fields", messages)}
-        </div>
-      )}
       <div className="pb-5" />
 
       <div className="border-grey-40 bg-background-10 fixed bottom-0 left-1/2 z-10 flex w-full max-w-105 -translate-x-1/2 flex-col items-center gap-3 border-t px-9 py-5">
+        {Object.entries(errors).length !== 0 && (
+          <div className="mb-2 text-sm text-red-100">
+            {t("error_fill_out_all_fields", messages)}
+          </div>
+        )}
+
         {errors.submit && (
           <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
         )}
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting || Object.keys(errors).length !== 0}
+        >
           {isSubmitting
             ? t("Saving", messages)
             : t("Save and Continue", messages)}

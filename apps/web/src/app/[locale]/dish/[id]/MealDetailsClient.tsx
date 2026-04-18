@@ -107,7 +107,9 @@ export default function MealDetailsClient({
   messages: Messages;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
+  const [isDishLoading, setIsDishLoading] = useState(false);
   const [user, setUser] = useState<GetUserResponse | undefined>(undefined);
+  const [isUserLoading, setIsUserLoading] = useState(false);
   const [whyThisWorks, setWhyThisWorks] = useState<Reason[] | undefined>(
     undefined,
   );
@@ -143,6 +145,7 @@ export default function MealDetailsClient({
 
   useEffect(() => {
     const fetchDish = async () => {
+      setIsDishLoading(true);
       try {
         const tempDish = (await getDish(id)) as Dish;
 
@@ -152,10 +155,13 @@ export default function MealDetailsClient({
       } catch (error) {
         console.error(error);
         return notFound();
+      } finally {
+        setIsDishLoading(false);
       }
     };
 
     const fetchUser = async () => {
+      setIsUserLoading(true);
       try {
         const tempUser = (await getUser()) as GetUserResponse;
 
@@ -165,6 +171,8 @@ export default function MealDetailsClient({
       } catch (error) {
         console.error(error);
         return notFound();
+      } finally {
+        setIsUserLoading(false);
       }
     };
 
@@ -200,9 +208,8 @@ export default function MealDetailsClient({
         addAllergens("haram ingredients");
       }
     };
-
-    fetchDish();
-    fetchUser();
+    if (!dish && !isDishLoading) fetchDish();
+    if (!user && !isUserLoading) fetchUser();
     if (user && dish) {
       const fetchWhyThisWorksForYou = async () => {
         try {
@@ -268,8 +275,8 @@ export default function MealDetailsClient({
         }
       };
       fetchWhyThisWorksForYou();
+      checkAllergies();
     }
-    checkAllergies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dish?.has_gluten,

@@ -142,7 +142,7 @@ export function Input({
 
         {/* Dropdown Menu */}
         {type === "dropdown" && isOpen && (
-          <div className="border-grey-20 bg-background-1 absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-xl border-[1.5px] shadow-md">
+          <div className="border-grey-20 bg-background-1 absolute top-full left-0 z-5 mt-2 w-full overflow-hidden rounded-xl border-[1.5px] shadow-md">
             {Object.entries(options).map(([value, name], index) => (
               <div
                 key={`${value}-${index}`}
