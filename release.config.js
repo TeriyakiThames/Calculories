@@ -8,7 +8,7 @@ module.exports = {
     [
       "@semantic-release/exec",
       {
-        prepareCmd: "pnpm install --no-frozen-lockfile --dir ../..",
+        prepareCmd: "cd ../.. && pnpm install --no-frozen-lockfile",
       },
     ],
     [
