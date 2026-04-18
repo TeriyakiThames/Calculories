@@ -268,8 +268,8 @@ export default function MealDetailsClient({
         }
       };
       fetchWhyThisWorksForYou();
+      checkAllergies();
     }
-    checkAllergies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dish?.has_gluten,
