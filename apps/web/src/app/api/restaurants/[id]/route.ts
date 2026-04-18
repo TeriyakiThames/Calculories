@@ -38,7 +38,7 @@ export async function GET(
         `
           *,
           restaurant_type_map(restaurant_type(*)),
-          dish_sum_view(*, dish_type_map(dish_type(*)))
+          dish_sum_mat_view(*, dish_type_map(dish_type(*)))
             `,
       )
       .eq("id", id)
@@ -59,14 +59,14 @@ export async function GET(
       restaurant_types: data?.restaurant_type_map?.map(
         (t: RawRestaurantType) => t.restaurant_type,
       ),
-      dishes: data?.dish_sum_view.map((dish: RawDishSumViewData) => ({
+      dishes: data?.dish_sum_mat_view.map((dish: RawDishSumViewData) => ({
         ...dish,
         dish_types: dish.dish_type_map.map(
           (type: RawDishType) => type.dish_type,
         ),
         dish_type_map: undefined,
       })),
-      dish_sum_view: undefined,
+      dish_sum_mat_view: undefined,
       restaurant_type_map: undefined,
     };
 
