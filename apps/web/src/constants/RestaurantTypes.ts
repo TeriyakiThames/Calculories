@@ -16,6 +16,6 @@ export const RESTAURANT_TYPES: TypeItem[] = [
   { id: 13, type_en: "Mexican", type_th: "เม็กซิกัน" },
   { id: 14, type_en: "Noodles", type_th: "บะหมี่/สปาเก็ตตี้" },
   { id: 15, type_en: "American", type_th: "อเมริกัน" },
-  { id: 16, type_en: "Singapore", type_th: "สิงคโปร์" },
+  { id: 16, type_en: "Singaporean", type_th: "สิงคโปร์" },
   { id: 17, type_en: "Japanese", type_th: "ญี่ปุ่น" },
 ];

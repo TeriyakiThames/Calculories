@@ -1,10 +1,10 @@
 import { TypeItem } from "@calculories/shared-types";
 
 export const DISH_TYPES: TypeItem[] = [
-  { id: 1, type_en: "Salads", type_th: "สลัด" },
+  { id: 1, type_en: "Salad", type_th: "สลัด" },
   { id: 2, type_en: "Japanese", type_th: "ญี่ปุ่น" },
   { id: 3, type_en: "Fusion/International", type_th: "ฟิวชั่น/นานาชาติ" },
-  { id: 4, type_en: "Steak & Main Proteins", type_th: "สเต็ก/โปรตีน" },
+  { id: 4, type_en: "Steak & Main Protein", type_th: "สเต็ก/โปรตีน" },
   { id: 5, type_en: "Soup & Curry", type_th: "ซุป/แกง" },
   { id: 6, type_en: "Bakery & Dessert", type_th: "เบเกอรี่/ของหวาน" },
   { id: 7, type_en: "Beverage", type_th: "เครื่องดื่ม" },
