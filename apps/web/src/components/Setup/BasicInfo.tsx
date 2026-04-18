@@ -88,7 +88,11 @@ export default function BasicInfo({
         header={t("sex_header", messages)}
         placeholder={t("sex_placeholder", messages)}
         type="dropdown"
-        options={{ Male: t("male", messages), Female: t("female", messages) }}
+        options={{
+          Male: t("Male", messages),
+          Female: t("Female", messages),
+          Other: t("Other", messages),
+        }}
         value={data.sex}
         onChange={(val) => onUpdate({ sex: val })}
         onDropDownNameChange={(name) => onUpdate({ sexDisplay: name })}

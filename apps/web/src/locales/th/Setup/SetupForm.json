@@ -13,8 +13,9 @@
 
   "sex_header": "เพศกำเนิด",
   "sex_placeholder": "ระบุเพศของคุณ",
-  "male": "ชาย",
-  "female": "หญิง",
+  "Male": "ชาย",
+  "Female": "หญิง",
+  "Other": "อื่นๆ",
 
   "activity_level_header": "ระดับกิจกรรม",
   "activity_level_placeholder": "คุณขยับร่างกายบ่อยแค่ไหน?",
