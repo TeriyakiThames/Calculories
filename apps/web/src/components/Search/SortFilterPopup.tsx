@@ -220,7 +220,7 @@ export default function SortFilterPopup({
               {t("Dish Types", messages)}
             </h2>
             <SubTypes
-              idList={[1, 2, 8, 14]}
+              idList={[9, 2, 17, 6]}
               allItems={DISH_TYPES}
               selectedIds={dishTypes}
               onChange={(val) => onSelectDishTypes(val)}
@@ -230,7 +230,7 @@ export default function SortFilterPopup({
               {/* Cuisine */}
               <SubTypes
                 title={t("Cuisine", messages)}
-                idList={[4, 3, 5, 7, 6]}
+                idList={[11, 12, 8, 10, 3]}
                 allItems={DISH_TYPES}
                 selectedIds={dishTypes}
                 onChange={(val) => onSelectDishTypes(val)}
@@ -239,7 +239,7 @@ export default function SortFilterPopup({
               {/* Main Dishes */}
               <SubTypes
                 title={t("Main Dishes", messages)}
-                idList={[9, 10, 17]}
+                idList={[15, 4, 13]}
                 allItems={DISH_TYPES}
                 selectedIds={dishTypes}
                 onChange={(val) => onSelectDishTypes(val)}
@@ -248,7 +248,7 @@ export default function SortFilterPopup({
               {/* Light & Sides */}
               <SubTypes
                 title={t("Light & Sides", messages)}
-                idList={[13, 12, 11]}
+                idList={[16, 5, 1]}
                 allItems={DISH_TYPES}
                 selectedIds={dishTypes}
                 onChange={(val) => onSelectDishTypes(val)}
@@ -257,7 +257,7 @@ export default function SortFilterPopup({
               {/* Dessert & Drinks */}
               <SubTypes
                 title={t("Dessert & Drinks", messages)}
-                idList={[15]}
+                idList={[7]}
                 allItems={DISH_TYPES}
                 selectedIds={dishTypes}
                 onChange={(val) => onSelectDishTypes(val)}
@@ -266,7 +266,7 @@ export default function SortFilterPopup({
               {/* Fast Options */}
               <SubTypes
                 title={t("Fast Options", messages)}
-                idList={[16]}
+                idList={[14]}
                 allItems={DISH_TYPES}
                 selectedIds={dishTypes}
                 onChange={(val) => onSelectDishTypes(val)}
@@ -281,7 +281,7 @@ export default function SortFilterPopup({
               {t("Restaurant Types", messages)}
             </h2>
             <SubTypes
-              idList={[1, 5, 15, 2]}
+              idList={[11, 3, 1, 17]}
               allItems={RESTAURANT_TYPES}
               selectedIds={restaurantTypes}
               onChange={(val) => onSelectRestaurantTypes(val)}
@@ -291,7 +291,7 @@ export default function SortFilterPopup({
               {/* Cuisine */}
               <SubTypes
                 title={t("Cuisine", messages)}
-                idList={[3, 9, 4, 11, 10, 17]}
+                idList={[10, 7, 6, 16, 15, 13]}
                 allItems={RESTAURANT_TYPES}
                 selectedIds={restaurantTypes}
                 onChange={(val) => onSelectRestaurantTypes(val)}
@@ -300,7 +300,7 @@ export default function SortFilterPopup({
               {/* Healthy & Light */}
               <SubTypes
                 title={t("Healthy & Light", messages)}
-                idList={[6, 16]}
+                idList={[5, 9]}
                 allItems={RESTAURANT_TYPES}
                 selectedIds={restaurantTypes}
                 onChange={(val) => onSelectRestaurantTypes(val)}
@@ -309,7 +309,7 @@ export default function SortFilterPopup({
               {/* Casual & Social */}
               <SubTypes
                 title={t("Casual & Social", messages)}
-                idList={[14, 7, 13]}
+                idList={[8, 2, 14]}
                 allItems={RESTAURANT_TYPES}
                 selectedIds={restaurantTypes}
                 onChange={(val) => onSelectRestaurantTypes(val)}
@@ -318,7 +318,7 @@ export default function SortFilterPopup({
               {/* Specialty */}
               <SubTypes
                 title={t("Specialty", messages)}
-                idList={[12, 8]}
+                idList={[4, 12]}
                 allItems={RESTAURANT_TYPES}
                 selectedIds={restaurantTypes}
                 onChange={(val) => onSelectRestaurantTypes(val)}
@@ -343,11 +343,12 @@ export default function SortFilterPopup({
                 onChange={setHasDelivery}
                 text={t("Has delivery", messages)}
               />
-              <ToggleButton
+              {/* removed to avoid confusion */}
+              {/* <ToggleButton
                 value={restaurantIsHalal}
                 onChange={setRestaurantIsHalal}
                 text={t("Is halal", messages)}
-              />
+              /> */}
             </div>
           </div>
 
