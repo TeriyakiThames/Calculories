@@ -1,3 +1,22 @@
+## @calculories/web [1.1.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.0...@calculories/web@1.1.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* change workspace suffix ([#110](https://github.com/TeriyakiThames/Calculories/issues/110)) ([ae31293](https://github.com/TeriyakiThames/Calculories/commit/ae3129345f33b47f77bf8442785c91c360285ee6))
+
+# @calculories/web [1.1.0](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.0.1...@calculories/web@1.1.0) (2026-04-18)
+
+
+### Bug Fixes
+
+* hopefully fix bot changing version ([#103](https://github.com/TeriyakiThames/Calculories/issues/103)) ([b5a1c7b](https://github.com/TeriyakiThames/Calculories/commit/b5a1c7b986d0079d2e4fb89fd8ce1260242bef13))
+
+
+### Features
+
+* add sex "Other" ([#106](https://github.com/TeriyakiThames/Calculories/issues/106)) ([6c965b9](https://github.com/TeriyakiThames/Calculories/commit/6c965b982d4b0cc740a3c6aadbccfb94f5b14203))
+
 ## @calculories/web [1.0.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.0.0...@calculories/web@1.0.1) (2026-04-17)
 
 ### Bug Fixes
