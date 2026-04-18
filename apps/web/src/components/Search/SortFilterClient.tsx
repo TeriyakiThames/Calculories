@@ -218,7 +218,7 @@ export default function SortFilterClientForm({
       <SearchBar messages={messages} onSearch={handleSearch} />
       <div className="flex shrink-0 gap-2.5 overflow-x-scroll px-4.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <SubTypes
-          idList={[8, 11, 15, 17, 10]}
+          idList={[17, 1, 7, 13, 4]}
           allItems={DISH_TYPES}
           selectedIds={dishTypes}
           onChange={(val) => {

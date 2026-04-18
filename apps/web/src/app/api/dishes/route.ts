@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const { ids: id_list } = parseData.data;
 
     const { data, error } = await supabase
-      .from("dish_sum_view")
+      .from("dish_sum_mat_view")
       .select(
         `
         *,
