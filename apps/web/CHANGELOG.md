@@ -1,3 +1,10 @@
+## @calculories/web [1.1.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.0...@calculories/web@1.1.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* change workspace suffix ([#110](https://github.com/TeriyakiThames/Calculories/issues/110)) ([ae31293](https://github.com/TeriyakiThames/Calculories/commit/ae3129345f33b47f77bf8442785c91c360285ee6))
+
 # @calculories/web [1.1.0](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.0.1...@calculories/web@1.1.0) (2026-04-18)
 
 
