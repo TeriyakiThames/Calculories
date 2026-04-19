@@ -15,6 +15,7 @@ interface MealCardListProps {
   isRefreshing?: boolean;
   messages: Messages;
   restaurant?: Restaurant;
+  smartPick?: boolean;
 }
 
 export default function MealCardList({
@@ -23,6 +24,7 @@ export default function MealCardList({
   isRefreshing,
   messages,
   restaurant,
+  smartPick,
 }: MealCardListProps) {
   const [userLat, setUserLat] = useState<number | undefined>(undefined);
   const [userLon, setUserLon] = useState<number | undefined>(undefined);
@@ -45,6 +47,7 @@ export default function MealCardList({
           userLocation={{ userLat: userLat, userLon: userLon }}
           messages={messages}
           restaurant={restaurant}
+          smartPick={smartPick}
         />
       ))}
     </>
