@@ -1,39 +1,20 @@
 module.exports = {
   branches: ["main"],
   plugins: [
-    [
-      "@semantic-release/commit-analyzer",
-      {
-        preset: "angular",
-        releaseRules: [
-          { breaking: true, release: "major" },
-          { type: "feat", release: "minor" },
-          { type: "fix", release: "patch" },
-          { type: "style", release: "patch" },
-          { type: "refactor", release: "patch" },
-          { type: "docs", release: "patch" },
-          { type: "chore", release: "patch" },
-        ],
-      },
-    ],
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    [
-      "@semantic-release/npm",
-      {
-        npmPublish: false,
-      },
-    ],
+    ["@semantic-release/npm", { npmPublish: false }],
     [
       "@semantic-release/exec",
       {
-        prepareCmd: "pnpm install --no-frozen-lockfile",
+        prepareCmd: "cd ../.. && pnpm install --no-frozen-lockfile",
       },
     ],
     [
       "@semantic-release/git",
       {
-        assets: ["CHANGELOG.md", "package.json", "pnpm-lock.yaml"],
+        assets: ["CHANGELOG.md", "package.json", "../../pnpm-lock.yaml"],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },

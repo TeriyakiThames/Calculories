@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SEX_OPTIONS = ["Male", "Female"] as const;
+export const SEX_OPTIONS = ["Male", "Female", "Other"] as const;
 
 export const ACTIVITY_LEVEL_OPTIONS = [
   "Sedentary",

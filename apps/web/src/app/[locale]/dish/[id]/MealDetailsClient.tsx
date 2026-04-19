@@ -19,7 +19,7 @@ import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
 import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
-import { notFound } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import addMealHistory from "@/services/api/addMealHistory";
 import getUser from "@/services/api/getUser";
 import Popup from "@/components/Shared/Popup";
@@ -107,7 +107,9 @@ export default function MealDetailsClient({
   messages: Messages;
 }) {
   const [dish, setDish] = useState<Dish | undefined>(undefined);
+  const [isDishLoading, setIsDishLoading] = useState(false);
   const [user, setUser] = useState<GetUserResponse | undefined>(undefined);
+  const [isUserLoading, setIsUserLoading] = useState(false);
   const [whyThisWorks, setWhyThisWorks] = useState<Reason[] | undefined>(
     undefined,
   );
@@ -124,6 +126,8 @@ export default function MealDetailsClient({
   const [creatingMealRecordStatus, setCreatingMealRecordStatus] =
     useState("add_meal");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isSmartPick = searchParams.get("smartPick") === "true";
 
   const createMealRecord = async () => {
     try {
@@ -143,6 +147,7 @@ export default function MealDetailsClient({
 
   useEffect(() => {
     const fetchDish = async () => {
+      setIsDishLoading(true);
       try {
         const tempDish = (await getDish(id)) as Dish;
 
@@ -152,10 +157,13 @@ export default function MealDetailsClient({
       } catch (error) {
         console.error(error);
         return notFound();
+      } finally {
+        setIsDishLoading(false);
       }
     };
 
     const fetchUser = async () => {
+      setIsUserLoading(true);
       try {
         const tempUser = (await getUser()) as GetUserResponse;
 
@@ -165,6 +173,8 @@ export default function MealDetailsClient({
       } catch (error) {
         console.error(error);
         return notFound();
+      } finally {
+        setIsUserLoading(false);
       }
     };
 
@@ -200,9 +210,8 @@ export default function MealDetailsClient({
         addAllergens("haram ingredients");
       }
     };
-
-    fetchDish();
-    fetchUser();
+    if (!dish && !isDishLoading) fetchDish();
+    if (!user && !isUserLoading) fetchUser();
     if (user && dish) {
       const fetchWhyThisWorksForYou = async () => {
         try {
@@ -268,8 +277,8 @@ export default function MealDetailsClient({
         }
       };
       fetchWhyThisWorksForYou();
+      checkAllergies();
     }
-    checkAllergies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dish?.has_gluten,
@@ -307,7 +316,9 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} messages={messages} />
-        <AiSummary reasons={whyThisWorks} messages={messages} />
+        {isSmartPick && (
+          <AiSummary reasons={whyThisWorks} messages={messages} />
+        )}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={dish}

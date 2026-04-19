@@ -1,3 +1,10 @@
+## @calculories/shared-types [1.0.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/shared-types@1.0.1...@calculories/shared-types@1.0.2) (2026-04-18)
+
+
+### Bug Fixes
+
+* hopefully fix bot changing version ([#103](https://github.com/TeriyakiThames/Calculories/issues/103)) ([b5a1c7b](https://github.com/TeriyakiThames/Calculories/commit/b5a1c7b986d0079d2e4fb89fd8ce1260242bef13))
+
 ## @calculories/shared-types [1.0.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/shared-types@1.0.0...@calculories/shared-types@1.0.1) (2026-04-17)
 
 ### Bug Fixes

@@ -57,6 +57,7 @@ export default function SmartPicks({
         locale={locale}
         isRefreshing={isRefreshing}
         messages={messages}
+        smartPick={true}
       />
 
       {dishes.length === 0 && (

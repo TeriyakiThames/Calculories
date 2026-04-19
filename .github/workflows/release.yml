@@ -32,9 +32,9 @@ jobs:
           corepack prepare pnpm@latest --activate
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-        run: pnpm exec multi-semantic-release
+        run: pnpm exec multi-semantic-release --sequential-init --deps.bump=satisfy

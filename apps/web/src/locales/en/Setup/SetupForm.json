@@ -13,8 +13,9 @@
 
   "sex_header": "Sex assigned at birth",
   "sex_placeholder": "What is your sex?",
-  "male": "Male",
-  "female": "Female",
+  "Male": "Male",
+  "Female": "Female",
+  "Other": "Other",
 
   "activity_level_header": "Activity Level",
   "activity_level_placeholder": "How active are you?",
