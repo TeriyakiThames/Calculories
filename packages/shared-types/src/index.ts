@@ -68,6 +68,7 @@ export interface Component {
   fat: number;
   carbs: number;
   alcohol: number;
+  weight_g: number;
   is_vegetarian: boolean;
   is_halal: boolean;
   has_shellfish: boolean;
