@@ -1,3 +1,10 @@
+## @calculories/web [1.1.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.1...@calculories/web@1.1.2) (2026-04-19)
+
+
+### Bug Fixes
+
+* hide ai insight if not from smart picks ([#113](https://github.com/TeriyakiThames/Calculories/issues/113)) ([a98eb97](https://github.com/TeriyakiThames/Calculories/commit/a98eb97e9c7d39a43ca94e51a6633d8bb5311c59))
+
 ## @calculories/web [1.1.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.0...@calculories/web@1.1.1) (2026-04-18)
 
 
