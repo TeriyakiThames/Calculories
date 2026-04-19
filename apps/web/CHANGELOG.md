@@ -1,3 +1,10 @@
+## @calculories/web [1.1.3](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.2...@calculories/web@1.1.3) (2026-04-19)
+
+
+### Bug Fixes
+
+* show weight_g in ingredient list & while editing ([#114](https://github.com/TeriyakiThames/Calculories/issues/114)) ([e2e61ff](https://github.com/TeriyakiThames/Calculories/commit/e2e61ff077ad536e42d6bac35b82687046d3a32a))
+
 ## @calculories/web [1.1.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.1...@calculories/web@1.1.2) (2026-04-19)
 
 
