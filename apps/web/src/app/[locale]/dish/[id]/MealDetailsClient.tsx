@@ -19,7 +19,7 @@ import { MealHeader } from "@/components/MealDetails/MealHeader";
 import { NutritionalInfo } from "@/components/MealDetails/NutritionalInfo";
 import getDish from "@/services/api/getDish";
 import { useEffect, useState } from "react";
-import { notFound } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import addMealHistory from "@/services/api/addMealHistory";
 import getUser from "@/services/api/getUser";
 import Popup from "@/components/Shared/Popup";
@@ -126,6 +126,8 @@ export default function MealDetailsClient({
   const [creatingMealRecordStatus, setCreatingMealRecordStatus] =
     useState("add_meal");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isSmartPick = searchParams.get("smartPick") === "true";
 
   const createMealRecord = async () => {
     try {
@@ -314,7 +316,9 @@ export default function MealDetailsClient({
       <div className="relative z-10 -mt-17 flex flex-col gap-7.5 rounded-t-3xl bg-white p-8.75">
         <MealHeader dish={dish} locale={locale} />
         <NutritionalInfo dish={dish} messages={messages} />
-        <AiSummary reasons={whyThisWorks} messages={messages} />
+        {isSmartPick && (
+          <AiSummary reasons={whyThisWorks} messages={messages} />
+        )}
         <div className="bg-grey-40 my h-[0.5px] w-full" />
         <IngredientsDropdown
           dish={dish}

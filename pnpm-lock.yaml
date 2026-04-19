@@ -52,7 +52,7 @@ importers:
   apps/web:
     dependencies:
       '@calculories/shared-types':
-        specifier: workspace:~
+        specifier: ~1.0.2
         version: link:../../packages/shared-types
       '@emotion/react':
         specifier: ^11.14.0
