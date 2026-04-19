@@ -80,8 +80,7 @@ export function IngredientsDropdown({
     setComponents((prev) =>
       prev.map((c) => {
         if (c.id === componentId) {
-          const baseWeight = c.protein + c.fat + c.carbs;
-          const newRatio = baseWeight > 0 ? newWeight / baseWeight : 0;
+          const newRatio = c.weight_g > 0 ? newWeight / c.weight_g : 0;
 
           return { ...c, new_ratio: newRatio };
         }
@@ -233,8 +232,7 @@ export function IngredientsDropdown({
               {portionMode === "input" && (
                 <div className="flex flex-col gap-4">
                   {components.map((c, index) => {
-                    const baseWeight = c.protein + c.fat + c.carbs;
-                    const currentWeight = (baseWeight * c.new_ratio).toFixed(0);
+                    const currentWeight = (c.weight_g * c.new_ratio).toFixed(0);
 
                     return (
                       <Input
@@ -355,8 +353,7 @@ export function IngredientRow({
     locale === "en"
       ? component.name_en || component.name_th || "Unknown Menu"
       : component.name_th || component.name_en || "Unknown Menu";
-  const baseWeight = component.protein + component.fat + component.carbs;
-  const currentWeight = (baseWeight * component.new_ratio).toFixed(0);
+  const currentWeight = (component.weight_g * component.new_ratio).toFixed(0);
   return (
     <div className="flex items-center justify-between">
       <span className="text-grey-100 leading-5">{componentName}</span>

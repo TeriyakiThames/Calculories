@@ -6,6 +6,7 @@ import {
   Locale,
   Messages,
 } from "@calculories/shared-types";
+import { Rationale } from "next/font/google";
 
 interface PortionSliderProps {
   component: ComponentWithNewRatio;
@@ -26,8 +27,8 @@ export default function PortionSlider({
   const onSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPercent = Number(e.target.value);
     const newRatio = component.ratio * (newPercent / 100);
-    const baseWeight = component.protein + component.fat + component.carbs;
-    const newWeight = baseWeight * newRatio;
+    const newWeight = component.weight_g * newRatio;
+    // console.log(newPercent, newRatio,"/", Rationale newWeight);
 
     handleWeightChange(component.id, newWeight);
   };
