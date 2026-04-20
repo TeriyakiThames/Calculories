@@ -33,8 +33,8 @@ export const userSchema = z.object({
     .min(3, "Username must be at least 3 characters.")
     .max(30, "Username cannot exceed 30 characters.")
     .regex(
-      /^[a-zA-Z0-9]+$/,
-      "Username can only contain English letters and numbers, with no spaces or special characters.",
+      /^[a-zA-Z0-9 ]+$/,
+      "Username can only contain letters, numbers, and spaces.",
     ),
 
   birthdate: z
