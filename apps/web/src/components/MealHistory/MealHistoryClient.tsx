@@ -82,7 +82,7 @@ export default function MealHistoryClient({
               {t("cancel", messages)}
             </button>
           ) : (
-            <BackButton />
+            <BackButton containerClassName="z-2" />
           )}
 
           {isEditing ? (

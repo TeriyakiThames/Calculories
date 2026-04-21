@@ -47,7 +47,11 @@ export default function LoginButton({
 
   return (
     <div className="fixed inset-x-0 bottom-25 mx-auto flex w-[320px] flex-col gap-3">
-      <Button onClick={loginWithGoogle} disabled={isGoogleLoading}>
+      <Button
+        onClick={loginWithGoogle}
+        disabled={isGoogleLoading}
+        className="hover:cursor-pointer"
+      >
         <p className="text-nowrap">
           {isGoogleLoading
             ? t("Loading...", messages)
