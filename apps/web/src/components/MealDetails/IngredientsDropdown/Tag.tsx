@@ -14,7 +14,7 @@ export function Tag({
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs leading-none ${styles[color]}`}
+      className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs leading-none hover:cursor-pointer ${styles[color]}`}
     >
       <span className="whitespace-nowrap">{text}</span>
       {hasIcon && (

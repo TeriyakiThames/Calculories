@@ -178,7 +178,7 @@ export function IngredientsDropdown({
               {portionMode === "display" ? (
                 <button
                   onClick={() => setPortionMode("slider")}
-                  className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:opacity-80"
+                  className="bg-green-10 flex items-center justify-center gap-1 rounded-sm p-1 text-sm leading-none font-bold text-green-100 italic transition-opacity hover:cursor-pointer hover:opacity-80"
                 >
                   <span>{t("adjust_portion", messages)}</span>
                   <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
@@ -193,13 +193,13 @@ export function IngredientsDropdown({
               ) : (
                 <div className="bg-grey-10 flex gap-1 rounded-md p-1 text-xs">
                   <button
-                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 hover:cursor-pointer ${portionMode === "slider" ? "bg-white text-green-100" : "text-grey-80"}`}
                     onClick={() => setPortionMode("slider")}
                   >
                     {t("PERCENT", messages)}
                   </button>
                   <button
-                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
+                    className={`transform-full rounded-md px-2 py-1.5 font-bold duration-150 hover:cursor-pointer ${portionMode === "input" ? "bg-white text-green-100" : "text-grey-80"}`}
                     onClick={() => setPortionMode("input")}
                   >
                     {t("GRAM", messages)}
@@ -256,13 +256,13 @@ export function IngredientsDropdown({
               <div className="flex w-full gap-4">
                 <button
                   onClick={() => selectMode("display")}
-                  className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform"
+                  className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform hover:cursor-pointer"
                 >
                   {t("cancel", messages)}
                 </button>
                 <button
                   onClick={handleDoneEditing}
-                  className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-4 py-2 text-white transition-transform"
+                  className="bg-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl px-4 py-2 text-white transition-transform hover:cursor-pointer"
                 >
                   <svg
                     width="23"

@@ -165,6 +165,7 @@ export default function HadAt({ date, setDate, messages, locale }: HadAtProps) {
               setDate(selectedDate);
               setShowMainPopup(false);
             }}
+            className="hover:cursor-pointer"
           >
             Apply
           </Button>

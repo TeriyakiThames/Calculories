@@ -51,7 +51,7 @@ export default function MealCardButton({
       <button
         title="Add meal"
         onClick={onAddMeal}
-        className="bg-green-10 rounded-full p-2"
+        className="bg-green-10 rounded-full p-2 hover:cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ export default function MealCardButton({
 
           <button
             onClick={closePopup}
-            className={`w-full rounded-2xl py-3 font-bold ${
+            className={`w-full rounded-2xl py-3 font-bold hover:cursor-pointer ${
               popup.type === "success"
                 ? "bg-green-100 text-white"
                 : "border border-red-100 text-red-100"

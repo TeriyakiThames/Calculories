@@ -82,12 +82,12 @@ export default function MealHistoryClient({
               {t("cancel", messages)}
             </button>
           ) : (
-            <BackButton />
+            <BackButton containerClassName="z-2" />
           )}
 
           {isEditing ? (
             <button
-              className={`hover:bg-grey-10 disabled:text-grey-40 z-2 rounded-xl p-2 text-red-100 transition-all ${Object.keys(checkedList).every((r) => !checkedList[+r]) ?? "hover:cursor-pointer"}`}
+              className={`hover:bg-grey-10 disabled:text-grey-40 z-2 rounded-xl p-2 text-red-100 transition-all ${Object.keys(checkedList).every((r) => !checkedList[+r]) ? "cursor_default" : "hover:cursor-pointer"}`}
               onClick={() => setShowPopup(true)}
               disabled={Object.keys(checkedList).every((r) => !checkedList[+r])}
             >
@@ -95,7 +95,7 @@ export default function MealHistoryClient({
             </button>
           ) : (
             <button
-              className="hover:bg-grey-10 z-2 rounded-xl p-2 transition-all"
+              className="hover:bg-grey-10 z-2 rounded-xl p-2 transition-all hover:cursor-pointer"
               onClick={() => {
                 setIsEditing(true);
               }}
