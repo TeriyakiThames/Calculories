@@ -195,7 +195,11 @@ export default function ProfileForm({
           <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
         )}
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="hover:cursor-pointer"
+        >
           {isSubmitting
             ? t("saving", messages)
             : t("Save and Continue", messages)}

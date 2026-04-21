@@ -26,7 +26,7 @@ const SmartPicksHeader = ({
     <button
       onClick={onRefresh}
       disabled={isRefreshing}
-      className="flex items-center gap-1 text-green-100 hover:text-gray-400 disabled:opacity-50"
+      className="flex items-center gap-1 text-green-100 hover:cursor-pointer hover:text-gray-400 disabled:opacity-50"
       aria-label="Refresh"
     >
       <div className={isRefreshing ? "animate-spin" : ""}>

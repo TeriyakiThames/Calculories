@@ -247,6 +247,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         <Button
           type="submit"
           disabled={isSubmitting || Object.keys(errors).length !== 0}
+          className="hover:cursor-pointer"
         >
           {isSubmitting
             ? t("Saving", messages)

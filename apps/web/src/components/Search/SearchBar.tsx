@@ -37,7 +37,7 @@ export default function SearchBar({ messages, onSearch }: SearchBarProps) {
   };
 
   return (
-    <form onSubmit={handleManualSearch} className="mx-4.5">
+    <form onSubmit={handleManualSearch} className="mx-4.5 hover:cursor-pointer">
       <Input
         placeholder={t("search_placeholder", messages)}
         type={"text"}

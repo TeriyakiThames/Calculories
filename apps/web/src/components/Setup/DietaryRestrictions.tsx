@@ -50,7 +50,7 @@ export default function DietaryRestrictions({
               type="button"
               key={option.id}
               onClick={() => toggleOption(option.id)}
-              className={`rounded-[40px] border px-4.5 py-3 text-center text-xs transition-colors ${
+              className={`rounded-[40px] border px-4.5 py-3 text-center text-xs transition-colors hover:cursor-pointer ${
                 isActive
                   ? "bg-green-10 border-green-100 text-green-100"
                   : "bg-background-1 text-grey-60 border-[#CAE1DD] hover:bg-gray-50"
