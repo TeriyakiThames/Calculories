@@ -1,3 +1,10 @@
+## @calculories/web [1.1.4](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.3...@calculories/web@1.1.4) (2026-04-21)
+
+
+### Bug Fixes
+
+* add cursor pointer ([#124](https://github.com/TeriyakiThames/Calculories/issues/124)) ([9abff8a](https://github.com/TeriyakiThames/Calculories/commit/9abff8a08919d2156e59707a60790028af3cd52c))
+
 ## @calculories/web [1.1.3](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.2...@calculories/web@1.1.3) (2026-04-19)
 
 
