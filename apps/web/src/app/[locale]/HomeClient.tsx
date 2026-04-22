@@ -15,6 +15,7 @@ import getDishesByIds from "@/services/api/getDishesByIds";
 import getUser from "@/services/api/getUser";
 import getRecommendedDishes from "@/services/api/getRecommendedDishes"; // <-- Import the new service
 import NavBar from "@/components/Shared/NavBar";
+import { MealCardSkeleton } from "@/components/Home/SmartPicks/MealCard";
 
 export default function HomeClient({
   locale,
@@ -149,8 +150,91 @@ export default function HomeClient({
 
   if (authLoading || apiLoading) {
     return (
-      <div className="flex items-center space-x-2 p-4 text-gray-500">
-        <span>Loading user data...</span>
+      <div className="relative flex flex-col">
+        {/* TopBar */}
+        <div className="flex items-center gap-3 p-7.5">
+          <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200" />
+          <span className="flex flex-col gap-3">
+            <div className="h-4 w-40 animate-pulse bg-gray-200" />
+            <div className="h-3 w-35 animate-pulse bg-gray-200" />
+          </span>
+        </div>
+
+        {/* Streak */}
+        <div className="mx-auto flex w-[354.12px] flex-col gap-3 rounded-xl border-[0.5] border-[#bebdbb] bg-white px-4 py-2 shadow-[0px_2.38px_2.38px_0px_rgba(0,0,0,0.25)]">
+          <span className="mt-1 flex items-center gap-1">
+            <div className="h-6 w-6 animate-pulse rounded-full bg-gray-200" />
+            <div className="h-4 w-30 animate-pulse bg-gray-200" />
+          </span>
+          <span className="mb-2 flex justify-between">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <div
+                key={i}
+                className="h-8 w-8 animate-pulse rounded-full bg-gray-200"
+              />
+            ))}
+          </span>
+        </div>
+        {/* CalorieGoals */}
+        <div className="mx-4.5 mt-6 mb-3">
+          <div className="mb-5">
+            <span className="flex justify-between">
+              <div className="h-6 w-35 animate-pulse bg-gray-200" />
+              <p className={`h-6 w-20 animate-pulse bg-gray-200`}></p>
+            </span>
+
+            <div
+              className={`mt-2 h-2.5 w-full animate-pulse overflow-hidden rounded-lg bg-gray-200`}
+            ></div>
+          </div>
+          <div className="mt-6">
+            <div className="mb-3">
+              <span className="flex justify-between">
+                <div className="h-4 w-18 animate-pulse bg-gray-200" />
+                <p className={`h-4 w-15 animate-pulse bg-gray-200`}></p>
+              </span>
+
+              <div
+                className={`mt-2 h-1.5 w-full animate-pulse overflow-hidden rounded-lg bg-gray-200`}
+              ></div>
+            </div>
+
+            <div className="mb-3">
+              <span className="flex justify-between">
+                <div className="h-4 w-18 animate-pulse bg-gray-200" />
+                <p className={`h-4 w-15 animate-pulse bg-gray-200`}></p>
+              </span>
+
+              <div
+                className={`mt-2 h-1.5 w-full animate-pulse overflow-hidden rounded-lg bg-gray-200`}
+              ></div>
+            </div>
+
+            <div className="mb-3">
+              <span className="flex justify-between">
+                <div className="h-4 w-10 animate-pulse bg-gray-200" />
+                <p className={`h-4 w-15 animate-pulse bg-gray-200`}></p>
+              </span>
+
+              <div
+                className={`mt-2 h-1.5 w-full animate-pulse overflow-hidden rounded-lg bg-gray-200`}
+              ></div>
+            </div>
+          </div>
+        </div>
+        {/* SmartPicks */}
+        <div className="mx-4.5 flex flex-col gap-3">
+          {/* Header */}
+          <div className="mb-1 flex justify-between">
+            <div className="h-6 w-48 animate-pulse bg-gray-200" />
+            <div className="h-6 w-18 animate-pulse bg-gray-200" />
+          </div>
+          <>
+            <MealCardSkeleton />
+            <MealCardSkeleton />
+            <MealCardSkeleton />
+          </>
+        </div>
       </div>
     );
   }

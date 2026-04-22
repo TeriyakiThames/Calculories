@@ -2,6 +2,7 @@ import { RefreshIcon } from "@/../public/Icons/Refresh";
 import { t } from "@/lib/internationalisation/i18n-helpers";
 import { DishNoComp, Locale, Messages } from "@calculories/shared-types";
 import MealCardList from "@/components/Home/SmartPicks/MealCardList";
+import { MealCardSkeleton } from "@/components/Home/SmartPicks/MealCard";
 
 interface SmartPicksProps {
   dishes?: DishNoComp[];
@@ -51,19 +52,28 @@ export default function SmartPicks({
         onRefresh={onRefresh}
         isRefreshing={isRefreshing}
       />
+      {isRefreshing ? (
+        <>
+          <MealCardSkeleton />
+          <MealCardSkeleton />
+          <MealCardSkeleton />
+        </>
+      ) : (
+        <>
+          <MealCardList
+            dishes={dishes}
+            locale={locale}
+            isRefreshing={isRefreshing}
+            messages={messages}
+            smartPick={true}
+          />
 
-      <MealCardList
-        dishes={dishes}
-        locale={locale}
-        isRefreshing={isRefreshing}
-        messages={messages}
-        smartPick={true}
-      />
-
-      {dishes.length === 0 && (
-        <p className="text-center text-sm text-gray-400">
-          {t("no_recommendations", messages)}
-        </p>
+          {dishes.length === 0 && (
+            <p className="text-center text-sm text-gray-400">
+              {t("no_recommendations", messages)}
+            </p>
+          )}
+        </>
       )}
     </div>
   );
