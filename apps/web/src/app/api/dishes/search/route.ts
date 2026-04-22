@@ -17,7 +17,7 @@ const sortByMap = {
   distance: "distance",
 };
 
-const GetDishesByIdsSchema = z.object({
+const GetDishesBySearchSchema = z.object({
   search_string: z.string().optional(),
   sort_by: z
     .enum([
@@ -73,8 +73,8 @@ const GetDishesByIdsSchema = z.object({
   language: z.enum(["th", "en"]).optional(),
 });
 
-function getGetDishesByIdsSchema() {
-  return GetDishesByIdsSchema;
+function getGetDishesBySearchSchema() {
+  return GetDishesBySearchSchema;
 }
 
 export async function POST(request: Request) {
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     }
 
     const body_data = await request.json();
-    const parseData = getGetDishesByIdsSchema().safeParse(body_data);
+    const parseData = getGetDishesBySearchSchema().safeParse(body_data);
 
     if (!parseData.success) {
       return new Response(
