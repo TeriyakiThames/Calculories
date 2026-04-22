@@ -33,7 +33,7 @@ export default function RestaurantHeader({
   return (
     <div className="relative flex flex-col items-start justify-between">
       {/* Return button and restaurant profile */}
-      <h1 className="text-grey-100 relative flex w-full items-center justify-center py-5 text-xl font-bold">
+      <h1 className="text-grey-100 relative flex w-full items-center justify-center py-7.5 text-xl font-bold">
         <BackButton containerClassName="absolute left-0" />
         {t("restaurant profile", messages)}
       </h1>
