@@ -115,6 +115,14 @@ export function IngredientsDropdown({
     });
   };
 
+  const handleCancel = () => {
+    setComponents(
+      dish?.components.map((c) => {
+        return { ...c, new_ratio: c.ratio };
+      }) || [],
+    );
+    selectMode("display");
+  };
   return (
     <div className="flex flex-col gap-5">
       {/* Clickable Header */}
@@ -255,7 +263,7 @@ export function IngredientsDropdown({
             {portionMode !== "display" && (
               <div className="flex w-full gap-4">
                 <button
-                  onClick={() => selectMode("display")}
+                  onClick={handleCancel}
                   className="border-grey-100 flex w-full items-center justify-center gap-3 rounded-2xl border bg-white px-4 py-2 transition-transform hover:cursor-pointer"
                 >
                   {t("cancel", messages)}
