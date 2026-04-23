@@ -1,3 +1,10 @@
+## @calculories/web [1.2.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.1...@calculories/web@1.2.2) (2026-04-23)
+
+
+### Bug Fixes
+
+* Cancelling edit portions doesn't revert portion amounts ([#129](https://github.com/TeriyakiThames/Calculories/issues/129)) ([889f24c](https://github.com/TeriyakiThames/Calculories/commit/889f24c2874229aa7cc00b5520afd3a2978b2104))
+
 ## @calculories/web [1.2.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.0...@calculories/web@1.2.1) (2026-04-23)
 
 
