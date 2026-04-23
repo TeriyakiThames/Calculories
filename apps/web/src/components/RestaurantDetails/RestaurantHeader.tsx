@@ -70,7 +70,12 @@ export default function RestaurantHeader({
       {/* Map button */}
       <Link href={restaurant.url} className="w-full">
         <Button className="text-1xl mt-3 flex items-center justify-center gap-1 py-5 font-semibold hover:cursor-pointer">
-          <Image src="/Icons/Map.svg" alt="Map button" width={20} height={20} />
+          <Image
+            src="/Icons/LocationFill.svg"
+            alt="Map button"
+            width={20}
+            height={20}
+          />
           <span>{t("map_label", messages)}</span>
         </Button>
       </Link>
