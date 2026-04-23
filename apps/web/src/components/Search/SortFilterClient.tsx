@@ -250,7 +250,7 @@ export default function SortFilterClientForm({
                   );
                 }
               }}
-              className={`transition-transform duration-300 ${!ascending && "rotate-x-180"}`}
+              className={`transition-transform duration-300 hover:cursor-pointer ${!ascending && "rotate-x-180"}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +274,7 @@ export default function SortFilterClientForm({
           )}
           <button
             title="sort and filter"
-            className="flex items-center justify-center gap-1 text-sm leading-none"
+            className="flex items-center justify-center gap-1 text-sm leading-none hover:cursor-pointer"
             onClick={() => setShowPopup(true)}
           >
             <svg

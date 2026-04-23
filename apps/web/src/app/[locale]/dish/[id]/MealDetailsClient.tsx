@@ -329,7 +329,7 @@ export default function MealDetailsClient({
         />
       </div>
       <div className="fixed right-0 bottom-0 left-0 z-20 mx-auto w-full max-w-105 border-t border-[#8e8e93] bg-[#f6f7f7] px-9 py-7">
-        <Button onClick={createMealRecord}>
+        <Button onClick={createMealRecord} className="hover:cursor-pointer">
           {t(creatingMealRecordStatus, messages)}
         </Button>
       </div>

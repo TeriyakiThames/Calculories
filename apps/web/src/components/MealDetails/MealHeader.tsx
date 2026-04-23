@@ -1,4 +1,5 @@
 import { Dish, Locale } from "@calculories/shared-types";
+import Image from "next/image";
 import Link from "next/link";
 
 interface MealHeaderProps {
@@ -38,9 +39,18 @@ export function MealHeader({ dish, locale }: MealHeaderProps) {
         <span className="text-center text-green-100">฿{dish.price}</span>
       </div>
 
-      <div className="mt-2.5 flex flex-col gap-1">
-        <Link href={`/${locale}/restaurant/${dish.restaurant.id}`}>
-          <span className="font-bold text-green-100 underline">
+      <div className="mt-2 flex flex-col gap-1">
+        <Link
+          href={`/${locale}/restaurant/${dish.restaurant.id}`}
+          className="flex w-fit items-center gap-0.5"
+        >
+          <Image
+            src={"/Icons/Map.svg"}
+            alt={"Map icon"}
+            width={30}
+            height={30}
+          />
+          <span className="font-bold text-green-100 underline underline-offset-2">
             {restaurantName}
           </span>
         </Link>

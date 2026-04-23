@@ -120,7 +120,11 @@ export default function SortFilterPopup({
       className={`fixed inset-0 z-60 flex items-center justify-center transition-transform duration-400 ${!isShown && "translate-y-full"}`}
     >
       <div className="z-60 flex h-full w-full max-w-105 flex-col gap-2.5 overflow-y-scroll bg-white p-7.5 pb-24 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <button onClick={onClose} title="calculories" className="self-end">
+        <button
+          onClick={onClose}
+          title="calculories"
+          className="self-end hover:cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -145,7 +149,7 @@ export default function SortFilterPopup({
               </h2>
               <button
                 onClick={() => setSortBy(undefined)}
-                className="text-sm font-bold text-green-100"
+                className="text-sm font-bold text-green-100 hover:cursor-pointer"
               >
                 {t("Clear Sort", messages)}
               </button>
@@ -155,7 +159,7 @@ export default function SortFilterPopup({
                 <div
                   key={option.value}
                   onClick={() => setSortBy(option.value)}
-                  className="flex items-center justify-between"
+                  className="flex items-center justify-between hover:cursor-pointer"
                 >
                   <div className="flex items-center gap-1.5">
                     <Image
@@ -409,13 +413,13 @@ export default function SortFilterPopup({
             setNoPeanut(false);
             setNoShellfish(false);
           }}
-          className="flex grow justify-center rounded-4xl border border-green-100 bg-white p-4 text-sm leading-none font-bold text-green-100"
+          className="flex grow justify-center rounded-4xl border border-green-100 bg-white p-4 text-sm leading-none font-bold text-green-100 hover:cursor-pointer"
         >
           {t("Reset", messages)}
         </button>
         <button
           onClick={onApply}
-          className="flex grow justify-center rounded-4xl bg-green-100 p-4 text-sm leading-none font-bold text-white"
+          className="flex grow justify-center rounded-4xl bg-green-100 p-4 text-sm leading-none font-bold text-white hover:cursor-pointer"
         >
           {t("Apply", messages)}
         </button>
@@ -443,7 +447,7 @@ function ShowMore({
         onClick={() => setIsShown(!isShown)}
         className={`flex w-fit items-center gap-px text-xs font-bold text-green-100 ${isShown && "mt-2"}`}
       >
-        <p className="leading-none">
+        <p className="leading-none hover:cursor-pointer">
           {isShown ? t("Show Less", messages) : t("Show More", messages)}
         </p>
         <svg
@@ -476,7 +480,7 @@ function ToggleButton({ value = false, onChange, text }: ToggleButtonProps) {
     <button
       type="button"
       onClick={() => onChange(!value)}
-      className={`rounded-[40px] border px-3.5 py-2.5 text-center text-[13px] leading-none text-nowrap transition-colors ${
+      className={`rounded-[40px] border px-3.5 py-2.5 text-center text-[13px] leading-none text-nowrap transition-colors hover:cursor-pointer ${
         value
           ? "bg-green-10 border-green-100 text-green-100"
           : "bg-background-1 text-grey-60 border-grey-60"

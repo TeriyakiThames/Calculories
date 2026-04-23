@@ -128,7 +128,10 @@ function MainPreferenceView({
             {t("help-us-improve", messages)}
           </p>
         </div>
-        <button onClick={onClose} className="text-grey-40 hover:text-grey-100">
+        <button
+          onClick={onClose}
+          className="text-grey-40 hover:text-grey-100 hover:cursor-pointer"
+        >
           ✕
         </button>
       </div>
@@ -138,7 +141,7 @@ function MainPreferenceView({
           <button
             key={tag}
             onClick={() => togglePill(tag)}
-            className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+            className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors hover:cursor-pointer ${
               selectedPills.includes(tag)
                 ? "bg-green-10 border-2 border-green-100 text-green-100"
                 : "text-grey-80 border-grey-10 bg-grey-10 border-2"
@@ -164,7 +167,7 @@ function MainPreferenceView({
 
       <button
         onClick={onAddMoreClick}
-        className="mt-6 flex w-full items-center justify-center space-x-2 text-sm font-semibold text-green-100"
+        className="mt-6 flex w-full items-center justify-center space-x-2 text-sm font-semibold text-green-100 hover:cursor-pointer"
       >
         <span className="text-lg">+</span>
         <span>{t("add-more-preferences", messages)}</span>
@@ -172,7 +175,7 @@ function MainPreferenceView({
 
       <button
         onClick={onApply}
-        className="bg-grey-100 hover:bg-grey-80 mt-6 w-full rounded-2xl px-17 py-2 font-semibold text-white transition-transform active:scale-95"
+        className="bg-grey-100 hover:bg-grey-80 mt-6 w-full rounded-2xl px-17 py-2 font-semibold text-white transition-transform hover:cursor-pointer active:scale-95"
       >
         {t("refresh-recommendations", messages)}
       </button>
@@ -200,7 +203,10 @@ function AddCustomPreferenceView({
   return (
     <>
       <div className="-mx-6 flex items-center justify-between border-b px-6 pb-4">
-        <button onClick={onClose} className="text-grey-40 hover:text-grey-100">
+        <button
+          onClick={onClose}
+          className="text-grey-40 hover:text-grey-100 hover:cursor-pointer"
+        >
           ✕
         </button>
         <h3 className="text-grey-100 font-semibold">
@@ -208,7 +214,7 @@ function AddCustomPreferenceView({
         </h3>
         <button
           onClick={onReset}
-          className="hover:text-green-60 text-sm font-medium text-green-100"
+          className="hover:text-green-60 text-sm font-medium text-green-100 hover:cursor-pointer"
         >
           {t("reset", messages)}
         </button>
@@ -233,7 +239,7 @@ function AddCustomPreferenceView({
 
       <button
         onClick={onAdd}
-        className="hover:bg-green-60 mt-6 flex w-full items-center justify-center space-x-2 rounded-2xl bg-green-100 py-4 font-semibold text-white transition-transform active:scale-95"
+        className="hover:bg-green-60 mt-6 flex w-full items-center justify-center space-x-2 rounded-2xl bg-green-100 py-4 font-semibold text-white transition-transform hover:cursor-pointer active:scale-95"
       >
         <span className="text-lg">+</span>
         <span>{t("add-preference", messages)}</span>

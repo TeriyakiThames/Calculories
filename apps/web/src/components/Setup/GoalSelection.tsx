@@ -57,7 +57,7 @@ export default function GoalSelection({
                 type="button"
                 key={item.id}
                 onClick={() => onChange(item.id)}
-                className={`relative flex flex-col items-center justify-center rounded-2xl border p-6 transition-colors ${
+                className={`relative flex flex-col items-center justify-center rounded-2xl border p-6 transition-colors hover:cursor-pointer ${
                   isActive
                     ? "bg-green-10 border-green-100 text-green-100"
                     : "text-grey-60 border-[#CAE1DD] bg-white hover:bg-gray-50"
@@ -77,7 +77,7 @@ export default function GoalSelection({
                   alt="More Details Icon"
                   width={18}
                   height={18}
-                  className="absolute right-2 bottom-2 cursor-pointer"
+                  className="absolute right-2 bottom-2 hover:cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpenItem(item.id);
@@ -99,7 +99,7 @@ export default function GoalSelection({
                         height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#182230" // text-grey-60
+                        stroke="#182230"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -123,7 +123,7 @@ export default function GoalSelection({
                     {item.detail}
                   </span>
                   <Button
-                    className="mt-1 h-14!"
+                    className="mt-1 h-14! hover:cursor-pointer"
                     onClick={() => setOpenItem(null)}
                   >
                     Got it

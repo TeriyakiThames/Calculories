@@ -1,3 +1,17 @@
+# @calculories/web [1.2.0](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.4...@calculories/web@1.2.0) (2026-04-23)
+
+
+### Features
+
+* add loading skeleton ([#126](https://github.com/TeriyakiThames/Calculories/issues/126)) ([aed3e5e](https://github.com/TeriyakiThames/Calculories/commit/aed3e5ec38f19d10dcb3628a7304627f6d536afe))
+
+## @calculories/web [1.1.4](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.3...@calculories/web@1.1.4) (2026-04-21)
+
+
+### Bug Fixes
+
+* add cursor pointer ([#124](https://github.com/TeriyakiThames/Calculories/issues/124)) ([9abff8a](https://github.com/TeriyakiThames/Calculories/commit/9abff8a08919d2156e59707a60790028af3cd52c))
+
 ## @calculories/web [1.1.3](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.2...@calculories/web@1.1.3) (2026-04-19)
 
 
