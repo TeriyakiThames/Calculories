@@ -1,3 +1,10 @@
+## @calculories/web [1.2.3](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.2...@calculories/web@1.2.3) (2026-04-29)
+
+
+### Bug Fixes
+
+* Thai error message for setup page ([#130](https://github.com/TeriyakiThames/Calculories/issues/130)) ([a2c0a43](https://github.com/TeriyakiThames/Calculories/commit/a2c0a43a14e7116192e2f10851314cbe12b49fc0))
+
 ## @calculories/web [1.2.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.1...@calculories/web@1.2.2) (2026-04-23)
 
 
