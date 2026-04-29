@@ -48,7 +48,7 @@ export default function BasicInfo({
         type="text"
         value={data.username}
         onChange={(val) => onUpdate({ username: val })}
-        error={errors.username}
+        error={t(errors.username, messages)}
       />
 
       <BirthdatePicker
@@ -58,7 +58,7 @@ export default function BasicInfo({
         onChange={(date) =>
           onUpdate({ birthdate: date.toLocaleDateString("en-UK") })
         }
-        error={errors.birthdate}
+        error={t(errors.birthdate, messages)}
       />
 
       <div className="flex w-full justify-between gap-8">
@@ -69,7 +69,7 @@ export default function BasicInfo({
             type="text"
             value={data.weight}
             onChange={(val) => handleNumberChange(val, "weight")}
-            error={errors.weight}
+            error={t(errors.weight, messages)}
           />
         </div>
         <div className="w-full">
@@ -79,7 +79,7 @@ export default function BasicInfo({
             type="text"
             value={data.height}
             onChange={(val) => handleNumberChange(val, "height")}
-            error={errors.height}
+            error={t(errors.height, messages)}
           />
         </div>
       </div>
@@ -97,7 +97,7 @@ export default function BasicInfo({
         onChange={(val) => onUpdate({ sex: val })}
         onDropDownNameChange={(name) => onUpdate({ sexDisplay: name })}
         dropDownName={data.sexDisplay}
-        error={errors.sex}
+        error={t(errors.sex, messages)}
       />
 
       <Input
@@ -117,7 +117,7 @@ export default function BasicInfo({
           onUpdate({ activityLevelDisplay: name })
         }
         dropDownName={data.activityLevelDisplay}
-        error={errors.activityLevel}
+        error={t(errors.activityLevel, messages)}
       />
     </div>
   );
