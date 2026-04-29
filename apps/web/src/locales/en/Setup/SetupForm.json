@@ -56,7 +56,7 @@
 
   "error_username_min_len": "Username must be at least 3 characters.",
   "error_username_max_len": "Username cannot exceed 30 characters.",
-  "error_username_format": "Username can only contain English letters and numbers, with no spaces or special characters.",
+  "error_username_format": "Username can only contain letters, numbers, and spaces.",
 
   "error_dob_format": "Must be in DD/MM/YYYY format!",
   "error_dob_does_not_exist": "This date does not exist.",

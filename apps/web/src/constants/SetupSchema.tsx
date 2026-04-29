@@ -32,7 +32,7 @@ export const userSchema = z.object({
     .trim()
     .min(3, "error_username_min_len")
     .max(30, "error_username_max_len")
-    .regex(/^[a-zA-Z0-9]+$/, "error_username_format"),
+    .regex(/^[a-zA-Z0-9 ]+$/, "error_username_format"),
 
   birthdate: z
     .string()

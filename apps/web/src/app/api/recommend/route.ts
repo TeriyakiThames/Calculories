@@ -1,7 +1,19 @@
+import createClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
+  const supabase = await createClient();
+
   try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not authenticated" }), {
+        status: 401,
+      });
+    }
     const body = await request.json();
 
     const response = await fetch(

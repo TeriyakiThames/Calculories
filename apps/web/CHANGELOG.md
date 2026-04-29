@@ -1,3 +1,24 @@
+## @calculories/web [1.2.2](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.1...@calculories/web@1.2.2) (2026-04-23)
+
+
+### Bug Fixes
+
+* Cancelling edit portions doesn't revert portion amounts ([#129](https://github.com/TeriyakiThames/Calculories/issues/129)) ([889f24c](https://github.com/TeriyakiThames/Calculories/commit/889f24c2874229aa7cc00b5520afd3a2978b2104))
+
+## @calculories/web [1.2.1](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.0...@calculories/web@1.2.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* update username to accept space ([#122](https://github.com/TeriyakiThames/Calculories/issues/122)) ([6c31312](https://github.com/TeriyakiThames/Calculories/commit/6c31312ba4bd850556b7e9367b298d54b29f0192))
+
+# @calculories/web [1.2.0](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.4...@calculories/web@1.2.0) (2026-04-23)
+
+
+### Features
+
+* add loading skeleton ([#126](https://github.com/TeriyakiThames/Calculories/issues/126)) ([aed3e5e](https://github.com/TeriyakiThames/Calculories/commit/aed3e5ec38f19d10dcb3628a7304627f6d536afe))
+
 ## @calculories/web [1.1.4](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.1.3...@calculories/web@1.1.4) (2026-04-21)
 
 

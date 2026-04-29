@@ -9,7 +9,6 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  // const id = parseInt((await params).id);
   const idString = (await params).id;
   const id = Number(idString);
 

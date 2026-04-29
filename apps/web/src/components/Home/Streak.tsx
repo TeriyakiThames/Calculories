@@ -38,7 +38,7 @@ const StreakBody = ({
   const filledCount = streak % 7 === 0 && streak > 0 ? 7 : streak % 7;
 
   return (
-    <span className="my-3.5 flex justify-between">
+    <span className="mb-2 flex justify-between">
       {dayKeys.map((key, i) => {
         const isFilled = i < filledCount;
         return (
