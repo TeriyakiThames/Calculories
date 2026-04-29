@@ -155,7 +155,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
     } catch (error: unknown) {
       console.error("Submission error:", error);
       const errorMessage =
-        error instanceof Error ? error.message : t("error_saving", messages);
+        error instanceof Error ? error.message : "error_saving";
       setErrors({ submit: errorMessage });
       setIsSubmitting(false);
     }
@@ -227,7 +227,7 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
           setGoal(val);
           validateField("goal", val);
         }}
-        error={errors.goal}
+        error={t(errors.goal, messages)}
         messages={messages}
       />
 
@@ -241,7 +241,9 @@ export default function SetupForm({ locale, messages }: SetupFormProps) {
         )}
 
         {errors.submit && (
-          <p className="mb-2 text-sm text-red-100">{errors.submit}</p>
+          <p className="mb-2 text-sm text-red-100">
+            {t(errors.submit, messages)}
+          </p>
         )}
 
         <Button

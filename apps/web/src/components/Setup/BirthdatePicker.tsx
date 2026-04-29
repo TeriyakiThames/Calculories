@@ -29,7 +29,7 @@ export default function BirthdatePicker({
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <InputHeader header={header} />
       <div
         className="relative w-full hover:cursor-pointer"
@@ -111,6 +111,7 @@ export default function BirthdatePicker({
           </LocalizationProvider>
         </Popup>
       )}
+      {error && <p className="text-xs font-normal text-red-100">{error}</p>}
     </div>
   );
 }

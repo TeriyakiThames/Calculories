@@ -51,5 +51,30 @@
   "Peanut Allergy": "Peanut Allergy",
   "Shellfish Allergy": "Shellfish Allergy",
 
-  "error_fill_out_all_fields": "Please correctly fill out all fields."
+  "error_fill_out_all_fields": "Please correctly fill out all fields.",
+  "error_saving": "Error occured while saving.",
+
+  "error_username_min_len": "Username must be at least 3 characters.",
+  "error_username_max_len": "Username cannot exceed 30 characters.",
+  "error_username_format": "Username can only contain English letters and numbers, with no spaces or special characters.",
+
+  "error_dob_format": "Must be in DD/MM/YYYY format!",
+  "error_dob_does_not_exist": "This date does not exist.",
+  "error_dob_invalid_range": "Please enter a year in the valid range.",
+
+  "error_weight_not_num": "Weight must be a valid number!",
+  "error_weight_decimal": "Weight can only have one decimal place.",
+  "error_weight_min": "Weight must be at least 15kg!",
+  "error_weight_max": "Weight cannot exceed 700kg!",
+
+  "error_height_not_num": "Height must be a valid number!",
+  "error_height_decimal": "Height can only have one decimal place.",
+  "error_height_min": "Height must be at least 50cm!",
+  "error_height_max": "Height cannot exceed 275cm!",
+
+  "error_sex_select": "Please select a sex!",
+
+  "error_activity_level_select": "Please select an activity level!",
+
+  "error_goal_select": "Please select a goal!"
 }

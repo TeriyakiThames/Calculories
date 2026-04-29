@@ -30,18 +30,15 @@ export const userSchema = z.object({
   username: z
     .string()
     .trim()
-    .min(3, "Username must be at least 3 characters.")
-    .max(30, "Username cannot exceed 30 characters.")
-    .regex(
-      /^[a-zA-Z0-9]+$/,
-      "Username can only contain English letters and numbers, with no spaces or special characters.",
-    ),
+    .min(3, "error_username_min_len")
+    .max(30, "error_username_max_len")
+    .regex(/^[a-zA-Z0-9]+$/, "error_username_format"),
 
   birthdate: z
     .string()
     .regex(
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-      "Must be in DD/MM/YYYY format!",
+      "error_dob_format",
     )
     .refine(
       (val) => {
@@ -53,7 +50,7 @@ export const userSchema = z.object({
           date.getDate() === day
         );
       },
-      { message: "This date does not exist." },
+      { message: "error_dob_does_not_exist" },
     )
     .refine(
       (val) => {
@@ -61,37 +58,37 @@ export const userSchema = z.object({
         const currentYear = new Date().getFullYear();
         return year >= currentYear - 100 && year <= currentYear - 5;
       },
-      { message: "Please enter a year in the valid range." },
+      { message: "error_dob_invalid_range" },
     ),
 
   weight: z.coerce
     .number({
-      message: "Weight must be a valid number!",
+      message: "error_weight_not_num",
     })
-    .multipleOf(0.1, "Weight can only have one decimal place.")
-    .min(15, "Weight must be at least 15kg!")
-    .max(700, "Weight cannot exceed 700kg!"),
+    .multipleOf(0.1, "error_weight_decimal")
+    .min(15, "error_weight_min")
+    .max(700, "error_weight_max"),
 
   height: z.coerce
     .number({
-      message: "Height must be a valid number!",
+      message: "error_height_not_num",
     })
-    .multipleOf(0.1, "Height can only have one decimal place.")
-    .min(50, "Height must be at least 50cm!")
-    .max(275, "Height cannot exceed 275cm!"),
+    .multipleOf(0.1, "error_height_decimal")
+    .min(50, "error_height_min")
+    .max(275, "error_height_max"),
 
   sex: z.enum(SEX_OPTIONS, {
-    message: "Please select a sex!",
+    message: "error_sex_select",
   }),
 
   activityLevel: z.enum(ACTIVITY_LEVEL_OPTIONS, {
-    message: "Please select an activity level!",
+    message: "error_activity_level_select",
   }),
 
   dietary: z.array(z.enum(DIETARY_OPTIONS)).optional(),
 
   goal: z.enum(GOAL_OPTIONS, {
-    message: "Please select a goal!",
+    message: "error_goal_select",
   }),
 });
 
