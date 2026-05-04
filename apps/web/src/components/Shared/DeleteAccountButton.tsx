@@ -5,6 +5,7 @@ import { Messages, t } from "@/lib/internationalisation/i18n-helpers";
 import createClient from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Popup from "./Popup";
 
 export default function DeleteAccountButton({
   messages,
@@ -49,36 +50,34 @@ export default function DeleteAccountButton({
         {t("delete_account", messages)}
       </button>
       {isModalVisible && (
-        <div className="fixed inset-0 flex h-screen items-center justify-center bg-black/30">
-          <div className="flex w-3/4 max-w-100 flex-col items-center justify-center gap-5 rounded-xl bg-white px-9 py-8 text-center whitespace-pre-line shadow">
-            <p className="text-grey-80 font-bold">
-              {t("popup_main_message", messages)}
-            </p>
-            <p className="text-grey-80">
-              {t("popup_additional_message", messages)}
-            </p>
+        <Popup onClickOutside={() => setModalVisible(false)}>
+          <p className="text-grey-80 font-bold">
+            {t("popup_main_message", messages)}
+          </p>
+          <p className="text-grey-80">
+            {t("popup_additional_message", messages)}
+          </p>
 
-            {deletionLoading ? (
-              <div>loading</div>
-            ) : (
-              <div className="flex w-full justify-between gap-5">
-                <button
-                  className="w-full rounded-2xl border border-red-100 p-3.75 font-bold text-red-100"
-                  onClick={() => setModalVisible(false)}
-                >
-                  {t("cancel", messages)}
-                </button>
-                <button
-                  className="w-full rounded-2xl border border-red-100 bg-red-100 p-3.75 font-bold text-white"
-                  onClick={deleteAccount}
-                  disabled={deletionLoading}
-                >
-                  {t("confirm", messages)}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+          {deletionLoading ? (
+            <div>loading</div>
+          ) : (
+            <div className="flex w-full justify-between gap-5">
+              <button
+                className="hover:bg-grey-10 w-full rounded-2xl border border-red-100 p-2 font-bold text-red-100 hover:cursor-pointer"
+                onClick={() => setModalVisible(false)}
+              >
+                {t("cancel", messages)}
+              </button>
+              <button
+                className="hover:bg-red-80 hover:border-red-80 w-full rounded-2xl border border-red-100 bg-red-100 p-2 font-bold text-white hover:cursor-pointer"
+                onClick={deleteAccount}
+                disabled={deletionLoading}
+              >
+                {t("confirm", messages)}
+              </button>
+            </div>
+          )}
+        </Popup>
       )}
     </div>
   );
