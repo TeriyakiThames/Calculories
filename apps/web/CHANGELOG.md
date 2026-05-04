@@ -1,3 +1,10 @@
+## @calculories/web [1.2.4](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.3...@calculories/web@1.2.4) (2026-05-04)
+
+
+### Bug Fixes
+
+* Navbar not greyed out when opening delete account popup ([#131](https://github.com/TeriyakiThames/Calculories/issues/131)) ([c7f6d7a](https://github.com/TeriyakiThames/Calculories/commit/c7f6d7aa627ac9bdee20187298d6ee3a0da7780c))
+
 ## @calculories/web [1.2.3](https://github.com/TeriyakiThames/Calculories/compare/@calculories/web@1.2.2...@calculories/web@1.2.3) (2026-04-29)
 
 
